@@ -90,6 +90,16 @@ export default function Home() {
           Connexion / Créer un compte
         </a>
       </section>
+      <div className="mt-12 flex justify-center gap-6 text-sm text-slate-500">
+  <a href="/politique-confidentialite">
+    Politique de confidentialité
+  </a>
+
+  <a href="/conditions-utilisation">
+    Conditions d'utilisation
+  </a>
+</div>
     </main>
+  
   );
 }
