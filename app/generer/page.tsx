@@ -131,11 +131,12 @@ if (!profile) {
 </div>
 
   <h1 className="text-6xl font-extrabold tracking-tight">
-    Construis ton PTI en quelques secondes
+    Transforme une situation clinique en PTI
   </h1>
 
   <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-600">
-    Décris une situation clinique et obtiens un plan thérapeutique infirmier structuré pour soutenir ton raisonnement clinique.
+    Décris une situation clinique et obtiens un PTI structuré pour soutenir ton apprentissage et tes stages.
+    ⚠️ N'inscris jamais le nom, la date de naissance ou toute autre information permettant d'identifier un patient.
   </p>
 </div>
 
