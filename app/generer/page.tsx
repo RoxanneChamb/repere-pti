@@ -44,6 +44,12 @@ export default function GenererPage() {
 
       setResultat(data.resultat);
 
+// Analytics
+if (typeof window !== "undefined") {
+  // @ts-ignore
+  window.gtag?.("event", "pti_generated");
+}
+
       if (userId) {
         const { error } = await supabase.from("ptis").insert({
   user_id: userId,
@@ -105,13 +111,15 @@ if (!profile) {
 </div>
 
           <nav className="hidden gap-8 text-sm font-medium text-slate-600 md:flex">
-            <a className="text-violet-600" href="/generer">
-              Générer un PTI
-            </a>
-            <a href="/mes-pti">Mes PTI</a>
-            <a href="/ressources">Ressources</a>
-            <a href="/a-propos">À propos</a>
-          </nav>
+  <a className="text-violet-600" href="/generer">
+    Générer un PTI
+  </a>
+  <a href="/mes-pti">Mes PTI</a>
+  <a href="/quiz">Quiz clinique</a>
+  <a href="/dashboard">Tableau de bord</a>
+  <a href="/ressources">Ressources</a>
+  <a href="/a-propos">À propos</a>
+</nav>
         </div>
       </header>
 
