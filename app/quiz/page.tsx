@@ -34,8 +34,8 @@ export default function QuizPage() {
   };
 
   useEffect(() => {
-  chargerScore();
-}, []);
+    chargerScore();
+  }, []);
 
   const genererQuiz = async () => {
     setChargement(true);
@@ -133,9 +133,7 @@ export default function QuizPage() {
             🧠 Score clinique
           </p>
 
-          <p className="mt-2 text-3xl font-extrabold">
-            {score} points
-          </p>
+          <p className="mt-2 text-3xl font-extrabold">{score} points</p>
 
           <p className="mt-2 text-sm text-slate-500">
             ✅ {bonnes} bonnes réponses • ❌ {mauvaises} mauvaises réponses
@@ -193,7 +191,8 @@ export default function QuizPage() {
                     </p>
                   ) : (
                     <p className="font-bold text-red-600">
-                      ❌ Pas tout à fait. La bonne réponse est {quiz.bonneReponse}.
+                      ❌ Pas tout à fait. La bonne réponse est{" "}
+                      {quiz.bonneReponse}.
                     </p>
                   )}
 
