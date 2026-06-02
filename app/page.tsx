@@ -89,6 +89,7 @@ export default function Home() {
         >
           Connexion / Créer un compte
         </a>
+
         <div className="mt-12 flex justify-center gap-6 text-sm text-slate-500">
   <a href="/politique-confidentialite">
     Politique de confidentialité
@@ -97,8 +98,10 @@ export default function Home() {
   <a href="/conditions-utilisation">
     Conditions d'utilisation
   </a>
-</div>
+</div> 
+
       </section>
     </main>
+
   );
 }
