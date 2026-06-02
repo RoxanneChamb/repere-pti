@@ -142,20 +142,29 @@ export default function MesPTIPage() {
             </div>
           </a>
 
-          <nav className="hidden gap-8 text-sm font-semibold text-slate-600 md:flex">
-            <a href="/generer" className="hover:text-violet-600">
-              Générer un PTI
-            </a>
-            <a href="/mes-pti" className="text-violet-600">
-              Mes PTI
-            </a>
-            <a href="/ressources" className="hover:text-violet-600">
-              Ressources
-            </a>
-            <a href="/a-propos" className="hover:text-violet-600">
-              À propos
-            </a>
-          </nav>
+          <nav className="hidden gap-8 text-sm font-medium text-slate-600 md:flex">
+  <a href="/generer">Générer un PTI</a>
+
+  <a className="text-violet-600" href="/mes-pti">
+    Mes PTI
+  </a>
+
+  <a href="/quiz">
+    Quiz clinique
+  </a>
+
+  <a href="/dashboard">
+    Tableau de bord
+  </a>
+
+  <a href="/ressources">
+    Ressources
+  </a>
+
+  <a href="/a-propos">
+    À propos
+  </a>
+</nav>
 
           <div className="hidden items-center gap-3 md:flex">
             {email ? (
