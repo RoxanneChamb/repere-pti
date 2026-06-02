@@ -13,6 +13,7 @@ export default function DashboardPage() {
   const [bonnes, setBonnes] = useState(0);
   const [mauvaises, setMauvaises] = useState(0);
   const [userId, setUserId] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   const avatars = ["🩺", "💜", "🌸", "🧠", "⭐", "👩‍⚕️", "🦋"];
 
@@ -42,8 +43,12 @@ export default function DashboardPage() {
         data: { user },
       } = await supabase.auth.getUser();
 
-      if (!user) return;
+      if (!user) {
+        setIsLoggedIn(false);
+        return;
+      }
 
+      setIsLoggedIn(true);
       setUserId(user.id);
       setEmail(user.email || "");
 
@@ -96,6 +101,37 @@ export default function DashboardPage() {
       .eq("id", userId);
   };
 
+  if (isLoggedIn === null) {
+    return (
+      <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white p-8 text-slate-900">
+        <div className="mx-auto mt-20 max-w-xl rounded-[32px] bg-white/85 p-8 text-center shadow-xl">
+          <p className="font-bold text-violet-600">Chargement...</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white p-8 text-slate-900">
+        <div className="mx-auto mt-20 max-w-xl rounded-[32px] bg-white/85 p-8 text-center shadow-xl">
+          <h1 className="text-4xl font-extrabold">Connexion requise</h1>
+
+          <p className="mt-4 text-slate-600">
+            Tu dois être connectée pour accéder à ton tableau de bord étudiant.
+          </p>
+
+          <a
+            href="/login"
+            className="mt-6 inline-flex rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-6 py-3 font-bold text-white"
+          >
+            Me connecter
+          </a>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white p-8 text-slate-900">
       <div className="mx-auto max-w-7xl">
@@ -121,7 +157,7 @@ export default function DashboardPage() {
             </p>
 
             <div className="flex items-center gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-100 to-pink-100 text-4xl shadow-inner">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-100 to-pink-100 text-3xl shadow-inner">
                 {avatar}
               </div>
 
@@ -146,7 +182,7 @@ export default function DashboardPage() {
                 <button
                   key={emoji}
                   onClick={() => changerAvatar(emoji)}
-                  className={`rounded-xl px-2 py-1 text-lg transition ${
+                  className={`rounded-xl px-2 py-1 text-base transition ${
                     avatar === emoji
                       ? "bg-violet-100 ring-2 ring-violet-400"
                       : "bg-slate-50 hover:bg-pink-50"
@@ -185,6 +221,63 @@ export default function DashboardPage() {
               className="h-full rounded-full bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500"
               style={{ width: `${progression}%` }}
             />
+          </div>
+
+          <div className="mt-8">
+            <p className="text-sm font-bold text-violet-600">
+              Badges obtenus
+            </p>
+
+            <div className="mt-4 flex flex-wrap gap-3">
+              {ptiCount >= 1 && (
+                <div className="rounded-2xl bg-amber-50 px-4 py-2 text-sm font-bold">
+                  🏅 Premier PTI
+                </div>
+              )}
+
+              {ptiCount >= 15 && (
+                <div className="rounded-2xl bg-pink-50 px-4 py-2 text-sm font-bold">
+                  🌸 Intermédiaire
+                </div>
+              )}
+
+              {ptiCount >= 30 && (
+                <div className="rounded-2xl bg-violet-50 px-4 py-2 text-sm font-bold">
+                  ⭐ Sénior
+                </div>
+              )}
+
+              {ptiCount >= 60 && (
+                <div className="rounded-2xl bg-purple-50 px-4 py-2 text-sm font-bold">
+                  👑 Experte
+                </div>
+              )}
+
+              {totalQuiz >= 1 && (
+                <div className="rounded-2xl bg-blue-50 px-4 py-2 text-sm font-bold">
+                  🧠 Premier quiz
+                </div>
+              )}
+
+              {score >= 100 && (
+                <div className="rounded-2xl bg-indigo-50 px-4 py-2 text-sm font-bold">
+                  💡 Esprit clinique
+                </div>
+              )}
+
+              {score >= 500 && (
+                <div className="rounded-2xl bg-fuchsia-50 px-4 py-2 text-sm font-bold">
+                  ✨ Pro du raisonnement
+                </div>
+              )}
+
+              {ptiCount === 0 && totalQuiz === 0 && score === 0 && (
+                <p className="text-sm text-slate-500">
+                  Aucun badge pour l'instant. Génère un PTI ou fais un quiz pour
+                  débloquer ton premier badge.
+                </p>
+              )}
+            </div>
           </div>
         </div>
 
