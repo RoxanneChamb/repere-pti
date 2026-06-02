@@ -136,7 +136,6 @@ if (!profile) {
 
   <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-600">
     Décris une situation clinique et obtiens un PTI structuré pour soutenir ton apprentissage et tes stages.
-    ⚠️ N'inscris jamais le nom, la date de naissance ou toute autre information permettant d'identifier un patient.
   </p>
 </div>
 

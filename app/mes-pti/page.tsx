@@ -10,18 +10,18 @@ export default function MesPTIPage() {
   const [nbPTI, setNbPTI] = useState(0);
   const [email, setEmail] = useState("");
 
-  let niveau = "🌱 Infirmière junior";
+  let niveau = "🌱 Junior";
   let prochainPalier = 15;
-  let prochainNiveau = "intermédiaire";
+  let prochainNiveau = "Intermédiaire";
 
   if (nbPTI >= 15 && nbPTI < 30) {
-    niveau = "🌸 Infirmière intermédiaire";
+    niveau = "🌸 Intermédiaire";
     prochainPalier = 30;
-    prochainNiveau = "sénior";
+    prochainNiveau = "Sénior";
   } else if (nbPTI >= 30 && nbPTI < 60) {
     niveau = "⭐ Infirmière sénior";
     prochainPalier = 60;
-    prochainNiveau = "experte clinique";
+    prochainNiveau = "Experte clinique";
   } else if (nbPTI >= 60) {
     niveau = "👑 Experte clinique";
   }
