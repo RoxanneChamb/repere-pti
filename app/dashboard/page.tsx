@@ -13,14 +13,11 @@ export default function DashboardPage() {
   const [bonnes, setBonnes] = useState(0);
   const [mauvaises, setMauvaises] = useState(0);
   const [userId, setUserId] = useState("");
-  const [premium, setPremium] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   const avatars = ["🩺", "💜", "🌸", "🧠", "⭐", "👩‍⚕️", "🦋"];
 
   const totalQuiz = bonnes + mauvaises;
-  const precision =
-    totalQuiz > 0 ? Math.round((bonnes / totalQuiz) * 100) : 0;
+  const precision = totalQuiz > 0 ? Math.round((bonnes / totalQuiz) * 100) : 0;
 
   let niveau = "🌱 Junior";
   let prochainPalier = 15;
@@ -45,18 +42,14 @@ export default function DashboardPage() {
         data: { user },
       } = await supabase.auth.getUser();
 
-      if (!user) {
-        setIsLoggedIn(false);
-        return;
-      }
+      if (!user) return;
 
-      setIsLoggedIn(true);
       setUserId(user.id);
       setEmail(user.email || "");
 
       const { data: profile } = await supabase
         .from("profiles")
-        .select("pti_count, avatar_emoji, display_name, premium")
+        .select("pti_count, avatar_emoji, display_name")
         .eq("id", user.id)
         .single();
 
@@ -74,7 +67,6 @@ export default function DashboardPage() {
       setPtiCount(profile?.pti_count || 0);
       setAvatar(profile?.avatar_emoji || "🩺");
       setDisplayName(profile?.display_name || "Étudiante Repère PTI");
-      setPremium(profile?.premium === true);
       setSavedPti(ptis?.length || 0);
       setScore(stats?.score || 0);
       setBonnes(stats?.bonnes_reponses || 0);
@@ -104,37 +96,6 @@ export default function DashboardPage() {
       .eq("id", userId);
   };
 
-  if (isLoggedIn === null) {
-    return (
-      <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white p-8 text-slate-900">
-        <div className="mx-auto mt-20 max-w-xl rounded-[32px] bg-white/85 p-8 text-center shadow-xl">
-          <p className="font-bold text-violet-600">Chargement...</p>
-        </div>
-      </main>
-    );
-  }
-
-  if (!isLoggedIn) {
-    return (
-      <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white p-8 text-slate-900">
-        <div className="mx-auto mt-20 max-w-xl rounded-[32px] bg-white/85 p-8 text-center shadow-xl">
-          <h1 className="text-4xl font-extrabold">Connexion requise</h1>
-
-          <p className="mt-4 text-slate-600">
-            Tu dois être connectée pour accéder à ton tableau de bord étudiant.
-          </p>
-
-          <a
-            href="/login"
-            className="mt-6 inline-flex rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-6 py-3 font-bold text-white"
-          >
-            Me connecter
-          </a>
-        </div>
-      </main>
-    );
-  }
-
   return (
     <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white p-8 text-slate-900">
       <div className="mx-auto max-w-7xl">
@@ -142,228 +103,59 @@ export default function DashboardPage() {
           ← Retour à l'accueil
         </a>
 
-        <div className="mt-8 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+        <div className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div>
             <h1 className="text-5xl font-extrabold tracking-tight">
               Tableau de bord
             </h1>
 
             <p className="mt-4 max-w-2xl text-slate-600">
-              Suis ta progression clinique, ton score, tes badges et ton
-              utilisation de Repère PTI.
+              Suis ta progression clinique, ton score et ton utilisation de
+              Repère PTI.
             </p>
           </div>
 
-          {premium && (
-            <div className="rounded-3xl border border-violet-100 bg-white/85 px-6 py-4 shadow-xl">
-              <p className="text-lg font-extrabold text-violet-700">
-                👑 Utilisatrice Premium
-              </p>
-            </div>
-          )}
-        </div>
+          <div className="w-full max-w-sm rounded-3xl bg-white/90 p-5 shadow-xl">
+            <p className="mb-4 text-sm font-bold text-violet-600">
+              Carte étudiante
+            </p>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-[1.55fr_0.85fr]">
-          <div className="overflow-hidden rounded-[34px] border border-white bg-white/90 shadow-xl">
-            <div className="grid min-h-[280px] md:grid-cols-[190px_1fr]">
-              <div className="flex flex-col justify-between bg-gradient-to-br from-violet-100 via-pink-50 to-white p-7">
-                <div className="flex items-center gap-3">
-                  <img
-                    src="/icon-192.png"
-                    alt="Logo Repère PTI"
-                    className="h-12 w-12 rounded-2xl shadow-sm"
-                  />
-
-                  <div>
-                    <p className="text-xl font-extrabold leading-5">
-                      Repère
-                      <br />
-                      PTI
-                    </p>
-                  </div>
-                </div>
-
-                <div>
-                  <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-violet-600">
-                    Carte
-                    <br />
-                    étudiante
-                  </p>
-
-                  <div className="mt-5 h-10 w-32 rounded bg-[repeating-linear-gradient(90deg,#111_0px,#111_2px,transparent_2px,transparent_5px)] opacity-80" />
-
-                  <p className="mt-5 text-sm font-bold uppercase text-slate-600">
-                    Étudiante
-                  </p>
-
-                  <p className="text-sm font-bold uppercase text-slate-600">
-                    infirmière
-                  </p>
-                </div>
+            <div className="flex items-center gap-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-100 to-pink-100 text-4xl shadow-inner">
+                {avatar}
               </div>
 
-              <div className="relative overflow-hidden bg-gradient-to-br from-white via-violet-50 to-pink-50 p-8">
-                <div className="pointer-events-none absolute -right-16 top-10 h-56 w-56 rounded-full border border-pink-200/60" />
-                <div className="pointer-events-none absolute -right-24 top-20 h-72 w-72 rounded-full border border-violet-200/50" />
-                <div className="pointer-events-none absolute -right-32 top-32 h-96 w-96 rounded-full border border-pink-100/70" />
+              <div className="flex-1">
+                <input
+                  value={displayName}
+                  onChange={(e) => setDisplayName(e.target.value)}
+                  onBlur={sauvegarderNom}
+                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm font-bold outline-none focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
+                />
 
-                <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-center">
-                  <div className="relative">
-                    <div className="flex h-44 w-44 items-center justify-center rounded-full bg-gradient-to-br from-violet-100 to-pink-100 shadow-inner">
-                      <div className="flex h-36 w-36 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-pink-100 via-violet-100 to-white shadow-lg">
-  <div className="relative flex h-32 w-32 items-center justify-center rounded-full bg-gradient-to-br from-violet-50 to-pink-50">
-    <div className="absolute top-6 h-14 w-14 rounded-full bg-amber-100" />
-    <div className="absolute top-4 h-10 w-20 rounded-t-full bg-amber-700" />
-    <div className="absolute top-12 h-8 w-24 rounded-b-full bg-amber-700" />
-    <div className="absolute top-11 flex gap-8">
-      <span className="h-2 w-2 rounded-full bg-slate-900" />
-      <span className="h-2 w-2 rounded-full bg-slate-900" />
-    </div>
-    <div className="absolute top-17 h-2 w-6 rounded-full bg-pink-300" />
-    <div className="absolute bottom-4 h-14 w-24 rounded-t-[32px] bg-violet-400" />
-    <div className="absolute bottom-2 h-8 w-28 rounded-t-[28px] bg-violet-500" />
-    <div className="absolute bottom-8 h-10 w-10 rounded-full border-4 border-white/80" />
-  </div>
-</div>
-                    </div>
+                <p className="mt-1 truncate text-xs text-slate-500">{email}</p>
 
-                    <div className="absolute -bottom-2 -right-2 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600 to-pink-500 text-2xl text-white shadow-lg">
-                      {avatar}
-                    </div>
-                  </div>
-
-                  <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <input
-                        value={displayName}
-                        onChange={(e) => setDisplayName(e.target.value)}
-                        onBlur={sauvegarderNom}
-                        className="w-full max-w-md rounded-2xl border border-violet-100 bg-white/80 px-4 py-3 text-4xl font-extrabold tracking-tight outline-none focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
-                      />
-
-                      {premium && (
-                        <span className="rounded-full bg-violet-100 px-3 py-1 text-sm font-bold text-violet-700">
-                          👑 Premium
-                        </span>
-                      )}
-                    </div>
-
-                    <p className="mt-3 truncate text-lg font-medium text-slate-600">
-                      {email}
-                    </p>
-
-                    <div className="mt-6 flex flex-wrap items-center gap-4">
-                      <p className="text-sm font-medium text-slate-500">
-                        Niveau actuel
-                      </p>
-
-                      <span className="rounded-full bg-violet-100 px-5 py-2 text-sm font-extrabold text-violet-700">
-                        {niveau}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-8 grid gap-6 border-t border-violet-100 pt-6 sm:grid-cols-3">
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
-                      ID étudiante
-                    </p>
-                    <p className="mt-2 text-lg font-extrabold text-violet-700">
-                      {userId
-                        ? `RPTI-${userId.slice(0, 4).toUpperCase()}-${userId
-                            .slice(4, 8)
-                            .toUpperCase()}`
-                        : "RPTI"}
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
-                      Programme
-                    </p>
-                    <p className="mt-2 text-lg font-extrabold text-slate-700">
-                      Soins infirmiers
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
-                      Membre depuis
-                    </p>
-                    <p className="mt-2 text-lg font-extrabold text-slate-700">
-                      Juin 2026
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="h-5 bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500" />
-          </div>
-
-          <div className="space-y-6">
-            <div className="rounded-[32px] bg-white/90 p-6 shadow-xl">
-              <p className="text-lg font-extrabold text-violet-700">
-                Personnalise ton avatar
-              </p>
-
-              <div className="mt-5 flex flex-wrap gap-3">
-                {avatars.map((emoji) => (
-                  <button
-                    key={emoji}
-                    onClick={() => changerAvatar(emoji)}
-                    className={`flex h-12 w-12 items-center justify-center rounded-2xl text-xl transition ${
-                      avatar === emoji
-                        ? "bg-violet-100 ring-2 ring-violet-400"
-                        : "bg-slate-50 hover:bg-pink-50"
-                    }`}
-                  >
-                    {emoji}
-                  </button>
-                ))}
-              </div>
-
-              <p className="mt-4 text-sm text-slate-500">
-                Choisis l'avatar qui te représente le mieux.
-              </p>
-            </div>
-
-            {premium ? (
-              <div className="rounded-[32px] border border-amber-100 bg-white/90 p-6 shadow-xl">
-                <p className="text-2xl font-extrabold text-violet-700">
-                  👑 Premium actif
+                <p className="mt-2 text-xs font-bold text-violet-600">
+                  {niveau}
                 </p>
+              </div>
+            </div>
 
-                <p className="mt-3 leading-7 text-slate-600">
-                  Tu as accès aux fonctionnalités Premium de Repère PTI.
-                </p>
-
-                <a
-                  href="/premium"
-                  className="mt-5 inline-flex font-bold text-violet-600 hover:text-pink-500"
+            <div className="mt-4 flex flex-wrap gap-2">
+              {avatars.map((emoji) => (
+                <button
+                  key={emoji}
+                  onClick={() => changerAvatar(emoji)}
+                  className={`rounded-xl px-2 py-1 text-lg transition ${
+                    avatar === emoji
+                      ? "bg-violet-100 ring-2 ring-violet-400"
+                      : "bg-slate-50 hover:bg-pink-50"
+                  }`}
                 >
-                  Voir mes avantages →
-                </a>
-              </div>
-            ) : (
-              <div className="overflow-hidden rounded-[32px] bg-gradient-to-br from-violet-100 via-pink-50 to-white p-6 shadow-xl">
-                <p className="text-2xl font-extrabold text-violet-700">
-                  Découvre toutes les fonctionnalités Premium ✨
-                </p>
-
-                <p className="mt-3 leading-7 text-slate-600">
-                  Débloque les PTI illimités, les cas avancés et l'export PDF.
-                </p>
-
-                <a
-                  href="/premium"
-                  className="mt-5 inline-flex rounded-2xl bg-gradient-to-r from-violet-700 to-pink-500 px-6 py-3 text-sm font-bold text-white shadow-lg"
-                >
-                  Explorer Premium
-                </a>
-              </div>
-            )}
+                  {emoji}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -393,63 +185,6 @@ export default function DashboardPage() {
               className="h-full rounded-full bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500"
               style={{ width: `${progression}%` }}
             />
-          </div>
-
-          <div className="mt-8">
-            <p className="text-sm font-bold text-violet-600">
-              Badges obtenus
-            </p>
-
-            <div className="mt-4 flex flex-wrap gap-3">
-              {ptiCount >= 1 && (
-                <div className="rounded-2xl bg-amber-50 px-4 py-2 text-sm font-bold">
-                  🏅 Premier PTI
-                </div>
-              )}
-
-              {ptiCount >= 15 && (
-                <div className="rounded-2xl bg-pink-50 px-4 py-2 text-sm font-bold">
-                  🌸 Intermédiaire
-                </div>
-              )}
-
-              {ptiCount >= 30 && (
-                <div className="rounded-2xl bg-violet-50 px-4 py-2 text-sm font-bold">
-                  ⭐ Sénior
-                </div>
-              )}
-
-              {ptiCount >= 60 && (
-                <div className="rounded-2xl bg-purple-50 px-4 py-2 text-sm font-bold">
-                  👑 Experte
-                </div>
-              )}
-
-              {totalQuiz >= 1 && (
-                <div className="rounded-2xl bg-blue-50 px-4 py-2 text-sm font-bold">
-                  🧠 Premier quiz
-                </div>
-              )}
-
-              {score >= 100 && (
-                <div className="rounded-2xl bg-indigo-50 px-4 py-2 text-sm font-bold">
-                  💡 Esprit clinique
-                </div>
-              )}
-
-              {score >= 500 && (
-                <div className="rounded-2xl bg-fuchsia-50 px-4 py-2 text-sm font-bold">
-                  ✨ Pro du raisonnement
-                </div>
-              )}
-
-              {ptiCount === 0 && totalQuiz === 0 && score === 0 && (
-                <p className="text-sm text-slate-500">
-                  Aucun badge pour l'instant. Génère un PTI ou fais un quiz pour
-                  débloquer ton premier badge.
-                </p>
-              )}
-            </div>
           </div>
         </div>
 
