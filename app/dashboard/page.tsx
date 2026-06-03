@@ -13,6 +13,7 @@ export default function DashboardPage() {
   const [bonnes, setBonnes] = useState(0);
   const [mauvaises, setMauvaises] = useState(0);
   const [userId, setUserId] = useState("");
+  const [premium, setPremium] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   const avatars = ["🩺", "💜", "🌸", "🧠", "⭐", "👩‍⚕️", "🦋"];
@@ -54,7 +55,7 @@ export default function DashboardPage() {
 
       const { data: profile } = await supabase
         .from("profiles")
-        .select("pti_count, avatar_emoji, display_name")
+        .select("pti_count, avatar_emoji, display_name, premium")
         .eq("id", user.id)
         .single();
 
@@ -72,6 +73,7 @@ export default function DashboardPage() {
       setPtiCount(profile?.pti_count || 0);
       setAvatar(profile?.avatar_emoji || "🩺");
       setDisplayName(profile?.display_name || "Étudiante Repère PTI");
+      setPremium(profile?.premium === true);
       setSavedPti(ptis?.length || 0);
       setScore(stats?.score || 0);
       setBonnes(stats?.bonnes_reponses || 0);
@@ -160,6 +162,31 @@ export default function DashboardPage() {
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-100 to-pink-100 text-3xl shadow-inner">
                 {avatar}
               </div>
+
+            <div className="mt-6 rounded-[32px] bg-white/85 p-6 shadow-xl">
+  {premium ? (
+    <>
+      <p className="text-sm font-bold text-violet-600">👑 Premium actif</p>
+      <p className="mt-2 text-slate-600">
+        Tu as accès aux fonctionnalités Premium de Repère PTI.
+      </p>
+    </>
+  ) : (
+    <>
+      <p className="text-sm font-bold text-violet-600">✨ Version gratuite</p>
+      <p className="mt-2 text-slate-600">
+        Tu peux générer jusqu’à 5 PTI par jour.
+      </p>
+
+      <a
+        href="/premium"
+        className="mt-4 inline-flex rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-5 py-3 text-sm font-bold text-white"
+      >
+        Passer Premium
+      </a>
+    </>
+  )}
+</div>
 
               <div className="flex-1">
                 <input
