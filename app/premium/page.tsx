@@ -1,11 +1,26 @@
 "use client";
 
+import { supabase } from "@/lib/supabaseClient";
+
 export default function PremiumPage() {
   const ouvrirCheckout = async () => {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session) {
+      alert("Tu dois être connectée pour passer Premium.");
+      window.location.href = "/login";
+      return;
+    }
+
     const response = await fetch(
       "/api/create-checkout-session",
       {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
       }
     );
 
@@ -13,6 +28,8 @@ export default function PremiumPage() {
 
     if (data.url) {
       window.location.href = data.url;
+    } else {
+      alert(data.error || "Erreur Stripe");
     }
   };
 
