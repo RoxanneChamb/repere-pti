@@ -339,7 +339,21 @@ export default function DashboardPage() {
             >
               Voir les ressources
             </a>
+
           </div>
+
+          <div className="rounded-3xl border border-yellow-200 bg-yellow-50 p-5">
+  <p className="font-bold">✨ Premium</p>
+
+  <p className="mt-2 text-sm text-slate-600">
+    Débloque les PTI illimités, les cas complexes et l’export PDF.
+  </p>
+
+  <button className="mt-4 rounded-xl bg-violet-600 px-4 py-2 text-white">
+    Passer Premium
+  </button>
+</div>
+
         </div>
       </div>
     </main>
