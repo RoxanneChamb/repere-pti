@@ -11,6 +11,7 @@ const nunito = Nunito({
 export const metadata: Metadata = {
   title: "Repère PTI",
   description: "Soutien intelligent au raisonnement clinique",
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
