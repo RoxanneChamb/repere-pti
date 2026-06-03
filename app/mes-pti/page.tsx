@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { Stethoscope } from "lucide-react";
+import Navbar from "@/components/Navbar";
 
 export default function MesPTIPage() {
   const [ptis, setPtis] = useState<any[]>([]);
@@ -122,75 +123,7 @@ export default function MesPTIPage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
-      <header className="border-b border-white/70 bg-white/80 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-5">
-          <a href="/" className="flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-400 shadow-lg">
-              <Stethoscope className="h-7 w-7 text-white" />
-            </div>
-
-            <div>
-              <p className="text-2xl font-extrabold tracking-tight">
-                Repère PT
-                <span className="bg-gradient-to-r from-violet-600 to-pink-500 bg-clip-text text-transparent">
-                  I
-                </span>
-              </p>
-              <p className="text-xs font-medium text-slate-500">
-                Votre allié pour le raisonnement clinique
-              </p>
-            </div>
-          </a>
-
-          <nav className="hidden gap-8 text-sm font-medium text-slate-600 md:flex">
-  <a href="/generer">Générer un PTI</a>
-
-  <a className="text-violet-600" href="/mes-pti">
-    Mes PTI
-  </a>
-
-  <a href="/quiz">
-    Quiz clinique
-  </a>
-
-  <a href="/dashboard">
-    Tableau de bord
-  </a>
-
-  <a href="/ressources">
-    Ressources
-  </a>
-
-  <a href="/a-propos">
-    À propos
-  </a>
-</nav>
-
-          <div className="hidden items-center gap-3 md:flex">
-            {email ? (
-              <>
-                <span className="max-w-[180px] truncate text-xs font-medium text-slate-500">
-                  {email}
-                </span>
-                <button
-                  onClick={deconnexion}
-                  className="rounded-xl bg-white px-4 py-2 text-xs font-bold text-slate-700 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50"
-                >
-                  Déconnexion
-                </button>
-              </>
-            ) : (
-              <a
-                href="/login"
-                className="rounded-xl bg-gradient-to-r from-violet-600 to-pink-500 px-4 py-2 text-xs font-bold text-white shadow-md"
-              >
-                Connexion
-              </a>
-            )}
-          </div>
-        </div>
-      </header>
-
+      <Navbar />
       <div className="mx-auto max-w-6xl p-8">
         <div className="mb-8">
           <h1 className="text-5xl font-extrabold tracking-tight">Mes PTI</h1>

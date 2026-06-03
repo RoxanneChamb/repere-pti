@@ -90,15 +90,39 @@ export default function Home() {
           Connexion / Créer un compte
         </a>
 
-        <div className="mt-12 flex justify-center gap-6 text-black text-slate-500">
-  <a href="/politique-confidentialite">
-    Politique de confidentialité
-  </a>
+<p className="mt-10 max-w-2xl text-center text-xs leading-6 text-slate-400">
+  🔒 N'inscris jamais le nom, la date de naissance ou toute autre
+  information permettant d'identifier un patient.
+</p>
 
-  <a href="/conditions-utilisation">
-    Conditions d'utilisation
-  </a>
-</div> 
+        <div className="mt-16 border-t border-slate-200 pt-8">
+  <p className="mb-4 text-xs text-slate-400">
+    © 2026 Repère PTI • Outil éducatif destiné au développement du raisonnement clinique.
+  </p>
+
+  <div className="flex flex-wrap justify-center gap-6 text-sm text-slate-500">
+    <a
+      href="/politique-confidentialite"
+      className="transition hover:text-violet-600"
+    >
+      Politique de confidentialité
+    </a>
+
+    <a
+      href="/conditions-utilisation"
+      className="transition hover:text-violet-600"
+    >
+      Conditions d'utilisation
+    </a>
+
+    <a
+      href="/contact"
+      className="transition hover:text-violet-600"
+    >
+      Contact
+    </a>
+  </div>
+</div>
 
       </section>
     </main>

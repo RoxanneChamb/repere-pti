@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
+import Navbar from "@/components/Navbar";
 
 export default function QuizPage() {
   const [quiz, setQuiz] = useState<any>(null);
@@ -100,10 +101,21 @@ export default function QuizPage() {
 
     setCorrige(true);
 
-    if (!dejaVerifie) {
-      await enregistrerResultat(reponse === quiz.bonneReponse);
-      setDejaVerifie(true);
-    }
+   if (!dejaVerifie) {
+  const bonneReponse = reponse === quiz.bonneReponse;
+
+  await enregistrerResultat(bonneReponse);
+
+  // Google Analytics
+  if (typeof window !== "undefined") {
+    // @ts-ignore
+    window.gtag?.("event", "quiz_completed", {
+      result: bonneReponse ? "correct" : "incorrect",
+    });
+  }
+
+  setDejaVerifie(true);
+}
   };
 
   return (

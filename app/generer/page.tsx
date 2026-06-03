@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { Stethoscope } from "lucide-react";
+import Navbar from "@/components/Navbar";
 
 export default function GenererPage() {
   const [userId, setUserId] = useState("");
@@ -89,40 +90,7 @@ if (!profile) {
 
   return (
    <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
-      <header className="border-b border-slate-100 bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-6">
-         <div className="flex items-center gap-4">
-  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-400 shadow-lg">
-  <Stethoscope className="h-8 w-8 text-white" />
-</div>
-
-  <div>
-    <p className="text-3xl font-extrabold tracking-tight text-slate-900">
-  Repère PT
-  <span className="bg-gradient-to-r from-violet-600 to-pink-500 bg-clip-text text-transparent">
-    I
-  </span>
-</p>
-
-    <p className="text-sm font-medium text-slate-500">
-      Votre allié pour le raisonnement clinique
-    </p>
-  </div>
-</div>
-
-          <nav className="hidden gap-8 text-sm font-medium text-slate-600 md:flex">
-  <a className="text-violet-600" href="/generer">
-    Générer un PTI
-  </a>
-  <a href="/mes-pti">Mes PTI</a>
-  <a href="/quiz">Quiz clinique</a>
-  <a href="/dashboard">Tableau de bord</a>
-  <a href="/ressources">Ressources</a>
-  <a href="/a-propos">À propos</a>
-</nav>
-        </div>
-      </header>
-
+      <Navbar />
       <section className="mx-auto max-w-7xl px-8 py-14">
         <div className="mb-10 flex flex-col justify-between gap-6 lg:flex-row">
          <div>
