@@ -101,27 +101,27 @@ export default function Home() {
   </p>
 
   <div className="flex flex-wrap justify-center gap-6 text-sm text-slate-500">
-    <a
-      href="/politique-confidentialite"
-      className="transition hover:text-violet-600"
-    >
-      Politique de confidentialité
-    </a>
+  <a
+    href="/politique-confidentialite"
+    className="transition hover:text-violet-600"
+  >
+    Politique de confidentialité
+  </a>
 
-    <a
-      href="/conditions-utilisation"
-      className="transition hover:text-violet-600"
-    >
-      Conditions d'utilisation
-    </a>
+  <a
+    href="/conditions-utilisation"
+    className="transition hover:text-violet-600"
+  >
+    Conditions d'utilisation
+  </a>
 
-    <a
-      href="/contact"
-      className="transition hover:text-violet-600"
-    >
-      Contact
-    </a>
-  </div>
+  <a
+    href="/contact"
+    className="transition hover:text-violet-600"
+  >
+    Contact
+  </a>
+</div>
 </div>
 
       </section>
