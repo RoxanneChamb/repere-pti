@@ -19,7 +19,8 @@ export default function DashboardPage() {
   const avatars = ["🩺", "💜", "🌸", "🧠", "⭐", "👩‍⚕️", "🦋"];
 
   const totalQuiz = bonnes + mauvaises;
-  const precision = totalQuiz > 0 ? Math.round((bonnes / totalQuiz) * 100) : 0;
+  const precision =
+    totalQuiz > 0 ? Math.round((bonnes / totalQuiz) * 100) : 0;
 
   let niveau = "🌱 Junior";
   let prochainPalier = 15;
@@ -141,83 +142,121 @@ export default function DashboardPage() {
           ← Retour à l'accueil
         </a>
 
-        <div className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+        <div className="mt-8 grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
           <div>
             <h1 className="text-5xl font-extrabold tracking-tight">
               Tableau de bord
             </h1>
 
             <p className="mt-4 max-w-2xl text-slate-600">
-              Suis ta progression clinique, ton score et ton utilisation de
-              Repère PTI.
+              Suis ta progression clinique, ton score, tes badges et ton
+              utilisation de Repère PTI.
             </p>
           </div>
 
-          <div className="w-full max-w-sm rounded-3xl bg-white/90 p-5 shadow-xl">
-            <p className="mb-4 text-sm font-bold text-violet-600">
-              Carte étudiante
-            </p>
-
-            <div className="flex items-center gap-4">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-100 to-pink-100 text-3xl shadow-inner">
-                {avatar}
+          <div className="rounded-[34px] bg-white/90 p-6 shadow-xl">
+            <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-violet-600 via-fuchsia-500 to-pink-500 p-6 text-white shadow-lg">
+              <div className="absolute right-4 top-4">
+                {premium ? (
+                  <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-bold backdrop-blur">
+                    👑 Utilisatrice Premium
+                  </span>
+                ) : (
+                  <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-bold backdrop-blur">
+                    ✨ Version gratuite
+                  </span>
+                )}
               </div>
 
-            <div className="mt-6 rounded-[32px] bg-white/85 p-6 shadow-xl">
-  {premium ? (
-    <>
-      <p className="text-sm font-bold text-violet-600">👑 Premium actif</p>
-      <p className="mt-2 text-slate-600">
-        Tu as accès aux fonctionnalités Premium de Repère PTI.
-      </p>
-    </>
-  ) : (
-    <>
-      <p className="text-sm font-bold text-violet-600">✨ Version gratuite</p>
-      <p className="mt-2 text-slate-600">
-        Tu peux générer jusqu’à 5 PTI par jour.
-      </p>
+              <div className="flex items-start gap-4">
+                <div className="flex h-24 w-24 items-center justify-center rounded-3xl bg-white/20 text-5xl shadow-inner backdrop-blur">
+                  {avatar}
+                </div>
 
-      <a
-        href="/premium"
-        className="mt-4 inline-flex rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-5 py-3 text-sm font-bold text-white"
-      >
-        Passer Premium
-      </a>
-    </>
-  )}
-</div>
+                <div className="min-w-0 flex-1 pt-1">
+                  <p className="text-xs font-semibold uppercase tracking-[0.25em] text-white/80">
+                    Carte étudiante
+                  </p>
 
-              <div className="flex-1">
-                <input
-                  value={displayName}
-                  onChange={(e) => setDisplayName(e.target.value)}
-                  onBlur={sauvegarderNom}
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm font-bold outline-none focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
-                />
+                  <input
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    onBlur={sauvegarderNom}
+                    className="mt-2 w-full rounded-xl border border-white/20 bg-white/15 px-3 py-2 text-lg font-extrabold text-white outline-none placeholder:text-white/70 focus:border-white/50 focus:ring-4 focus:ring-white/10"
+                  />
 
-                <p className="mt-1 truncate text-xs text-slate-500">{email}</p>
+                  <p className="mt-2 truncate text-sm text-white/90">{email}</p>
 
-                <p className="mt-2 text-xs font-bold text-violet-600">
-                  {niveau}
-                </p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-bold">
+                      {niveau}
+                    </span>
+
+                    <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-bold">
+                      {ptiCount} PTI générés
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 flex items-end justify-between">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-white/75">
+                    Plateforme
+                  </p>
+                  <p className="mt-1 text-lg font-bold">Repère PTI</p>
+                </div>
+
+                <div className="flex items-center gap-2 rounded-2xl bg-white/15 px-3 py-2 backdrop-blur">
+                  <img
+                    src="/icon-192.png"
+                    alt="Logo Repère PTI"
+                    className="h-8 w-8 rounded-xl bg-white object-cover"
+                  />
+                  <span className="text-sm font-bold">Repère PTI</span>
+                </div>
               </div>
             </div>
 
-            <div className="mt-4 flex flex-wrap gap-2">
-              {avatars.map((emoji) => (
-                <button
-                  key={emoji}
-                  onClick={() => changerAvatar(emoji)}
-                  className={`rounded-xl px-2 py-1 text-base transition ${
-                    avatar === emoji
-                      ? "bg-violet-100 ring-2 ring-violet-400"
-                      : "bg-slate-50 hover:bg-pink-50"
-                  }`}
-                >
-                  {emoji}
-                </button>
-              ))}
+            <div className="mt-4">
+              <p className="mb-3 text-sm font-bold text-violet-600">
+                Choisir un avatar
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {avatars.map((emoji) => (
+                  <button
+                    key={emoji}
+                    onClick={() => changerAvatar(emoji)}
+                    className={`flex h-10 w-10 items-center justify-center rounded-xl text-lg transition ${
+                      avatar === emoji
+                        ? "bg-violet-100 ring-2 ring-violet-400"
+                        : "bg-slate-50 hover:bg-pink-50"
+                    }`}
+                  >
+                    {emoji}
+                  </button>
+                ))}
+              </div>
+
+              {!premium && (
+                <div className="mt-4 rounded-2xl bg-violet-50 p-4">
+                  <p className="text-sm font-bold text-violet-700">
+                    ✨ Version gratuite
+                  </p>
+                  <p className="mt-1 text-sm text-slate-600">
+                    Passe à Premium pour débloquer les PTI illimités et les
+                    outils avancés.
+                  </p>
+
+                  <a
+                    href="/premium"
+                    className="mt-3 inline-flex rounded-xl bg-gradient-to-r from-violet-600 to-pink-500 px-4 py-2 text-sm font-bold text-white"
+                  >
+                    Découvrir Premium
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -366,21 +405,7 @@ export default function DashboardPage() {
             >
               Voir les ressources
             </a>
-
           </div>
-
-          <div className="rounded-3xl border border-yellow-200 bg-yellow-50 p-5">
-  <p className="font-bold">✨ Premium</p>
-
-  <p className="mt-2 text-sm text-slate-600">
-    Débloque les PTI illimités, les cas complexes et l’export PDF.
-  </p>
-
-  <button className="mt-4 rounded-xl bg-violet-600 px-4 py-2 text-white">
-    Passer Premium
-  </button>
-</div>
-
         </div>
       </div>
     </main>
