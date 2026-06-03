@@ -1,6 +1,6 @@
 {
   "name": "Repère PTI",
-  "short_name": "Repère PTI",
+  "short_name": "PTI",
   "description": "Outil éducatif pour le raisonnement clinique infirmier.",
   "start_url": "/",
   "display": "standalone",

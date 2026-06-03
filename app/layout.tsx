@@ -11,7 +11,18 @@ const nunito = Nunito({
 export const metadata: Metadata = {
   title: "Repère PTI",
   description: "Soutien intelligent au raisonnement clinique",
+
   manifest: "/manifest.json",
+
+  appleWebApp: {
+    capable: true,
+    title: "Repère PTI",
+    statusBarStyle: "default",
+  },
+
+  icons: {
+    apple: "/icon-512.png",
+  },
 };
 
 export default function RootLayout({
