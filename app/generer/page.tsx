@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import { Stethoscope } from "lucide-react";
 import Navbar from "@/components/Navbar";
 
 export default function GenererPage() {
   const [userId, setUserId] = useState("");
   const [situation, setSituation] = useState("");
   const [resultat, setResultat] = useState("");
+  const [chargement, setChargement] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
@@ -26,12 +26,29 @@ export default function GenererPage() {
 
   const genererPTI = async () => {
     try {
+      if (!situation.trim()) {
+        setResultat("Décris une situation clinique avant de générer un PTI.");
+        return;
+      }
+
+      setChargement(true);
       setResultat("Génération en cours...");
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!session) {
+        setResultat("Tu dois être connectée pour générer un PTI.");
+        setChargement(false);
+        return;
+      }
 
       const response = await fetch("/api/generer-pti", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
         },
         body: JSON.stringify({ situation }),
       });
@@ -39,117 +56,148 @@ export default function GenererPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        setResultat("Erreur API : " + (data.error || "Erreur inconnue"));
+        setResultat(data.error || "Erreur lors de la génération.");
+        setChargement(false);
         return;
       }
 
       setResultat(data.resultat);
 
-// Analytics
-if (typeof window !== "undefined") {
-  // @ts-ignore
-  window.gtag?.("event", "pti_generated");
-}
+      // Google Analytics
+      if (typeof window !== "undefined") {
+        // @ts-ignore
+        window.gtag?.("event", "pti_generated");
+      }
 
       if (userId) {
         const { error } = await supabase.from("ptis").insert({
-  user_id: userId,
-  situation,
-  resultat: data.resultat,
-});
+          user_id: userId,
+          situation,
+          resultat: data.resultat,
+        });
 
-if (error) {
-  console.error("Erreur Supabase :", error.message);
-  return;
-}
+        if (error) {
+          console.error("Erreur Supabase :", error.message);
+          setChargement(false);
+          return;
+        }
 
-const { data: profile } = await supabase
-  .from("profiles")
-  .select("pti_count")
-  .eq("id", userId)
-  .single();
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("pti_count")
+          .eq("id", userId)
+          .single();
 
-if (!profile) {
-  await supabase.from("profiles").insert({
-    id: userId,
-    pti_count: 1,
-  });
-} else {
-  await supabase
-    .from("profiles")
-    .update({
-      pti_count: profile.pti_count + 1,
-    })
-    .eq("id", userId);
-}
+        if (!profile) {
+          await supabase.from("profiles").insert({
+            id: userId,
+            pti_count: 1,
+          });
+        } else {
+          await supabase
+            .from("profiles")
+            .update({
+              pti_count: (profile.pti_count || 0) + 1,
+            })
+            .eq("id", userId);
+        }
       }
+
+      setChargement(false);
     } catch (error) {
+      console.error(error);
       setResultat("Erreur de connexion avec l'API.");
+      setChargement(false);
     }
   };
 
   return (
-   <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
+    <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
       <Navbar />
+
       <section className="mx-auto max-w-7xl px-8 py-14">
         <div className="mb-10 flex flex-col justify-between gap-6 lg:flex-row">
-         <div>
-  <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-100 to-pink-100 px-4 py-2 text-sm font-bold text-violet-700">
-  ✨ Assistant clinique IA
-</div>
+          <div>
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-100 to-pink-100 px-4 py-2 text-sm font-bold text-violet-700">
+              ✨ Assistant clinique IA
+            </div>
 
-  <h1 className="text-6xl font-extrabold tracking-tight">
-    Transforme une situation clinique en PTI
-  </h1>
+            <h1 className="text-5xl font-extrabold tracking-tight sm:text-6xl">
+              Transforme une situation clinique en PTI
+            </h1>
 
-  <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-600">
-    Décris une situation clinique et obtiens un PTI structuré pour soutenir ton apprentissage et tes stages.
-  </p>
-</div>
+            <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-600">
+              Décris une situation clinique de façon anonyme et obtiens un PTI
+              structuré pour soutenir ton apprentissage, tes stages et le
+              développement de ton raisonnement clinique.
+            </p>
+
+            <p className="mt-4 max-w-2xl text-sm font-medium leading-6 text-violet-600">
+              🔒 Aucune information permettant d’identifier un patient ne doit
+              être inscrite.
+            </p>
+          </div>
 
           <div className="rounded-[32px] border border-white/50 bg-white/80 p-8 shadow-xl backdrop-blur">
             <p className="font-bold">Outil éducatif</p>
+
             <p className="mt-2 text-sm leading-6 text-slate-600">
               Ne remplace pas le jugement clinique, les politiques locales ou la
               validation par une personne qualifiée.
             </p>
+
+            <div className="mt-5 rounded-2xl bg-violet-50 p-4 text-sm text-violet-700">
+              <p className="font-bold">Version gratuite</p>
+              <p className="mt-1">5 PTI par jour.</p>
+
+              <a
+                href="/premium"
+                className="mt-3 inline-flex font-bold text-violet-700 hover:text-pink-500"
+              >
+                Passer Premium →
+              </a>
+            </div>
           </div>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="rounded-3xl border border-violet-100 bg-gradient-to-br from-violet-50 to-pink-50 p-6 shadow-lg">
             <p className="text-2xl font-bold">Situation clinique</p>
+
             <p className="mt-2 text-sm text-slate-500">
-              Décris les signes, symptômes, antécédents et le contexte.
+              Décris les signes, symptômes, antécédents et le contexte, sans
+              nom, date de naissance ou information identifiable.
             </p>
 
             <textarea
               className="mt-6 min-h-[260px] w-full rounded-3xl border-2 border-violet-200 bg-white p-6 text-base shadow-sm outline-none transition focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
-              placeholder="Ex. Homme 72 ans, insuffisance cardiaque, SpO₂ 89 %, dyspnée, prise de poids de 2 kg en 2 jours..."
+              placeholder="Ex. Patient de 72 ans, insuffisance cardiaque, SpO₂ 89 %, dyspnée, prise de poids de 2 kg en 2 jours..."
               value={situation}
               onChange={(e) => setSituation(e.target.value)}
             />
 
             <button
               onClick={genererPTI}
-              className="mt-6 rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 px-8 py-4 font-bold text-white shadow-xl shadow-pink-200 transition hover:scale-105"
+              disabled={chargement}
+              className="mt-6 rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 px-8 py-4 font-bold text-white shadow-xl shadow-pink-200 transition hover:scale-105 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Générer le PTI
+              {chargement ? "Génération..." : "Générer le PTI"}
             </button>
 
-            <div className="mt-5 flex gap-4 text-sm text-slate-500">
-  <span>⚡ Génération rapide</span>
-  <span>🩺 Pensé pour les stages</span>
-  <span>✨ IA éducative</span>
-</div>
+            <div className="mt-5 flex flex-wrap gap-4 text-sm text-slate-500">
+              <span>⚡ Génération rapide</span>
+              <span>🩺 Pensé pour les stages</span>
+              <span>✨ IA éducative</span>
+            </div>
 
             <p className="mt-5 text-sm text-slate-500">
-              🔒 Données confidentielles pour la version bêta.
+              🔒 Les situations doivent être anonymisées avant d’être inscrites.
             </p>
           </div>
 
           <div className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
             <p className="text-2xl font-bold">PTI suggéré</p>
+
             <p className="mt-2 text-sm text-slate-500">
               Ton plan apparaîtra ici après génération.
             </p>
