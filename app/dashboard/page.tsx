@@ -207,31 +207,24 @@ export default function DashboardPage() {
                 <div className="pointer-events-none absolute -right-24 top-20 h-72 w-72 rounded-full border border-violet-200/50" />
                 <div className="pointer-events-none absolute -right-32 top-32 h-96 w-96 rounded-full border border-pink-100/70" />
 
-                <div className="flex justify-between gap-4">
-                  <div className="flex items-center gap-2 text-violet-500">
-                    <img
-                      src="/icon-192.png"
-                      alt="Logo"
-                      className="h-9 w-9 rounded-xl"
-                    />
-                    <p className="text-sm font-bold text-slate-500">
-                      Plateforme d'apprentissage
-                      <br />
-                      clinique intelligente
-                    </p>
-                  </div>
-
-                  <p className="text-lg font-extrabold text-violet-600">
-                    Repère PTI
-                  </p>
-                </div>
-
                 <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-center">
                   <div className="relative">
                     <div className="flex h-44 w-44 items-center justify-center rounded-full bg-gradient-to-br from-violet-100 to-pink-100 shadow-inner">
-                      <div className="flex h-36 w-36 items-center justify-center rounded-full bg-white text-7xl shadow-lg">
-                        👩‍⚕️
-                      </div>
+                      <div className="flex h-36 w-36 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-pink-100 via-violet-100 to-white shadow-lg">
+  <div className="relative flex h-32 w-32 items-center justify-center rounded-full bg-gradient-to-br from-violet-50 to-pink-50">
+    <div className="absolute top-6 h-14 w-14 rounded-full bg-amber-100" />
+    <div className="absolute top-4 h-10 w-20 rounded-t-full bg-amber-700" />
+    <div className="absolute top-12 h-8 w-24 rounded-b-full bg-amber-700" />
+    <div className="absolute top-11 flex gap-8">
+      <span className="h-2 w-2 rounded-full bg-slate-900" />
+      <span className="h-2 w-2 rounded-full bg-slate-900" />
+    </div>
+    <div className="absolute top-17 h-2 w-6 rounded-full bg-pink-300" />
+    <div className="absolute bottom-4 h-14 w-24 rounded-t-[32px] bg-violet-400" />
+    <div className="absolute bottom-2 h-8 w-28 rounded-t-[28px] bg-violet-500" />
+    <div className="absolute bottom-8 h-10 w-10 rounded-full border-4 border-white/80" />
+  </div>
+</div>
                     </div>
 
                     <div className="absolute -bottom-2 -right-2 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600 to-pink-500 text-2xl text-white shadow-lg">
