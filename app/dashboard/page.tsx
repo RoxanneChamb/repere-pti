@@ -142,7 +142,7 @@ export default function DashboardPage() {
           ← Retour à l'accueil
         </a>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+        <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_440px] lg:items-start">
           <div>
             <h1 className="text-5xl font-extrabold tracking-tight">
               Tableau de bord
@@ -154,110 +154,143 @@ export default function DashboardPage() {
             </p>
           </div>
 
-          <div className="rounded-[34px] bg-white/90 p-6 shadow-xl">
-            <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-violet-600 via-fuchsia-500 to-pink-500 p-6 text-white shadow-lg">
-              <div className="absolute right-4 top-4">
-                {premium ? (
-                  <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-bold backdrop-blur">
-                    👑 Utilisatrice Premium
-                  </span>
-                ) : (
-                  <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-bold backdrop-blur">
-                    ✨ Version gratuite
-                  </span>
-                )}
-              </div>
+          <div className="space-y-4">
+            <div className="overflow-hidden rounded-[34px] bg-white/90 p-4 shadow-xl">
+              <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-violet-600 via-fuchsia-500 to-pink-500 p-6 text-white shadow-lg">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src="/icon-192.png"
+                      alt="Logo Repère PTI"
+                      className="h-10 w-10 rounded-2xl bg-white/20 p-1 object-cover"
+                    />
 
-              <div className="flex items-start gap-4">
-                <div className="flex h-24 w-24 items-center justify-center rounded-3xl bg-white/20 text-5xl shadow-inner backdrop-blur">
-                  {avatar}
+                    <div>
+                      <p className="text-sm font-extrabold">Repère PTI</p>
+                      <p className="text-xs text-white/75">
+                        Carte étudiante
+                      </p>
+                    </div>
+                  </div>
+
+                  <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-bold backdrop-blur">
+                    {premium ? "👑 Premium" : "✨ Gratuit"}
+                  </span>
                 </div>
 
-                <div className="min-w-0 flex-1 pt-1">
-                  <p className="text-xs font-semibold uppercase tracking-[0.25em] text-white/80">
-                    Carte étudiante
-                  </p>
+                <div className="mt-6 flex items-center gap-5">
+                  <div className="flex h-28 w-28 shrink-0 items-center justify-center rounded-[30px] bg-white/20 text-6xl shadow-inner backdrop-blur">
+                    {avatar}
+                  </div>
 
-                  <input
-                    value={displayName}
-                    onChange={(e) => setDisplayName(e.target.value)}
-                    onBlur={sauvegarderNom}
-                    className="mt-2 w-full rounded-xl border border-white/20 bg-white/15 px-3 py-2 text-lg font-extrabold text-white outline-none placeholder:text-white/70 focus:border-white/50 focus:ring-4 focus:ring-white/10"
-                  />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/75">
+                      Nom affiché
+                    </p>
 
-                  <p className="mt-2 truncate text-sm text-white/90">{email}</p>
+                    <input
+                      value={displayName}
+                      onChange={(e) => setDisplayName(e.target.value)}
+                      onBlur={sauvegarderNom}
+                      className="mt-2 w-full rounded-2xl border border-white/20 bg-white/15 px-4 py-3 text-lg font-extrabold text-white outline-none placeholder:text-white/70 focus:border-white/50 focus:ring-4 focus:ring-white/10"
+                    />
 
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-bold">
-                      {niveau}
-                    </span>
+                    <p className="mt-2 truncate text-sm text-white/90">
+                      {email}
+                    </p>
 
-                    <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-bold">
-                      {ptiCount} PTI générés
-                    </span>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-bold">
+                        {niveau}
+                      </span>
+
+                      <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-bold">
+                        {ptiCount} PTI
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-6 grid grid-cols-3 gap-3 text-xs">
+                  <div className="rounded-2xl bg-white/15 p-3 backdrop-blur">
+                    <p className="text-white/70">Programme</p>
+                    <p className="mt-1 font-bold">Soins infirmiers</p>
+                  </div>
+
+                  <div className="rounded-2xl bg-white/15 p-3 backdrop-blur">
+                    <p className="text-white/70">Statut</p>
+                    <p className="mt-1 font-bold">
+                      {premium ? "Premium" : "Gratuit"}
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl bg-white/15 p-3 backdrop-blur">
+                    <p className="text-white/70">ID</p>
+                    <p className="mt-1 font-bold">
+                      {userId ? `RPTI-${userId.slice(0, 4).toUpperCase()}` : "RPTI"}
+                    </p>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 flex items-end justify-between">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-white/75">
-                    Plateforme
-                  </p>
-                  <p className="mt-1 text-lg font-bold">Repère PTI</p>
-                </div>
+              <div className="mt-4 rounded-3xl bg-slate-50 p-4">
+                <p className="text-sm font-bold text-violet-600">
+                  Personnalise ton avatar
+                </p>
 
-                <div className="flex items-center gap-2 rounded-2xl bg-white/15 px-3 py-2 backdrop-blur">
-                  <img
-                    src="/icon-192.png"
-                    alt="Logo Repère PTI"
-                    className="h-8 w-8 rounded-xl bg-white object-cover"
-                  />
-                  <span className="text-sm font-bold">Repère PTI</span>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {avatars.map((emoji) => (
+                    <button
+                      key={emoji}
+                      onClick={() => changerAvatar(emoji)}
+                      className={`flex h-9 w-9 items-center justify-center rounded-xl text-base transition ${
+                        avatar === emoji
+                          ? "bg-violet-100 ring-2 ring-violet-400"
+                          : "bg-white hover:bg-pink-50"
+                      }`}
+                    >
+                      {emoji}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
 
-            <div className="mt-4">
-              <p className="mb-3 text-sm font-bold text-violet-600">
-                Choisir un avatar
-              </p>
+            {premium ? (
+              <div className="rounded-3xl border border-amber-100 bg-white/90 p-5 shadow-lg">
+                <p className="text-sm font-bold text-violet-600">
+                  👑 Premium actif
+                </p>
 
-              <div className="flex flex-wrap gap-2">
-                {avatars.map((emoji) => (
-                  <button
-                    key={emoji}
-                    onClick={() => changerAvatar(emoji)}
-                    className={`flex h-10 w-10 items-center justify-center rounded-xl text-lg transition ${
-                      avatar === emoji
-                        ? "bg-violet-100 ring-2 ring-violet-400"
-                        : "bg-slate-50 hover:bg-pink-50"
-                    }`}
-                  >
-                    {emoji}
-                  </button>
-                ))}
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  Tu as accès aux fonctionnalités Premium de Repère PTI.
+                </p>
+
+                <a
+                  href="/premium"
+                  className="mt-4 inline-flex text-sm font-bold text-violet-600 hover:text-pink-500"
+                >
+                  Voir mes avantages →
+                </a>
               </div>
+            ) : (
+              <div className="rounded-3xl border border-violet-100 bg-white/90 p-5 shadow-lg">
+                <p className="text-sm font-bold text-violet-600">
+                  👑 Découvre Premium
+                </p>
 
-              {!premium && (
-                <div className="mt-4 rounded-2xl bg-violet-50 p-4">
-                  <p className="text-sm font-bold text-violet-700">
-                    ✨ Version gratuite
-                  </p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    Passe à Premium pour débloquer les PTI illimités et les
-                    outils avancés.
-                  </p>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  Débloque les PTI illimités, les cas avancés et l’export PDF.
+                </p>
 
-                  <a
-                    href="/premium"
-                    className="mt-3 inline-flex rounded-xl bg-gradient-to-r from-violet-600 to-pink-500 px-4 py-2 text-sm font-bold text-white"
-                  >
-                    Découvrir Premium
-                  </a>
-                </div>
-              )}
-            </div>
+                <a
+                  href="/premium"
+                  className="mt-4 inline-flex rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-5 py-3 text-sm font-bold text-white"
+                >
+                  Voir Premium
+                </a>
+              </div>
+            )}
           </div>
         </div>
 
