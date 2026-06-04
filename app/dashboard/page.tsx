@@ -348,21 +348,29 @@ export default function DashboardPage() {
 
             {premium ? (
               <div className="rounded-[32px] border border-amber-100 bg-white/90 p-6 shadow-xl">
-                <p className="text-2xl font-extrabold text-violet-700">
-                  👑 Premium actif
-                </p>
+  <p className="text-2xl font-extrabold text-violet-700">
+    👑 Premium actif
+  </p>
 
-                <p className="mt-3 leading-7 text-slate-600">
-                  Tu as accès aux fonctionnalités Premium de Repère PTI.
-                </p>
+  <div className="mt-4 space-y-2 text-sm text-slate-600">
+    <p>
+      <span className="font-bold text-slate-800">Abonnement :</span>{" "}
+      2,99 $ / mois
+    </p>
 
-                <a
-                  href="/premium"
-                  className="mt-5 inline-flex font-bold text-violet-600 hover:text-pink-500"
-                >
-                  Voir mes avantages →
-                </a>
-              </div>
+    <p>
+      <span className="font-bold text-slate-800">Renouvellement :</span>{" "}
+      Mensuel
+    </p>
+  </div>
+
+  <a
+    href="/premium"
+    className="mt-5 inline-flex rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-5 py-3 text-sm font-bold text-white"
+  >
+    Gérer mon abonnement
+  </a>
+</div>
             ) : (
               <div className="rounded-[32px] bg-gradient-to-br from-violet-100 via-pink-50 to-white p-6 shadow-xl">
                 <p className="text-2xl font-extrabold text-violet-700">
