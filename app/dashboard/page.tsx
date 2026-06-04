@@ -21,6 +21,7 @@ export default function DashboardPage() {
     "/avatars/avatar2.png",
     "/avatars/avatar3.png",
     "/avatars/avatar4.png",
+    "/avatars/avatar5.png",
   ];
 
   const totalQuiz = bonnes + mauvaises;
