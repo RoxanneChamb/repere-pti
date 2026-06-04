@@ -138,7 +138,6 @@ export default function GenererPage() {
     }
 
     const doc = new jsPDF();
-
     const date = new Date().toLocaleDateString("fr-CA");
 
     doc.setFont("helvetica", "bold");
@@ -151,11 +150,7 @@ export default function GenererPage() {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
     doc.text(`Date : ${date}`, 20, 38);
-    doc.text(
-      "Outil éducatif - Ne remplace pas le jugement clinique.",
-      20,
-      44
-    );
+    doc.text("Outil éducatif - Ne remplace pas le jugement clinique.", 20, 44);
 
     doc.setDrawColor(139, 92, 246);
     doc.line(20, 50, 190, 50);
@@ -195,30 +190,30 @@ export default function GenererPage() {
     <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
       <Navbar />
 
-      <section className="mx-auto max-w-7xl px-8 py-14">
-        <div className="mb-10 flex flex-col justify-between gap-6 lg:flex-row">
+      <section className="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-14">
+        <div className="mb-6 flex flex-col justify-between gap-5 lg:mb-10 lg:flex-row lg:gap-6">
           <div>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-100 to-pink-100 px-4 py-2 text-sm font-bold text-violet-700">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-100 to-pink-100 px-4 py-2 text-xs font-bold text-violet-700 md:text-sm">
               ✨ Assistant clinique IA
             </div>
 
-            <h1 className="text-5xl font-extrabold tracking-tight sm:text-6xl">
+            <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-6xl">
               Transforme une situation clinique en PTI
             </h1>
 
-            <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-600">
+            <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 md:text-lg md:leading-8">
               Décris une situation clinique de façon anonyme et obtiens un PTI
               structuré pour soutenir ton apprentissage, tes stages et le
               développement de ton raisonnement clinique.
             </p>
 
-            <p className="mt-4 max-w-2xl text-sm font-medium leading-6 text-violet-600">
+            <p className="mt-4 max-w-2xl rounded-2xl bg-white/70 p-3 text-sm font-medium leading-6 text-violet-600 shadow-sm md:bg-transparent md:p-0 md:shadow-none">
               🔒 Aucune information permettant d’identifier un patient ne doit
               être inscrite.
             </p>
           </div>
 
-          <div className="rounded-[32px] border border-white/50 bg-white/80 p-8 shadow-xl backdrop-blur">
+          <div className="rounded-3xl border border-white/50 bg-white/85 p-5 shadow-lg backdrop-blur md:rounded-[32px] md:p-8 md:shadow-xl">
             <p className="font-bold">Outil éducatif</p>
 
             <p className="mt-2 text-sm leading-6 text-slate-600">
@@ -251,26 +246,26 @@ export default function GenererPage() {
           </div>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-3xl border border-violet-100 bg-gradient-to-br from-violet-50 to-pink-50 p-6 shadow-lg">
-            <p className="text-2xl font-bold">Situation clinique</p>
+        <div className="grid gap-5 lg:grid-cols-2 lg:gap-6">
+          <div className="rounded-3xl border border-violet-100 bg-gradient-to-br from-violet-50 to-pink-50 p-5 shadow-lg md:p-6">
+            <p className="text-xl font-bold md:text-2xl">Situation clinique</p>
 
-            <p className="mt-2 text-sm text-slate-500">
+            <p className="mt-2 text-sm leading-6 text-slate-500">
               Décris les signes, symptômes, antécédents et le contexte, sans
               nom, date de naissance ou information identifiable.
             </p>
 
             <textarea
-              className="mt-6 min-h-[260px] w-full rounded-3xl border-2 border-violet-200 bg-white p-6 text-base shadow-sm outline-none transition focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
+              className="mt-5 min-h-[220px] w-full rounded-3xl border-2 border-violet-200 bg-white p-4 text-sm shadow-sm outline-none transition focus:border-violet-500 focus:ring-4 focus:ring-violet-100 md:mt-6 md:min-h-[260px] md:p-6 md:text-base"
               placeholder="Ex. Patient de 72 ans, insuffisance cardiaque, SpO₂ 89 %, dyspnée, prise de poids de 2 kg en 2 jours..."
               value={situation}
               onChange={(e) => setSituation(e.target.value)}
             />
 
-            <div className="mt-5 rounded-3xl border border-violet-100 bg-white/85 p-5 shadow-sm">
+            <div className="mt-5 rounded-3xl border border-violet-100 bg-white/85 p-4 shadow-sm md:p-5">
               <label className="flex cursor-pointer flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <p className="font-extrabold text-slate-800">
                       Cas complexe
                     </p>
@@ -290,7 +285,7 @@ export default function GenererPage() {
                 <button
                   type="button"
                   onClick={() => setModeComplexe(!modeComplexe)}
-                  className={`relative h-8 w-14 rounded-full transition ${
+                  className={`relative h-8 w-14 shrink-0 rounded-full transition ${
                     modeComplexe
                       ? "bg-gradient-to-r from-violet-600 to-pink-500"
                       : "bg-slate-300"
@@ -308,7 +303,7 @@ export default function GenererPage() {
             <button
               onClick={genererPTI}
               disabled={chargement}
-              className="mt-6 rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 px-8 py-4 font-bold text-white shadow-xl shadow-pink-200 transition hover:scale-105 disabled:cursor-not-allowed disabled:opacity-60"
+              className="mt-6 w-full rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 px-8 py-4 font-bold text-white shadow-xl shadow-pink-200 transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
             >
               {chargement
                 ? "Génération..."
@@ -317,22 +312,22 @@ export default function GenererPage() {
                   : "Générer le PTI"}
             </button>
 
-            <div className="mt-5 flex flex-wrap gap-4 text-sm text-slate-500">
+            <div className="mt-5 flex flex-wrap gap-3 text-sm text-slate-500 md:gap-4">
               <span>⚡ Génération rapide</span>
               <span>🩺 Pensé pour les stages</span>
               <span>✨ IA éducative</span>
               {modeComplexe && <span>👑 Mode complexe activé</span>}
             </div>
 
-            <p className="mt-5 text-sm text-slate-500">
+            <p className="mt-5 text-sm leading-6 text-slate-500">
               🔒 Les situations doivent être anonymisées avant d’être inscrites.
             </p>
           </div>
 
-          <div className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-2xl font-bold">PTI suggéré</p>
+                <p className="text-xl font-bold md:text-2xl">PTI suggéré</p>
 
                 <p className="mt-2 text-sm text-slate-500">
                   Ton plan apparaîtra ici après génération.
@@ -340,19 +335,19 @@ export default function GenererPage() {
               </div>
 
               {modeComplexe && (
-                <span className="rounded-full bg-violet-100 px-4 py-2 text-xs font-bold text-violet-700">
+                <span className="w-fit rounded-full bg-violet-100 px-4 py-2 text-xs font-bold text-violet-700">
                   👑 Cas complexe
                 </span>
               )}
             </div>
 
-            <div className="mt-6 min-h-[360px] rounded-[32px] bg-gradient-to-br from-slate-50 to-violet-50 p-6">
+            <div className="mt-5 min-h-[320px] rounded-3xl bg-gradient-to-br from-slate-50 to-violet-50 p-4 md:mt-6 md:min-h-[360px] md:rounded-[32px] md:p-6">
               {resultat ? (
-                <pre className="whitespace-pre-wrap text-sm leading-7 text-slate-700">
+                <pre className="whitespace-pre-wrap break-words text-sm leading-7 text-slate-700">
                   {resultat}
                 </pre>
               ) : (
-                <div className="flex h-[300px] items-center justify-center text-center text-slate-400">
+                <div className="flex h-[260px] items-center justify-center text-center text-sm text-slate-400 md:h-[300px]">
                   Génère un PTI pour voir les résultats ici.
                 </div>
               )}
@@ -361,7 +356,7 @@ export default function GenererPage() {
             {resultat && premium && (
               <button
                 onClick={telechargerPDF}
-                className="mt-4 rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-6 py-3 font-bold text-white shadow-lg shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-xl"
+                className="mt-4 w-full rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-6 py-3 font-bold text-white shadow-lg shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-xl sm:w-auto"
               >
                 📄 Télécharger en PDF
               </button>
