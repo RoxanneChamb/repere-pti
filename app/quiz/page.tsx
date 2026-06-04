@@ -13,6 +13,7 @@ export default function QuizPage() {
   const [score, setScore] = useState(0);
   const [bonnes, setBonnes] = useState(0);
   const [mauvaises, setMauvaises] = useState(0);
+  const [premium, setPremium] = useState(false);
 
   const chargerScore = async () => {
     const {
@@ -20,6 +21,14 @@ export default function QuizPage() {
     } = await supabase.auth.getUser();
 
     if (!user) return;
+
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("premium")
+      .eq("id", user.id)
+      .single();
+
+    setPremium(profile?.premium === true);
 
     const { data } = await supabase
       .from("quiz_stats")
@@ -44,8 +53,21 @@ export default function QuizPage() {
     setReponse("");
     setDejaVerifie(false);
 
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session) {
+      alert("Tu dois être connectée pour générer un quiz.");
+      setChargement(false);
+      return;
+    }
+
     const response = await fetch("/api/generer-quiz", {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${session.access_token}`,
+      },
     });
 
     const data = await response.json();
@@ -122,7 +144,6 @@ export default function QuizPage() {
       await enregistrerResultat(bonneReponse);
       await enregistrerHistoriqueQuiz(bonneReponse);
 
-      // Google Analytics
       if (typeof window !== "undefined") {
         // @ts-ignore
         window.gtag?.("event", "quiz_completed", {
@@ -161,6 +182,29 @@ export default function QuizPage() {
           <p className="mt-2 text-sm text-slate-500">
             ✅ {bonnes} bonnes réponses • ❌ {mauvaises} mauvaises réponses
           </p>
+
+          <div className="mt-5 rounded-2xl bg-violet-50 p-4 text-sm text-violet-700">
+            {premium ? (
+              <>
+                <p className="font-bold">👑 Premium actif</p>
+                <p className="mt-1">
+                  Quiz illimités et accès aux futures fonctionnalités Premium.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="font-bold">Version gratuite</p>
+                <p className="mt-1">2 quiz par jour inclus.</p>
+
+                <a
+                  href="/premium"
+                  className="mt-3 inline-flex font-bold text-violet-700 hover:text-pink-500"
+                >
+                  Débloquer les quiz illimités →
+                </a>
+              </>
+            )}
+          </div>
         </div>
 
         <p className="mt-6 text-sm font-medium text-slate-500">
@@ -169,7 +213,8 @@ export default function QuizPage() {
 
         <button
           onClick={genererQuiz}
-          className="mt-8 rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-6 py-3 font-bold text-white shadow-lg shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-xl"
+          disabled={chargement}
+          className="mt-8 rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-6 py-3 font-bold text-white shadow-lg shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60"
         >
           {chargement ? "Génération..." : "Générer un quiz"}
         </button>
