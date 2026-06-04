@@ -38,7 +38,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { situation } = await request.json();
+    const { situation, modeComplexe } = await request.json();
 
     if (!situation) {
       return Response.json(
@@ -54,6 +54,16 @@ export async function POST(request: Request) {
       .single();
 
     const isPremium = profile?.premium === true;
+
+    if (modeComplexe && !isPremium) {
+      return Response.json(
+        {
+          error:
+            "Les cas complexes sont réservés aux utilisateurs Premium.",
+        },
+        { status: 403 }
+      );
+    }
 
     const debutJournee = new Date();
     debutJournee.setHours(0, 0, 0, 0);
@@ -94,6 +104,23 @@ Le résultat doit inclure :
 5. Surveillance clinique
 6. Enseignement au patient/famille si applicable
 7. Justification clinique brève
+
+${
+  modeComplexe
+    ? `
+Mode Premium — Cas complexe :
+Ajoute une analyse clinique plus approfondie avec :
+- les priorités d'intervention;
+- les complications possibles;
+- les signes de détérioration à surveiller;
+- les éléments de surveillance avancée;
+- les liens entre les données cliniques et les risques;
+- les interventions prioritaires selon l'urgence clinique;
+- une section "À surveiller dans les prochaines heures";
+- une section "Pièges cliniques fréquents chez l'étudiante".
+`
+    : ""
+}
 
 Important :
 - Ne remplace pas le jugement clinique.
