@@ -102,11 +102,13 @@ export default function Home() {
         </div>
 
         <a
-          href={connecte ? "/dashboard" : "/login"}
-          className="mt-9 text-sm font-semibold text-violet-600 transition hover:text-pink-500"
-        >
-          {connecte ? "Accéder à mon compte" : "Connexion / Créer un compte"}
-        </a>
+  href={connecte ? "/dashboard" : "/login"}
+  className="mt-9 text-sm font-semibold text-violet-600 transition hover:text-pink-500"
+>
+  {connecte
+    ? "Retourner à mon tableau de bord"
+    : "Connexion / Créer un compte"}
+</a>
 
         <p className="mt-10 max-w-2xl text-center text-xs leading-6 text-slate-400">
           🔒 N'inscris jamais le nom, la date de naissance ou toute autre
