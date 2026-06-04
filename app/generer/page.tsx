@@ -18,18 +18,18 @@ export default function GenererPage() {
         data: { user },
       } = await supabase.auth.getUser();
 
-      if (user) {
-        setUserId(user.id);
-      }
+      if (!user) return;
+
+      setUserId(user.id);
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("premium")
+        .eq("id", user.id)
+        .single();
+
+      setPremium(profile?.premium === true);
     };
-
-    const { data: profile } = await supabase
-  .from("profiles")
-  .select("premium")
-  .eq("id", user.id)
-  .single();
-
-setPremium(profile?.premium === true);
 
     getUser();
   }, []);
@@ -161,25 +161,29 @@ setPremium(profile?.premium === true);
             </p>
 
             <div className="mt-5 rounded-2xl bg-violet-50 p-4 text-sm text-violet-700">
-  {premium ? (
-    <>
-      <p className="font-bold">👑 Premium actif</p>
-      <p className="mt-1">PTI illimités et cas complexes débloqués.</p>
-    </>
-  ) : (
-    <>
-      <p className="font-bold">Version gratuite</p>
-      <p className="mt-1">5 PTI par jour.</p>
+              {premium ? (
+                <>
+                  <p className="font-bold">👑 Premium actif</p>
+                  <p className="mt-1">
+                    PTI illimités et cas complexes débloqués.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="font-bold">Version gratuite</p>
+                  <p className="mt-1">5 PTI par jour.</p>
 
-      <a
-        href="/premium"
-        className="mt-3 inline-flex font-bold text-violet-700 hover:text-pink-500"
-      >
-        Passer Premium →
-      </a>
-    </>
-  )}
-</div>
+                  <a
+                    href="/premium"
+                    className="mt-3 inline-flex font-bold text-violet-700 hover:text-pink-500"
+                  >
+                    Passer Premium →
+                  </a>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
 
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="rounded-3xl border border-violet-100 bg-gradient-to-br from-violet-50 to-pink-50 p-6 shadow-lg">
