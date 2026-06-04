@@ -6,9 +6,11 @@ import Navbar from "@/components/Navbar";
 
 export default function GenererPage() {
   const [userId, setUserId] = useState("");
+  const [premium, setPremium] = useState(false);
   const [situation, setSituation] = useState("");
   const [resultat, setResultat] = useState("");
   const [chargement, setChargement] = useState(false);
+  const [modeComplexe, setModeComplexe] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
@@ -20,6 +22,14 @@ export default function GenererPage() {
         setUserId(user.id);
       }
     };
+
+    const { data: profile } = await supabase
+  .from("profiles")
+  .select("premium")
+  .eq("id", user.id)
+  .single();
+
+setPremium(profile?.premium === true);
 
     getUser();
   }, []);
@@ -50,7 +60,10 @@ export default function GenererPage() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${session.access_token}`,
         },
-        body: JSON.stringify({ situation }),
+        body: JSON.stringify({
+          situation,
+          modeComplexe,
+        }),
       });
 
       const data = await response.json();
@@ -63,10 +76,11 @@ export default function GenererPage() {
 
       setResultat(data.resultat);
 
-      // Google Analytics
       if (typeof window !== "undefined") {
         // @ts-ignore
-        window.gtag?.("event", "pti_generated");
+        window.gtag?.("event", "pti_generated", {
+          mode: modeComplexe ? "complexe" : "standard",
+        });
       }
 
       if (userId) {
@@ -147,18 +161,25 @@ export default function GenererPage() {
             </p>
 
             <div className="mt-5 rounded-2xl bg-violet-50 p-4 text-sm text-violet-700">
-              <p className="font-bold">Version gratuite</p>
-              <p className="mt-1">5 PTI par jour.</p>
+  {premium ? (
+    <>
+      <p className="font-bold">👑 Premium actif</p>
+      <p className="mt-1">PTI illimités et cas complexes débloqués.</p>
+    </>
+  ) : (
+    <>
+      <p className="font-bold">Version gratuite</p>
+      <p className="mt-1">5 PTI par jour.</p>
 
-              <a
-                href="/premium"
-                className="mt-3 inline-flex font-bold text-violet-700 hover:text-pink-500"
-              >
-                Passer Premium →
-              </a>
-            </div>
-          </div>
-        </div>
+      <a
+        href="/premium"
+        className="mt-3 inline-flex font-bold text-violet-700 hover:text-pink-500"
+      >
+        Passer Premium →
+      </a>
+    </>
+  )}
+</div>
 
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="rounded-3xl border border-violet-100 bg-gradient-to-br from-violet-50 to-pink-50 p-6 shadow-lg">
@@ -176,18 +197,61 @@ export default function GenererPage() {
               onChange={(e) => setSituation(e.target.value)}
             />
 
+            <div className="mt-5 rounded-3xl border border-violet-100 bg-white/85 p-5 shadow-sm">
+              <label className="flex cursor-pointer flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <p className="font-extrabold text-slate-800">
+                      Cas complexe
+                    </p>
+
+                    <span className="rounded-full bg-gradient-to-r from-violet-600 to-pink-500 px-3 py-1 text-xs font-bold text-white">
+                      👑 Premium
+                    </span>
+                  </div>
+
+                  <p className="mt-2 text-sm leading-6 text-slate-500">
+                    Génère une analyse plus poussée avec priorités,
+                    complications possibles, surveillance avancée et signes de
+                    détérioration.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setModeComplexe(!modeComplexe)}
+                  className={`relative h-8 w-14 rounded-full transition ${
+                    modeComplexe
+                      ? "bg-gradient-to-r from-violet-600 to-pink-500"
+                      : "bg-slate-300"
+                  }`}
+                >
+                  <span
+                    className={`absolute top-1 h-6 w-6 rounded-full bg-white shadow transition ${
+                      modeComplexe ? "left-7" : "left-1"
+                    }`}
+                  />
+                </button>
+              </label>
+            </div>
+
             <button
               onClick={genererPTI}
               disabled={chargement}
               className="mt-6 rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 px-8 py-4 font-bold text-white shadow-xl shadow-pink-200 transition hover:scale-105 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {chargement ? "Génération..." : "Générer le PTI"}
+              {chargement
+                ? "Génération..."
+                : modeComplexe
+                  ? "Générer le PTI complexe"
+                  : "Générer le PTI"}
             </button>
 
             <div className="mt-5 flex flex-wrap gap-4 text-sm text-slate-500">
               <span>⚡ Génération rapide</span>
               <span>🩺 Pensé pour les stages</span>
               <span>✨ IA éducative</span>
+              {modeComplexe && <span>👑 Mode complexe activé</span>}
             </div>
 
             <p className="mt-5 text-sm text-slate-500">
@@ -196,11 +260,21 @@ export default function GenererPage() {
           </div>
 
           <div className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
-            <p className="text-2xl font-bold">PTI suggéré</p>
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-2xl font-bold">PTI suggéré</p>
 
-            <p className="mt-2 text-sm text-slate-500">
-              Ton plan apparaîtra ici après génération.
-            </p>
+                <p className="mt-2 text-sm text-slate-500">
+                  Ton plan apparaîtra ici après génération.
+                </p>
+              </div>
+
+              {modeComplexe && (
+                <span className="rounded-full bg-violet-100 px-4 py-2 text-xs font-bold text-violet-700">
+                  👑 Cas complexe
+                </span>
+              )}
+            </div>
 
             <div className="mt-6 min-h-[360px] rounded-[32px] bg-gradient-to-br from-slate-50 to-violet-50 p-6">
               {resultat ? (
