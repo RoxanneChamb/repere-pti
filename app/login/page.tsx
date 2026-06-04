@@ -2,35 +2,56 @@
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
+import { Stethoscope, Sparkles } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [chargement, setChargement] = useState(false);
 
   const signUp = async () => {
-    const { error } = await supabase.auth.signUp({ email, password });
+    if (!email || !password) {
+      alert("Entre ton courriel et ton mot de passe.");
+      return;
+    }
+
+    setChargement(true);
+
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+
+    setChargement(false);
 
     if (error) {
       alert(error.message);
       return;
     }
 
-    // Google Analytics
     if (typeof window !== "undefined") {
       // @ts-ignore
       window.gtag?.("event", "account_created");
     }
 
-    alert("Compte créé! Vérifie tes courriels si confirmation demandée.");
+    alert("Compte créé! Vérifie tes courriels si une confirmation est demandée.");
   };
 
   const signIn = async () => {
+    if (!email || !password) {
+      alert("Entre ton courriel et ton mot de passe.");
+      return;
+    }
+
+    setChargement(true);
+
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
     if (error) {
+      setChargement(false);
       alert(error.message);
       return;
     }
@@ -48,43 +69,144 @@ export default function LoginPage() {
       });
     }
 
-    window.location.href = "/generer";
+    window.location.href = "/dashboard";
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white flex items-center justify-center p-8">
-      <div className="w-full max-w-md rounded-[32px] border border-white/70 bg-white/85 p-8 shadow-xl backdrop-blur">
-        <h1 className="text-4xl font-extrabold">Connexion</h1>
-        <p className="mt-2 text-slate-500">Connecte-toi à Repère PTI.</p>
+    <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white px-4 py-6 text-slate-900 md:p-8">
+      <div className="mx-auto flex min-h-[calc(100vh-48px)] max-w-6xl flex-col">
+        <a href="/" className="w-fit text-sm font-semibold text-violet-600">
+          ← Retour à l'accueil
+        </a>
 
-        <input
-          className="mt-6 w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
-          placeholder="Courriel"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <div className="flex flex-1 items-center justify-center py-8">
+          <div className="grid w-full items-center gap-8 lg:grid-cols-[1fr_420px]">
+            <div className="hidden lg:block">
+              <div className="inline-flex items-center gap-2 rounded-full border border-violet-100 bg-white/80 px-4 py-2 text-xs font-bold text-violet-600 shadow-sm backdrop-blur">
+                <Sparkles className="h-4 w-4" />
+                Ton espace clinique personnel
+              </div>
 
-        <input
-          className="mt-4 w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
-          placeholder="Mot de passe"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+              <h1 className="mt-6 text-6xl font-extrabold tracking-tight">
+                Bienvenue sur{" "}
+                <span className="bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 bg-clip-text text-transparent">
+                  Repère PTI
+                </span>
+              </h1>
 
-        <button
-          onClick={signIn}
-          className="mt-6 w-full rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 p-4 font-bold text-white shadow-lg shadow-pink-200"
-        >
-          Me connecter
-        </button>
+              <p className="mt-5 max-w-xl text-lg leading-8 text-slate-600">
+                Connecte-toi pour accéder à ton tableau de bord, générer des
+                PTI, pratiquer avec les quiz cliniques et suivre ta progression.
+              </p>
 
-        <button
-          onClick={signUp}
-          className="mt-3 w-full rounded-2xl border border-slate-200 bg-white p-4 font-bold text-slate-700 hover:bg-slate-50"
-        >
-          Créer mon compte
-        </button>
+              <div className="mt-8 grid max-w-xl grid-cols-3 gap-4">
+                <div className="rounded-3xl bg-white/85 p-5 shadow-sm">
+                  <p className="text-2xl">🩺</p>
+                  <p className="mt-2 text-sm font-bold text-slate-700">
+                    PTI structurés
+                  </p>
+                </div>
+
+                <div className="rounded-3xl bg-white/85 p-5 shadow-sm">
+                  <p className="text-2xl">🧠</p>
+                  <p className="mt-2 text-sm font-bold text-slate-700">
+                    Quiz clinique
+                  </p>
+                </div>
+
+                <div className="rounded-3xl bg-white/85 p-5 shadow-sm">
+                  <p className="text-2xl">👑</p>
+                  <p className="mt-2 text-sm font-bold text-slate-700">
+                    Premium
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full rounded-[32px] border border-white/70 bg-white/90 p-6 shadow-xl backdrop-blur md:p-8">
+              <div className="mb-7 flex flex-col items-center text-center">
+                <div className="flex h-16 w-16 items-center justify-center rounded-[28px] bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-400 shadow-xl shadow-pink-200/60">
+                  <Stethoscope className="h-8 w-8 text-white" />
+                </div>
+
+                <h1 className="mt-5 text-3xl font-extrabold md:text-4xl">
+                  Connexion
+                </h1>
+
+                <p className="mt-2 text-sm leading-6 text-slate-500">
+                  Connecte-toi ou crée ton compte Repère PTI.
+                </p>
+              </div>
+
+              <label className="text-sm font-bold text-slate-700">
+                Courriel
+              </label>
+
+              <input
+                className="mt-2 w-full rounded-2xl border border-slate-200 bg-white p-4 text-base outline-none transition focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
+                placeholder="exemple@email.com"
+                type="email"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+
+              <label className="mt-5 block text-sm font-bold text-slate-700">
+                Mot de passe
+              </label>
+
+              <input
+                className="mt-2 w-full rounded-2xl border border-slate-200 bg-white p-4 text-base outline-none transition focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
+                placeholder="Mot de passe"
+                type="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+
+              <button
+                onClick={signIn}
+                disabled={chargement}
+                className="mt-6 w-full rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 p-4 font-bold text-white shadow-lg shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {chargement ? "Connexion..." : "Me connecter"}
+              </button>
+
+              <button
+                onClick={signUp}
+                disabled={chargement}
+                className="mt-3 w-full rounded-2xl border border-slate-200 bg-white p-4 font-bold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Créer mon compte
+              </button>
+
+              <p className="mt-5 rounded-2xl bg-violet-50 p-4 text-center text-xs leading-5 text-violet-700">
+                🔒 N'inscris jamais d'information permettant d'identifier un
+                patient dans l'application.
+              </p>
+
+              <div className="mt-6 flex justify-center gap-4 text-xs text-slate-400">
+                <a
+                  href="/politique-confidentialite"
+                  className="hover:text-violet-600"
+                >
+                  Confidentialité
+                </a>
+
+                <a
+                  href="/conditions-utilisation"
+                  className="hover:text-violet-600"
+                >
+                  Conditions
+                </a>
+
+                <a href="/contact" className="hover:text-violet-600">
+                  Contact
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
   );

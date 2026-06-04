@@ -1,41 +1,65 @@
 "use client";
 
+import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import Navbar from "@/components/Navbar";
-import { Check, Sparkles, Crown, FileText, Brain, Lock } from "lucide-react";
+import {
+  Check,
+  Sparkles,
+  Crown,
+  FileText,
+  Brain,
+  Lock,
+  Infinity,
+  Download,
+  ShieldCheck,
+  ArrowRight,
+} from "lucide-react";
 
 export default function PremiumPage() {
+  const [chargement, setChargement] = useState(false);
+
   const ouvrirCheckout = async () => {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
+    try {
+      setChargement(true);
 
-    if (!session) {
-      alert("Tu dois être connectée pour passer Premium.");
-      window.location.href = "/login";
-      return;
-    }
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
 
-    const response = await fetch("/api/create-checkout-session", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${session.access_token}`,
-      },
-    });
+      if (!session) {
+        alert("Tu dois être connectée pour passer Premium.");
+        window.location.href = "/login";
+        return;
+      }
 
-    const data = await response.json();
+      const response = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
 
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
-      alert(data.error || "Erreur Stripe");
+      const data = await response.json();
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.error || "Erreur Stripe");
+        setChargement(false);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Erreur lors de l'ouverture du paiement.");
+      setChargement(false);
     }
   };
 
   const avantages = [
     "PTI illimités",
+    "Quiz cliniques illimités",
     "Export PDF professionnel",
-    "Cas cliniques avancés",
+    "Cas complexes Premium",
     "Historique complet",
     "Nouveautés Premium en priorité",
   ];
@@ -44,108 +68,207 @@ export default function PremiumPage() {
     <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
       <Navbar />
 
-      <section className="mx-auto max-w-6xl px-8 py-16">
-        <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+      <section className="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-16">
+        <div className="grid items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-violet-100 bg-white/80 px-4 py-2 text-xs font-bold text-violet-600 shadow-sm backdrop-blur">
+            <div className="inline-flex items-center gap-2 rounded-full border border-violet-100 bg-white/80 px-4 py-2 text-xs font-bold text-violet-600 shadow-sm backdrop-blur md:text-sm">
               <Sparkles className="h-4 w-4" />
               Pour aller plus loin dans tes stages
             </div>
 
-            <h1 className="mt-6 text-5xl font-extrabold tracking-tight sm:text-6xl">
-              Passe en mode{" "}
+            <h1 className="mt-6 text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
+              Débloque tout le potentiel de{" "}
               <span className="bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 bg-clip-text text-transparent">
-                Premium
+                Repère PTI
               </span>
             </h1>
 
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">
-              Débloque les outils avancés de Repère PTI pour pratiquer plus,
-              structurer tes idées plus vite et garder une trace claire de ton
-              raisonnement clinique.
+            <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 md:text-lg md:leading-8">
+              Premium te permet de pratiquer davantage, d’obtenir des analyses
+              plus poussées et de conserver tes PTI en format PDF pour tes
+              révisions, tes stages et ton développement du raisonnement
+              clinique.
             </p>
 
-            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            <div className="mt-8 grid gap-3 sm:grid-cols-3 md:gap-4">
               <div className="rounded-3xl bg-white/85 p-5 shadow-sm">
-                <FileText className="h-6 w-6 text-violet-500" />
-                <p className="mt-3 font-bold">PTI illimités</p>
-                <p className="mt-1 text-sm text-slate-500">
-                  Pratique sans limite.
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-100">
+                  <Infinity className="h-6 w-6 text-violet-600" />
+                </div>
+
+                <p className="mt-4 font-bold">Sans limites</p>
+
+                <p className="mt-1 text-sm leading-6 text-slate-500">
+                  Génère plus de PTI et de quiz pour pratiquer à ton rythme.
                 </p>
               </div>
 
               <div className="rounded-3xl bg-white/85 p-5 shadow-sm">
-                <Brain className="h-6 w-6 text-pink-500" />
-                <p className="mt-3 font-bold">Cas avancés</p>
-                <p className="mt-1 text-sm text-slate-500">
-                  Pour pousser ton jugement.
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-pink-100">
+                  <Brain className="h-6 w-6 text-pink-600" />
+                </div>
+
+                <p className="mt-4 font-bold">Cas complexes</p>
+
+                <p className="mt-1 text-sm leading-6 text-slate-500">
+                  Priorités, risques, surveillance avancée et détérioration.
                 </p>
               </div>
 
               <div className="rounded-3xl bg-white/85 p-5 shadow-sm">
-                <Crown className="h-6 w-6 text-fuchsia-500" />
-                <p className="mt-3 font-bold">Outils exclusifs</p>
-                <p className="mt-1 text-sm text-slate-500">
-                  Nouveautés en priorité.
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-fuchsia-100">
+                  <Download className="h-6 w-6 text-fuchsia-600" />
+                </div>
+
+                <p className="mt-4 font-bold">Export PDF</p>
+
+                <p className="mt-1 text-sm leading-6 text-slate-500">
+                  Télécharge tes PTI pour les conserver et les relire.
                 </p>
               </div>
             </div>
 
-            <p className="mt-8 flex items-center gap-2 text-sm text-slate-500">
+            <div className="mt-8 rounded-3xl border border-violet-100 bg-white/75 p-5 shadow-sm">
+              <p className="flex items-center gap-2 text-sm font-bold text-violet-700">
+                <ShieldCheck className="h-5 w-5" />
+                Pensé pour un usage éducatif
+              </p>
+
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                Repère PTI aide à structurer ton raisonnement clinique, mais ne
+                remplace jamais ton jugement, les politiques locales ou
+                l’encadrement de ton milieu de stage.
+              </p>
+            </div>
+
+            <p className="mt-6 flex items-center gap-2 text-sm text-slate-500">
               <Lock className="h-4 w-4" />
               Paiement sécurisé par Stripe. Annulation possible en tout temps.
             </p>
           </div>
 
-          <div className="rounded-[36px] border border-white/70 bg-white/90 p-8 shadow-2xl shadow-pink-100 backdrop-blur">
-            <div className="flex items-center justify-between">
+          <div className="rounded-[32px] border border-white/70 bg-white/90 p-5 shadow-2xl shadow-pink-100 backdrop-blur md:rounded-[36px] md:p-8">
+            <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-sm font-bold text-violet-600">
                   Repère PTI Premium
                 </p>
 
-                <h2 className="mt-2 text-3xl font-extrabold">
+                <h2 className="mt-2 text-3xl font-extrabold md:text-4xl">
                   Plan mensuel
                 </h2>
+
+                <p className="mt-2 text-sm text-slate-500">
+                  Pour pratiquer plus souvent pendant ta session ou tes stages.
+                </p>
               </div>
 
-              <div className="rounded-2xl bg-gradient-to-br from-violet-500 to-pink-500 p-3 text-white shadow-lg">
-                <Crown className="h-6 w-6" />
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 to-pink-500 text-white shadow-lg">
+                <Crown className="h-7 w-7" />
               </div>
             </div>
 
-            <div className="mt-8 flex items-end gap-2">
-              <p className="text-6xl font-extrabold">2,99 $</p>
-              <p className="pb-2 font-medium text-slate-500">/ mois</p>
-            </div>
+            <div className="mt-8 rounded-3xl bg-gradient-to-br from-violet-50 via-pink-50 to-white p-5">
+              <div className="flex items-end gap-2">
+                <p className="text-5xl font-extrabold md:text-6xl">2,99 $</p>
+                <p className="pb-2 font-medium text-slate-500">/ mois</p>
+              </div>
 
-            <p className="mt-3 text-sm text-slate-500">
-              Idéal pour tester Premium pendant tes stages ou ta session.
-            </p>
+              <p className="mt-3 text-sm leading-6 text-slate-500">
+                Abonnement mensuel. Annulation possible en tout temps depuis ton
+                espace de gestion.
+              </p>
+            </div>
 
             <div className="mt-8 space-y-4">
               {avantages.map((avantage) => (
-                <div key={avantage} className="flex items-center gap-3">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-violet-100">
+                <div key={avantage} className="flex items-start gap-3">
+                  <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-violet-100">
                     <Check className="h-4 w-4 text-violet-600" />
                   </div>
 
-                  <p className="font-medium text-slate-700">{avantage}</p>
+                  <p className="font-medium leading-7 text-slate-700">
+                    {avantage}
+                  </p>
                 </div>
               ))}
             </div>
 
             <button
               onClick={ouvrirCheckout}
-              className="mt-9 w-full rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 px-8 py-4 font-bold text-white shadow-xl shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-2xl"
+              disabled={chargement}
+              className="mt-9 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 px-8 py-4 font-bold text-white shadow-xl shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-2xl disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Passer Premium
+              {chargement ? "Ouverture du paiement..." : "Passer Premium"}
+              {!chargement && <ArrowRight className="h-5 w-5" />}
             </button>
 
-            <p className="mt-4 text-center text-xs leading-5 text-slate-400">
+            <div className="mt-5 rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-400">
+                Inclus avec Premium
+              </p>
+
+              <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
+                <div className="rounded-2xl bg-white p-3">
+                  <FileText className="h-5 w-5 text-violet-500" />
+                  <p className="mt-2 font-bold">PTI</p>
+                  <p className="text-xs text-slate-500">Illimités</p>
+                </div>
+
+                <div className="rounded-2xl bg-white p-3">
+                  <Brain className="h-5 w-5 text-pink-500" />
+                  <p className="mt-2 font-bold">Quiz</p>
+                  <p className="text-xs text-slate-500">Illimités</p>
+                </div>
+
+                <div className="rounded-2xl bg-white p-3">
+                  <Download className="h-5 w-5 text-fuchsia-500" />
+                  <p className="mt-2 font-bold">PDF</p>
+                  <p className="text-xs text-slate-500">Export</p>
+                </div>
+
+                <div className="rounded-2xl bg-white p-3">
+                  <Crown className="h-5 w-5 text-violet-500" />
+                  <p className="mt-2 font-bold">Premium</p>
+                  <p className="text-xs text-slate-500">Nouveautés</p>
+                </div>
+              </div>
+            </div>
+
+            <p className="mt-5 text-center text-xs leading-5 text-slate-400">
               Repère PTI demeure un outil éducatif. Il ne remplace pas le
               jugement clinique, les politiques locales ou l’encadrement
               pédagogique.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-12 grid gap-4 md:grid-cols-3">
+          <div className="rounded-3xl bg-white/80 p-5 shadow-sm">
+            <p className="font-bold text-slate-800">
+              Est-ce que je peux annuler ?
+            </p>
+            <p className="mt-2 text-sm leading-6 text-slate-500">
+              Oui. L’abonnement est mensuel et peut être annulé en tout temps.
+            </p>
+          </div>
+
+          <div className="rounded-3xl bg-white/80 p-5 shadow-sm">
+            <p className="font-bold text-slate-800">
+              Est-ce réservé aux étudiantes ?
+            </p>
+            <p className="mt-2 text-sm leading-6 text-slate-500">
+              L’outil est conçu pour soutenir l’apprentissage en soins
+              infirmiers, particulièrement en stage.
+            </p>
+          </div>
+
+          <div className="rounded-3xl bg-white/80 p-5 shadow-sm">
+            <p className="font-bold text-slate-800">
+              Est-ce un avis clinique ?
+            </p>
+            <p className="mt-2 text-sm leading-6 text-slate-500">
+              Non. C’est un outil éducatif qui soutient la réflexion clinique.
             </p>
           </div>
         </div>
