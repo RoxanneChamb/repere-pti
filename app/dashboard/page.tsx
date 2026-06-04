@@ -110,6 +110,40 @@ export default function DashboardPage() {
       .eq("id", userId);
   };
 
+  const supprimerCompte = async () => {
+    const confirmation = confirm(
+      "Cette action supprimera définitivement ton compte et tes données enregistrées. Continuer ?"
+    );
+
+    if (!confirmation) return;
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session) {
+      alert("Tu dois être connectée pour supprimer ton compte.");
+      return;
+    }
+
+    const response = await fetch("/api/delete-account", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${session.access_token}`,
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      alert(data.error || "Erreur lors de la suppression du compte.");
+      return;
+    }
+
+    alert("Compte supprimé.");
+    window.location.href = "/";
+  };
+
   if (isLoggedIn === null) {
     return (
       <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white p-8 text-slate-900">
@@ -498,6 +532,24 @@ export default function DashboardPage() {
             >
               Voir les ressources
             </a>
+          </div>
+
+          <div className="mt-8 border-t border-slate-200 pt-6">
+            <p className="text-sm font-bold text-red-600">
+              Suppression du compte
+            </p>
+
+            <p className="mt-2 text-sm text-slate-500">
+              La suppression est permanente et effacera vos PTI, statistiques et
+              données enregistrées.
+            </p>
+
+            <button
+              onClick={supprimerCompte}
+              className="mt-4 rounded-2xl border border-red-200 bg-red-50 px-5 py-3 font-bold text-red-600 hover:bg-red-100"
+            >
+              Supprimer mon compte
+            </button>
           </div>
         </div>
       </div>
