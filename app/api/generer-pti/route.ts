@@ -87,7 +87,8 @@ export async function POST(request: Request) {
     const client = new OpenAI({ apiKey });
 
     const response = await client.responses.create({
-      model: "gpt-4.1-mini",
+      model: "gpt-4.1-nano",
+      max_output_tokens: modeComplexe ? 900 : 600,
       input: `
 Tu es un outil éducatif pour étudiantes en soins infirmiers.
 
@@ -123,11 +124,12 @@ Ajoute une analyse clinique plus approfondie avec :
 }
 
 Important :
-- Ne remplace pas le jugement clinique.
-- Reste dans un cadre éducatif.
+- Réponses concises.
+- Titres clair et structuré.
+- Ajoute des emojis pertinents.
+- Reste dans un cadre éducatif et infirmier.
 - Ne donne pas d'ordonnance médicale.
 - Utilise un langage clair, professionnel et adapté aux étudiantes.
-- Structure la réponse avec des titres.
 `,
     });
 
