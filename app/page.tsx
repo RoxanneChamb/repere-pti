@@ -1,6 +1,24 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Stethoscope, Sparkles, ClipboardList, GraduationCap } from "lucide-react";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function Home() {
+  const [connecte, setConnecte] = useState(false);
+
+  useEffect(() => {
+    const verifierConnexion = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      setConnecte(!!user);
+    };
+
+    verifierConnexion();
+  }, []);
+
   return (
     <main className="min-h-screen overflow-hidden bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
       <section className="mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-6 py-16 text-center">
@@ -84,48 +102,44 @@ export default function Home() {
         </div>
 
         <a
-          href="/login"
+          href={connecte ? "/dashboard" : "/login"}
           className="mt-9 text-sm font-semibold text-violet-600 transition hover:text-pink-500"
         >
-          Connexion / Créer un compte
+          {connecte ? "Accéder à mon compte" : "Connexion / Créer un compte"}
         </a>
 
-<p className="mt-10 max-w-2xl text-center text-xs leading-6 text-slate-400">
-  🔒 N'inscris jamais le nom, la date de naissance ou toute autre
-  information permettant d'identifier un patient.
-</p>
+        <p className="mt-10 max-w-2xl text-center text-xs leading-6 text-slate-400">
+          🔒 N'inscris jamais le nom, la date de naissance ou toute autre
+          information permettant d'identifier un patient.
+        </p>
 
         <div className="mt-16 border-t border-slate-200 pt-8">
-  <p className="mb-4 text-xs text-slate-400">
-    © 2026 Repère PTI • Outil éducatif destiné au développement du raisonnement clinique.
-  </p>
+          <p className="mb-4 text-xs text-slate-400">
+            © 2026 Repère PTI • Outil éducatif destiné au développement du
+            raisonnement clinique.
+          </p>
 
-  <div className="flex flex-wrap justify-center gap-6 text-sm text-slate-500">
-  <a
-    href="/politique-confidentialite"
-    className="transition hover:text-violet-600"
-  >
-    Politique de confidentialité
-  </a>
+          <div className="flex flex-wrap justify-center gap-6 text-sm text-slate-500">
+            <a
+              href="/politique-confidentialite"
+              className="transition hover:text-violet-600"
+            >
+              Politique de confidentialité
+            </a>
 
-  <a
-    href="/conditions-utilisation"
-    className="transition hover:text-violet-600"
-  >
-    Conditions d'utilisation
-  </a>
+            <a
+              href="/conditions-utilisation"
+              className="transition hover:text-violet-600"
+            >
+              Conditions d'utilisation
+            </a>
 
-  <a
-    href="/contact"
-    className="transition hover:text-violet-600"
-  >
-    Contact
-  </a>
-</div>
-</div>
-
+            <a href="/contact" className="transition hover:text-violet-600">
+              Contact
+            </a>
+          </div>
+        </div>
       </section>
     </main>
-
   );
 }

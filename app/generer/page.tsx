@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import Navbar from "@/components/Navbar";
+import jsPDF from "jspdf";
 
 export default function GenererPage() {
   const [userId, setUserId] = useState("");
@@ -125,6 +126,71 @@ export default function GenererPage() {
     }
   };
 
+  const telechargerPDF = () => {
+    if (!premium) {
+      alert("L’export PDF est réservé aux utilisateurs Premium.");
+      return;
+    }
+
+    if (!resultat) {
+      alert("Génère d’abord un PTI.");
+      return;
+    }
+
+    const doc = new jsPDF();
+
+    const date = new Date().toLocaleDateString("fr-CA");
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(20);
+    doc.text("Repère PTI", 20, 20);
+
+    doc.setFontSize(13);
+    doc.text("Plan thérapeutique infirmier suggéré", 20, 30);
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.text(`Date : ${date}`, 20, 38);
+    doc.text(
+      "Outil éducatif - Ne remplace pas le jugement clinique.",
+      20,
+      44
+    );
+
+    doc.setDrawColor(139, 92, 246);
+    doc.line(20, 50, 190, 50);
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.text("Situation clinique :", 20, 60);
+
+    doc.setFont("helvetica", "normal");
+    const situationLignes = doc.splitTextToSize(situation, 170);
+    doc.text(situationLignes, 20, 68);
+
+    let y = 68 + situationLignes.length * 5 + 10;
+
+    doc.setFont("helvetica", "bold");
+    doc.text("PTI suggéré :", 20, y);
+
+    y += 8;
+
+    doc.setFont("helvetica", "normal");
+    const lignes = doc.splitTextToSize(resultat, 170);
+
+    lignes.forEach((ligne: string) => {
+      if (y > 280) {
+        doc.addPage();
+        y = 20;
+      }
+
+      doc.text(ligne, 20, y);
+      y += 5;
+    });
+
+    doc.save("repere-pti.pdf");
+  };
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
       <Navbar />
@@ -165,7 +231,7 @@ export default function GenererPage() {
                 <>
                   <p className="font-bold">👑 Premium actif</p>
                   <p className="mt-1">
-                    PTI illimités et cas complexes débloqués.
+                    PTI illimités, cas complexes et export PDF débloqués.
                   </p>
                 </>
               ) : (
@@ -291,6 +357,32 @@ export default function GenererPage() {
                 </div>
               )}
             </div>
+
+            {resultat && premium && (
+              <button
+                onClick={telechargerPDF}
+                className="mt-4 rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-6 py-3 font-bold text-white shadow-lg shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-xl"
+              >
+                📄 Télécharger en PDF
+              </button>
+            )}
+
+            {resultat && !premium && (
+              <div className="mt-4 rounded-2xl bg-violet-50 p-4 text-sm text-violet-700">
+                <p className="font-bold">📄 Export PDF Premium</p>
+
+                <p className="mt-1">
+                  Passe Premium pour télécharger tes PTI en PDF.
+                </p>
+
+                <a
+                  href="/premium"
+                  className="mt-3 inline-flex font-bold text-violet-700 hover:text-pink-500"
+                >
+                  Débloquer l’export PDF →
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </section>
