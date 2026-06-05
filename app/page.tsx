@@ -84,13 +84,6 @@ export default function Home() {
           >
             Ressources
           </a>
-
-          <a
-  href="/installer"
-  className="rounded-2xl bg-white/85 px-6 py-3 text-sm font-bold text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:bg-white"
->
-  Installer sur mon téléphone
-</a>
         </div>
 
         <div className="mt-10 grid w-full max-w-sm grid-cols-2 gap-3 text-sm font-semibold text-slate-500 sm:mt-12 sm:max-w-none sm:flex sm:flex-wrap sm:justify-center sm:gap-6">
@@ -128,6 +121,13 @@ export default function Home() {
           🔒 N'inscris jamais le nom, la date de naissance ou toute autre
           information permettant d'identifier un patient.
         </p>
+
+        <a
+  href="/installer"
+  className="mt-4 inline-flex w-full max-w-sm justify-center rounded-2xl bg-white/85 px-6 py-3 text-sm font-bold text-violet-600 shadow-sm ring-1 ring-violet-100 transition hover:-translate-y-0.5 hover:bg-white hover:text-pink-500 sm:w-auto"
+>
+  📱 Installer Repère PTI sur mon téléphone
+</a>
 
         <div className="mt-12 w-full max-w-2xl border-t border-slate-200 pt-6 sm:mt-16 sm:pt-8">
           <p className="mb-4 text-xs leading-5 text-slate-400">
