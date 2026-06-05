@@ -229,14 +229,6 @@ Directives liées au constat 2 :
 - À rapporter / aviser : [élément précis, si pertinent]
 
 ## 3. Constat prioritaire : [titre court du constat]
-Données qui appuient le constat :
-- ...
-
-Risque ou besoin associé :
-- ...
-
-Priorité :
-- Élevée / Modérée / Faible
 
 Directives liées au constat 3 :
 
