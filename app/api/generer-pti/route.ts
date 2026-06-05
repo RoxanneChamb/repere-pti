@@ -224,7 +224,7 @@ Important :
 - Génère généralement 2 à 4 constats prioritaires.
 - Chaque constat doit avoir ses propres directives numérotées.
 - Les directives doivent être directement liées au constat.
-- Les directives doivent être courtes, concrètes et applicables.
+- Les directives doivent être courtes, concrètes, applicables et utiliser des échelles de mesures fiable (lorsqu'applicable)
 - Les directives doivent être basées sur des données probantes et des sites internet fiables.
 - Les directivent peuvent comporter des échelles d'évaluation lorsque applicable.
 - Les directives doivent nommer l’objet, la cible et la fréquence/durée quand pertinent.
