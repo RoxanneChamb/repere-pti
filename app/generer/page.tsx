@@ -544,10 +544,10 @@ export default function GenererPage() {
               </p>
             )}
 
-            {resultatPret && premium && (
+            {resultatPret && (
               <div className="mt-4 rounded-3xl border border-violet-100 bg-white/90 p-5 shadow-sm">
                 <p className="font-bold text-violet-700">
-                  📄 Personnaliser mon PDF
+                  📄 Personnaliser mon PDF {premium ? "" : "— Premium"}
                 </p>
 
                 <p className="mt-1 text-sm leading-6 text-slate-500">
@@ -568,7 +568,9 @@ export default function GenererPage() {
                       />
 
                       <span>
-                        <span className="block font-bold">{option.label}</span>
+                        <span className="block font-bold">
+                          {option.label}
+                        </span>
                         <span className="mt-0.5 block text-xs leading-5 text-slate-500">
                           {option.description}
                         </span>
@@ -577,29 +579,29 @@ export default function GenererPage() {
                   ))}
                 </div>
 
-                <button
-                  onClick={telechargerPDF}
-                  className="mt-5 w-full rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-6 py-3 font-bold text-white shadow-lg shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-xl sm:w-auto"
-                >
-                  📄 Télécharger le PDF personnalisé
-                </button>
-              </div>
-            )}
+                {premium ? (
+                  <button
+                    onClick={telechargerPDF}
+                    className="mt-5 w-full rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-6 py-3 font-bold text-white shadow-lg shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-xl sm:w-auto"
+                  >
+                    📄 Télécharger le PDF personnalisé
+                  </button>
+                ) : (
+                  <div className="mt-5 rounded-2xl bg-violet-50 p-4 text-sm text-violet-700">
+                    <p className="font-bold">Export PDF Premium</p>
 
-            {resultatPret && !premium && (
-              <div className="mt-4 rounded-2xl bg-violet-50 p-4 text-sm text-violet-700">
-                <p className="font-bold">📄 Export PDF Premium</p>
+                    <p className="mt-1">
+                      Passe Premium pour télécharger un PDF personnalisé.
+                    </p>
 
-                <p className="mt-1">
-                  Passe Premium pour télécharger tes PTI en PDF.
-                </p>
-
-                <a
-                  href="/premium"
-                  className="mt-3 inline-flex font-bold text-violet-700 hover:text-pink-500"
-                >
-                  Débloquer l’export PDF →
-                </a>
+                    <a
+                      href="/premium"
+                      className="mt-3 inline-flex font-bold text-violet-700 hover:text-pink-500"
+                    >
+                      Débloquer l’export PDF →
+                    </a>
+                  </div>
+                )}
               </div>
             )}
           </div>
