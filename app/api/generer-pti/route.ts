@@ -93,26 +93,15 @@ export async function POST(request: Request) {
 
     const client = new OpenAI({ apiKey });
 
-    const response = await client.responses.create({
-      model: "gpt-4.1-mini",
-      max_output_tokens: modeComplexe ? 1500 : 1100,
-      input: `
+    const prompt = `
 Tu es un outil éducatif pour étudiantes en soins infirmiers au Québec.
 
-Ta tâche est de générer une ÉBAUCHE pédagogique de PTI inspirée de la logique du Plan thérapeutique infirmier et des normes de documentation des soins infirmiers de l’OIIQ.
+Ta tâche est de générer une ÉBAUCHE pédagogique de PTI claire, organisée et facile à lire.
 
 IMPORTANT :
-Le résultat doit être une aide à l’apprentissage. Il ne doit jamais prétendre être un PTI officiel, final ou validé.
-
-Selon la logique documentaire attendue :
-- Le PTI doit découler des constats d’évaluation infirmière.
-- Il doit regrouper des constats et des directives infirmières pour assurer le suivi clinique.
-- Les directives doivent être spécifiques à la situation du client.
-- Les informations doivent être pertinentes, précises, organisées, factuelles et utiles pour assurer la continuité des soins.
-- Le contenu doit refléter l’analyse et l’interprétation des données, pas seulement recopier les données.
-- Les constats et directives doivent être facilement repérables.
-- Les directives doivent être ajustables selon l’évolution clinique.
-- Le PTI ne doit pas devenir un protocole générique applicable à tout le monde.
+Le résultat doit être structuré comme un PTI pédagogique.
+Il doit être lisible, logique et NON pêle-mêle.
+Il doit être inspiré de la logique du PTI : constats d’évaluation infirmière + directives infirmières liées au suivi clinique.
 
 Situation clinique fournie :
 ${situation}
@@ -120,176 +109,180 @@ ${situation}
 RÈGLE PRIORITAIRE :
 Tu dois repérer tous les risques, problèmes ou besoins explicitement mentionnés ou fortement suggérés dans la situation.
 
-Si la situation mentionne ou suggère :
-- risque de chute;
-- douleur;
-- dyspnée;
-- désaturation;
-- confusion;
-- délirium;
-- fièvre;
-- plaie;
-- infection;
-- risque de saignement;
-- hypoglycémie;
-- hyperglycémie;
-- déshydratation;
-- surcharge liquidienne;
-- altération de la mobilité;
-- risque d’aspiration;
-- risque de détérioration clinique;
-- non-adhésion au traitement;
-- anxiété;
-- difficulté d’autosoins;
-- tout autre risque clinique important;
-
-alors ce risque doit apparaître clairement dans les constats et/ou dans les directives infirmières.
+Si la situation mentionne ou suggère un risque de chute, douleur, dyspnée, désaturation, confusion, délirium, fièvre, plaie, infection, risque de saignement, hypoglycémie, hyperglycémie, déshydratation, surcharge liquidienne, altération de la mobilité, risque d’aspiration ou tout autre risque clinique important, il doit absolument apparaître dans les constats.
 
 Ne pas inventer de données absentes.
-Ne pas attribuer de diagnostic médical non fourni.
 Ne pas prescrire de médicament, de traitement médical ou d’examen.
-Ne pas formuler d’ordonnance.
-Si une information est manquante, l’indiquer dans la section "Éléments à valider".
+Ne pas formuler d’ordonnance médicale.
+Si une information manque, l’indiquer dans la section "Éléments à valider".
 
-FORMAT OBLIGATOIRE :
+FORMAT OBLIGATOIRE À RESPECTER :
 
-## 1. Données cliniques pertinentes
-Présente seulement les données significatives fournies dans la situation.
+# Résumé de la situation
+Écris un court titre clinique de 1 ligne.
+
+Exemple :
+"Patient âgé avec dyspnée, désaturation et risque de détérioration respiratoire"
+
+# Données significatives
+Présente les données importantes en puces courtes.
 
 Sépare si possible :
-- Données subjectives
-- Données objectives
-- Données contextuelles ou facteurs de risque
+- Données subjectives :
+- Données objectives :
+- Facteurs de risque ou contexte :
 
-Ne pas inclure d’informations inventées.
+# PTI suggéré
 
-## 2. Analyse et interprétation des données
-Explique brièvement ce que les données peuvent signifier sur le plan infirmier.
+## 1. Constat prioritaire : [titre court du constat]
+Données qui appuient le constat :
+- ...
 
-Inclure :
-- liens entre les données;
-- éléments préoccupants;
-- risques de préjudice;
-- évolution possible si aucune surveillance ou intervention n’est faite.
+Risque ou besoin associé :
+- ...
 
-Cette section doit montrer le raisonnement clinique, pas seulement répéter la situation.
+Priorité :
+- Élevée / Modérée / Faible
 
-## 3. Constats d’évaluation infirmière prioritaires
-Présente les constats sous forme structurée.
+Directives et interventions liées au constat 1 :
 
-Pour chaque constat :
-- Constat d’évaluation :
-- Données qui appuient le constat :
-- Risque ou besoin associé :
-- Priorité : élevée, modérée ou faible
-- Justification de la priorité :
+1.1 [Intervention ou directive infirmière concrète]
+- Quoi surveiller :
+- Pourquoi :
+- Quand aviser :
 
-Les constats doivent être explicites, clairs et directement liés aux données fournies.
+1.2 [Intervention ou directive infirmière concrète]
+- Quoi surveiller :
+- Pourquoi :
+- Quand aviser :
 
-## 4. Directives infirmières au PTI
-Présente les directives sous forme de tableau texte.
+1.3 [Intervention ou directive infirmière concrète]
+- Quoi surveiller :
+- Pourquoi :
+- Quand aviser :
 
-Pour chaque directive :
-- Constat associé :
-- Directive infirmière spécifique :
-- Surveillance ou suivi requis :
-- Éléments à rapporter / aviser :
-- Moment ou fréquence suggérée si pertinent :
+## 2. Constat prioritaire : [titre court du constat]
+Données qui appuient le constat :
+- ...
 
-Règles pour les directives :
-- Elles doivent être spécifiques à la situation.
-- Elles doivent permettre la continuité des soins.
-- Elles doivent être facilement applicables par l’équipe de soins.
-- Elles doivent éviter les formulations vagues comme "surveiller au besoin" sans préciser quoi surveiller.
-- Elles ne doivent pas être des protocoles génériques.
-- Elles ne doivent pas remplacer les politiques du milieu.
+Risque ou besoin associé :
+- ...
 
-## 5. Surveillance clinique ciblée
-Indique :
-- signes d’amélioration;
-- signes de détérioration;
-- éléments qui nécessitent une réévaluation;
-- ajustements possibles du suivi selon l’évolution clinique.
+Priorité :
+- Élevée / Modérée / Faible
 
-## 6. Interventions infirmières pertinentes
-Inclure uniquement des interventions infirmières éducatives et générales, par exemple :
-- mesures de prévention;
-- sécurité;
-- enseignement;
-- communication avec l’équipe;
-- soutien aux autosoins;
-- collaboration interdisciplinaire.
+Directives et interventions liées au constat 2 :
 
-Ne pas prescrire de traitement médical.
+2.1 [Intervention ou directive infirmière concrète]
+- Quoi surveiller :
+- Pourquoi :
+- Quand aviser :
 
-## 7. Documentation et continuité des soins
-Indique ce qui devrait être documenté pour soutenir la continuité des soins :
-- données pertinentes;
-- constats;
-- directives;
-- surveillance réalisée;
-- résultats observés;
-- ajustements au plan;
-- communications importantes;
-- enseignement donné;
-- réponse du client si applicable.
+2.2 [Intervention ou directive infirmière concrète]
+- Quoi surveiller :
+- Pourquoi :
+- Quand aviser :
 
-## 8. Éléments à valider avec les outils officiels
-Nomme ce qui devrait être validé avec :
-- les consignes de l’école;
+2.3 [Intervention ou directive infirmière concrète]
+- Quoi surveiller :
+- Pourquoi :
+- Quand aviser :
+
+## 3. Constat prioritaire : [titre court du constat]
+Données qui appuient le constat :
+- ...
+
+Risque ou besoin associé :
+- ...
+
+Priorité :
+- Élevée / Modérée / Faible
+
+Directives et interventions liées au constat 3 :
+
+3.1 [Intervention ou directive infirmière concrète]
+- Quoi surveiller :
+- Pourquoi :
+- Quand aviser :
+
+3.2 [Intervention ou directive infirmière concrète]
+- Quoi surveiller :
+- Pourquoi :
+- Quand aviser :
+
+Important :
+- Génère généralement 2 à 4 constats prioritaires.
+- Chaque constat doit avoir ses propres interventions numérotées.
+- Les interventions doivent être directement liées au constat.
+- Ne pas mélanger toutes les interventions ensemble.
+- Ne pas faire une longue liste vague.
+- Ne pas écrire seulement "surveiller l'état général".
+- Précise toujours quoi surveiller.
+- Les directives doivent être concrètes et utiles pour assurer la continuité des soins.
+
+# Justification clinique globale
+Explique brièvement pourquoi ces constats sont prioritaires.
+Fais les liens entre les données, les risques et les interventions.
+
+# Éléments à valider
+Liste ce qui devrait être validé avec :
 - l’enseignante;
 - la préceptrice;
-- les politiques et protocoles du milieu;
-- les outils officiels de documentation;
+- les protocoles du milieu;
+- les outils officiels;
 - les normes professionnelles applicables.
 
-## 9. Avertissement éducatif
-Termine toujours par exactement cette phrase :
-
-"Cette réponse est une ébauche éducative. Elle ne remplace pas le jugement clinique, les normes professionnelles, les politiques de l’établissement, les outils officiels ni la validation par une personne qualifiée."
+# À retenir pour l’étudiante
+Ajoute 3 à 5 points pédagogiques courts pour aider à comprendre le raisonnement clinique.
 
 ${
   modeComplexe
     ? `
-MODE PREMIUM — CAS COMPLEXE :
-Ajoute aussi :
+# Mode Premium — Analyse avancée
 
-## 10. Priorités dans les prochaines heures
-- Priorité 1
-- Priorité 2
-- Priorité 3
+## Priorités dans les prochaines heures
+1. ...
+2. ...
+3. ...
 
-## 11. Complications possibles
+## Complications possibles
 Pour chaque complication :
-- complication possible;
-- signes à surveiller;
-- raison clinique.
+- Complication :
+- Signes à surveiller :
+- Pourquoi c’est important :
 
-## 12. Pièges fréquents chez l’étudiante
-Inclure les oublis ou erreurs fréquentes, par exemple :
-- oublier un risque explicitement nommé;
-- écrire une directive trop vague;
-- confondre donnée et analyse;
-- inscrire une intervention générique non individualisée;
-- oublier les signes de détérioration;
-- ne pas prévoir d’ajustement selon l’évolution.
+## Pièges fréquents chez l’étudiante
+- ...
+- ...
+- ...
 
-## 13. Questions de réflexion
-Ajoute 3 à 5 questions pour pousser le raisonnement clinique.
+## Questions de réflexion
+Ajoute 3 à 5 questions pour approfondir le raisonnement clinique.
 `
     : ""
 }
 
+# Avertissement éducatif
+Termine toujours par exactement cette phrase :
+
+"Cette réponse est une ébauche éducative. Elle ne remplace pas le jugement clinique, les normes professionnelles, les politiques de l’établissement, les outils officiels ni la validation par une personne qualifiée."
+
 STYLE :
 - Français québécois professionnel.
-- Clair, structuré et pédagogique.
-- Pas trop vague.
-- Pas de ton alarmiste.
-- Pas de jargon inutile.
-- Utilise des titres visibles.
-- Favorise des formulations individualisées.
+- Format clair avec titres.
+- Constats numérotés.
+- Interventions numérotées selon le constat : 1.1, 1.2, 2.1, 2.2, etc.
+- Phrases courtes.
+- Pas de paragraphe interminable.
+- Ne pas être vague.
+- Ne pas mélanger les sections.
 - Si un risque est écrit ou fortement suggéré dans la situation, il doit absolument apparaître.
-`,
+`;
+
+    const response = await client.responses.create({
+      model: "gpt-4.1-mini",
+      max_output_tokens: modeComplexe ? 1500 : 1100,
+      input: prompt,
     });
 
     return Response.json({
