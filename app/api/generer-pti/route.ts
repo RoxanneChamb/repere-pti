@@ -165,20 +165,20 @@ Sépare si possible :
 ## 1. Constat prioritaire : [titre court du constat]
 Directives liées au constat 1 :
 
-1.1 Objet : [objet précis de la directive]
+1.1 [objet précis de la directive]
 - Directive : [phrase courte et concrète]
-- Cible : [client / famille / équipe de soins / PAB / infirmière / autre, si pertinent]
+- Cible : [client / famille / équipe de soins / PAB / infirmière / infirmière auxiliaire / autre, si pertinent]
 - Fréquence ou durée : [si pertinent]
 
-1.2 Objet : [objet précis de la directive]
+1.2 [objet précis de la directive]
 - Directive : [phrase courte et concrète]
-- Cible : [client / famille / équipe de soins / PAB / infirmière / autre, si pertinent]
+- Cible : [client / famille / équipe de soins / PAB / infirmière / infirmière auxiliaire / autre, si pertinent]
 - Fréquence ou durée : [si pertinent]
 
 
-1.3 Objet : [objet précis de la directive]
+1.3 [objet précis de la directive]
 - Directive : [phrase courte et concrète]
-- Cible : [client / famille / équipe de soins / PAB / infirmière / autre, si pertinent]
+- Cible : [client / famille / équipe de soins / PAB / infirmière / infirmière auxiliaire / autre, si pertinent]
 - Fréquence ou durée : [si pertinent]
 
 
@@ -186,43 +186,38 @@ Directives liées au constat 1 :
 Données qui appuient le constat :
 - ...
 
-Risque ou besoin associé :
-- ...
-
-Priorité :
-- Élevée / Modérée / Faible
 
 Directives liées au constat 2 :
 
-2.1 Objet : [objet précis de la directive]
+2.1 [objet précis de la directive]
 - Directive : [phrase courte et concrète]
-- Cible : [client / famille / équipe de soins / PAB / infirmière / autre, si pertinent]
+- Cible : [client / famille / équipe de soins / PAB / infirmière / infirmière auxiliaire / autre, si pertinent]
 - Fréquence ou durée : [si pertinent]
 
-2.2 Objet : [objet précis de la directive]
+2.2 [objet précis de la directive]
 - Directive : [phrase courte et concrète]
-- Cible : [client / famille / équipe de soins / PAB / infirmière / autre, si pertinent]
+- Cible : [client / famille / équipe de soins / PAB / infirmière / infirmière auxiliaire / autre, si pertinent]
 - Fréquence ou durée : [si pertinent]
 
 
-2.3 Objet : [objet précis de la directive]
+2.3 [objet précis de la directive]
 - Directive : [phrase courte et concrète]
-- Cible : [client / famille / équipe de soins / PAB / infirmière / autre, si pertinent]
+- Cible : [client / famille / équipe de soins / PAB / infirmière / infirmière auxiliaire / autre, si pertinent]
 - Fréquence ou durée : [si pertinent]
 
 ## 3. Constat prioritaire : [titre court du constat]
 
 Directives liées au constat 3 :
 
-3.1 Objet : [objet précis de la directive]
+3.1 [objet précis de la directive]
 - Directive : [phrase courte et concrète]
-- Cible : [client / famille / équipe de soins / PAB / infirmière / autre, si pertinent]
+- Cible : [client / famille / équipe de soins / PAB / infirmière / infirmière auxiliaire / autre, si pertinent]
 - Fréquence ou durée : [si pertinent]
 
 
-3.2 Objet : [objet précis de la directive]
+3.2 [objet précis de la directive]
 - Directive : [phrase courte et concrète]
-- Cible : [client / famille / équipe de soins / PAB / infirmière / autre, si pertinent]
+- Cible : [client / famille / équipe de soins / PAB / infirmière / infirmière auxiliaire / autre, si pertinent]
 - Fréquence ou durée : [si pertinent]
 
 Important :
