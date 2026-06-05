@@ -13,7 +13,7 @@ export default function PTIResultat({ contenu }: Props) {
     if (texte.startsWith("# ")) {
       return (
         <div key={index} className="mt-8 first:mt-0">
-          <h2 className="rounded-3xl bg-gradient-to-r from-violet-600 to-pink-500 px-5 py-4 text-xl font-extrabold text-white shadow-lg shadow-pink-100 md:text-2xl">
+         <h2 className="rounded-3xl bg-gradient-to-r from-violet-600 to-pink-500 px-4 py-3 text-lg font-extrabold text-white shadow-lg shadow-pink-100 md:text-xl">
             {texte.replace("# ", "")}
           </h2>
         </div>
@@ -26,7 +26,7 @@ export default function PTIResultat({ contenu }: Props) {
           key={index}
           className="mt-7 rounded-3xl border border-violet-100 bg-gradient-to-br from-violet-50 to-pink-50 p-5 shadow-sm"
         >
-          <h3 className="text-lg font-extrabold text-violet-700 md:text-xl">
+          <h3 className="text-base font-extrabold text-violet-700 md:text-lg">
             {texte.replace("## ", "")}
           </h3>
         </div>
