@@ -84,6 +84,13 @@ export default function Home() {
           >
             Ressources
           </a>
+
+          <a
+  href="/installer"
+  className="rounded-2xl bg-white/85 px-6 py-3 text-sm font-bold text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:bg-white"
+>
+  Installer sur mon téléphone
+</a>
         </div>
 
         <div className="mt-10 grid w-full max-w-sm grid-cols-2 gap-3 text-sm font-semibold text-slate-500 sm:mt-12 sm:max-w-none sm:flex sm:flex-wrap sm:justify-center sm:gap-6">
@@ -146,6 +153,11 @@ export default function Home() {
             <a href="/contact" className="transition hover:text-violet-600">
               Contact
             </a>
+
+            <a href="/installer" className="transition hover:text-violet-600">
+  Installer l’app
+</a> 
+
           </div>
         </div>
       </section>
