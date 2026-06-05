@@ -6,6 +6,17 @@ import Navbar from "@/components/Navbar";
 import PTIResultat from "@/components/PTIResultat";
 import jsPDF from "jspdf";
 
+type SectionsPDF = {
+  resume: boolean;
+  donnees: boolean;
+  pti: boolean;
+  justification: boolean;
+  validation: boolean;
+  retenir: boolean;
+  premium: boolean;
+  avertissement: boolean;
+};
+
 export default function GenererPage() {
   const [userId, setUserId] = useState("");
   const [premium, setPremium] = useState(false);
@@ -13,6 +24,17 @@ export default function GenererPage() {
   const [resultat, setResultat] = useState("");
   const [chargement, setChargement] = useState(false);
   const [modeComplexe, setModeComplexe] = useState(false);
+
+  const [sectionsPDF, setSectionsPDF] = useState<SectionsPDF>({
+    resume: true,
+    donnees: true,
+    pti: true,
+    justification: true,
+    validation: true,
+    retenir: true,
+    premium: true,
+    avertissement: true,
+  });
 
   useEffect(() => {
     const getUser = async () => {
@@ -127,6 +149,101 @@ export default function GenererPage() {
     }
   };
 
+  const changerSectionPDF = (section: keyof SectionsPDF) => {
+    setSectionsPDF((prev) => ({
+      ...prev,
+      [section]: !prev[section],
+    }));
+  };
+
+  const filtrerSectionsPourPDF = () => {
+    const sections = [
+      {
+        key: "resume",
+        titres: ["# Résumé de la situation", "Résumé de la situation"],
+      },
+      {
+        key: "donnees",
+        titres: ["# Données significatives", "Données significatives"],
+      },
+      {
+        key: "pti",
+        titres: ["# PTI suggéré", "PTI suggéré"],
+      },
+      {
+        key: "justification",
+        titres: [
+          "# Justification clinique globale",
+          "Justification clinique globale",
+        ],
+      },
+      {
+        key: "validation",
+        titres: ["# Éléments à valider", "Éléments à valider"],
+      },
+      {
+        key: "retenir",
+        titres: ["# À retenir pour l’étudiante", "À retenir pour l’étudiante"],
+      },
+      {
+        key: "premium",
+        titres: ["# Mode Premium", "Mode Premium"],
+      },
+      {
+        key: "avertissement",
+        titres: ["# Avertissement éducatif", "Avertissement éducatif"],
+      },
+    ] as const;
+
+    const lignes = resultat.split("\n");
+    const lignesFiltrees: string[] = [];
+
+    let garderSection = true;
+
+    for (const ligne of lignes) {
+      const ligneNettoyee = ligne.trim();
+
+      const sectionTrouvee = sections.find((section) =>
+        section.titres.some((titre) => ligneNettoyee.startsWith(titre))
+      );
+
+      if (sectionTrouvee) {
+        garderSection = sectionsPDF[sectionTrouvee.key as keyof SectionsPDF];
+      }
+
+      if (garderSection) {
+        lignesFiltrees.push(ligne);
+      }
+    }
+
+    const texteFinal = lignesFiltrees.join("\n").trim();
+
+    return texteFinal || "Aucune section sélectionnée pour le PDF.";
+  };
+
+  const ajouterTexteAvecPages = (
+    doc: jsPDF,
+    texte: string,
+    x: number,
+    yDepart: number,
+    largeur: number
+  ) => {
+    const lignes = doc.splitTextToSize(texte, largeur);
+    let y = yDepart;
+
+    lignes.forEach((ligne: string) => {
+      if (y > 280) {
+        doc.addPage();
+        y = 20;
+      }
+
+      doc.text(ligne, x, y);
+      y += 5;
+    });
+
+    return y;
+  };
+
   const telechargerPDF = () => {
     if (!premium) {
       alert("L’export PDF est réservé aux utilisateurs Premium.");
@@ -135,6 +252,13 @@ export default function GenererPage() {
 
     if (!resultat) {
       alert("Génère d’abord un PTI.");
+      return;
+    }
+
+    const contenuPDF = filtrerSectionsPourPDF();
+
+    if (contenuPDF === "Aucune section sélectionnée pour le PDF.") {
+      alert("Sélectionne au moins une section à inclure dans le PDF.");
       return;
     }
 
@@ -156,33 +280,33 @@ export default function GenererPage() {
     doc.setDrawColor(139, 92, 246);
     doc.line(20, 50, 190, 50);
 
+    let y = 60;
+
+    doc.setFont("helvetica", "bold");
     doc.setFontSize(10);
-    doc.setFont("helvetica", "bold");
-    doc.text("Situation clinique :", 20, 60);
-
-    doc.setFont("helvetica", "normal");
-    const situationLignes = doc.splitTextToSize(situation, 170);
-    doc.text(situationLignes, 20, 68);
-
-    let y = 68 + situationLignes.length * 5 + 10;
-
-    doc.setFont("helvetica", "bold");
-    doc.text("PTI suggéré :", 20, y);
+    doc.text("Situation clinique fournie :", 20, y);
 
     y += 8;
 
     doc.setFont("helvetica", "normal");
-    const lignes = doc.splitTextToSize(resultat, 170);
+    doc.setFontSize(10);
 
-    lignes.forEach((ligne: string) => {
-      if (y > 280) {
-        doc.addPage();
-        y = 20;
-      }
+    y = ajouterTexteAvecPages(doc, situation, 20, y, 170);
 
-      doc.text(ligne, 20, y);
-      y += 5;
-    });
+    y += 10;
+
+    if (y > 270) {
+      doc.addPage();
+      y = 20;
+    }
+
+    doc.setFont("helvetica", "bold");
+    doc.text("PTI sélectionné :", 20, y);
+
+    y += 8;
+
+    doc.setFont("helvetica", "normal");
+    ajouterTexteAvecPages(doc, contenuPDF, 20, y, 170);
 
     doc.save("repere-pti.pdf");
   };
@@ -193,6 +317,53 @@ export default function GenererPage() {
     !resultat.startsWith("Erreur") &&
     !resultat.startsWith("Tu dois") &&
     !resultat.startsWith("Décris");
+
+  const optionsPDF: {
+    key: keyof SectionsPDF;
+    label: string;
+    description: string;
+  }[] = [
+    {
+      key: "resume",
+      label: "Résumé de la situation",
+      description: "Titre clinique court.",
+    },
+    {
+      key: "donnees",
+      label: "Données significatives",
+      description: "Données subjectives, objectives et contexte.",
+    },
+    {
+      key: "pti",
+      label: "Constats et directives",
+      description: "Le cœur du PTI.",
+    },
+    {
+      key: "justification",
+      label: "Justification clinique",
+      description: "Raisonnement global.",
+    },
+    {
+      key: "validation",
+      label: "Éléments à valider",
+      description: "Protocoles, outils et encadrement.",
+    },
+    {
+      key: "retenir",
+      label: "À retenir",
+      description: "Points pédagogiques pour l’étudiante.",
+    },
+    {
+      key: "premium",
+      label: "Analyse avancée",
+      description: "Sections Premium si présentes.",
+    },
+    {
+      key: "avertissement",
+      label: "Avertissement éducatif",
+      description: "Mention de prudence.",
+    },
+  ];
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
@@ -374,12 +545,45 @@ export default function GenererPage() {
             )}
 
             {resultatPret && premium && (
-              <button
-                onClick={telechargerPDF}
-                className="mt-4 w-full rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-6 py-3 font-bold text-white shadow-lg shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-xl sm:w-auto"
-              >
-                📄 Télécharger en PDF
-              </button>
+              <div className="mt-4 rounded-3xl border border-violet-100 bg-white/90 p-5 shadow-sm">
+                <p className="font-bold text-violet-700">
+                  📄 Personnaliser mon PDF
+                </p>
+
+                <p className="mt-1 text-sm leading-6 text-slate-500">
+                  Coche les sections que tu veux inclure dans ton PDF.
+                </p>
+
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                  {optionsPDF.map((option) => (
+                    <label
+                      key={option.key}
+                      className="flex cursor-pointer gap-3 rounded-2xl bg-violet-50 p-3 text-sm text-slate-700 transition hover:bg-violet-100"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={sectionsPDF[option.key]}
+                        onChange={() => changerSectionPDF(option.key)}
+                        className="mt-1 h-4 w-4 shrink-0 accent-violet-600"
+                      />
+
+                      <span>
+                        <span className="block font-bold">{option.label}</span>
+                        <span className="mt-0.5 block text-xs leading-5 text-slate-500">
+                          {option.description}
+                        </span>
+                      </span>
+                    </label>
+                  ))}
+                </div>
+
+                <button
+                  onClick={telechargerPDF}
+                  className="mt-5 w-full rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-6 py-3 font-bold text-white shadow-lg shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-xl sm:w-auto"
+                >
+                  📄 Télécharger le PDF personnalisé
+                </button>
+              </div>
             )}
 
             {resultatPret && !premium && (
