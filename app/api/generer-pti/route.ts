@@ -249,10 +249,8 @@ Directives liées au constat 3 :
 
 3.2 Objet : [objet précis de la directive]
 - Directive : [phrase courte et concrète]
-- Type : [surveillance clinique / soin ou traitement déjà prévu / sécurité / enseignement / communication]
 - Cible : [client / famille / équipe de soins / PAB / infirmière / autre, si pertinent]
 - Fréquence ou durée : [si pertinent]
-- À rapporter / aviser : [élément précis, si pertinent]
 
 Important :
 - Génère généralement 2 à 4 constats prioritaires.
