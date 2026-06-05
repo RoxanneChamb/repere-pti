@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import Navbar from "@/components/Navbar";
+import PTIResultat from "@/components/PTIResultat";
 import jsPDF from "jspdf";
 
 export default function GenererPage() {
@@ -186,6 +187,13 @@ export default function GenererPage() {
     doc.save("repere-pti.pdf");
   };
 
+  const resultatPret =
+    resultat &&
+    resultat !== "Génération en cours..." &&
+    !resultat.startsWith("Erreur") &&
+    !resultat.startsWith("Tu dois") &&
+    !resultat.startsWith("Décris");
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
       <Navbar />
@@ -343,9 +351,13 @@ export default function GenererPage() {
 
             <div className="mt-5 min-h-[320px] rounded-3xl bg-gradient-to-br from-slate-50 to-violet-50 p-4 md:mt-6 md:min-h-[360px] md:rounded-[32px] md:p-6">
               {resultat ? (
-                <pre className="whitespace-pre-wrap break-words text-sm leading-7 text-slate-700">
-                  {resultat}
-                </pre>
+                resultatPret ? (
+                  <PTIResultat contenu={resultat} />
+                ) : (
+                  <div className="flex h-[260px] items-center justify-center text-center text-sm font-medium text-violet-600 md:h-[300px]">
+                    {resultat}
+                  </div>
+                )
               ) : (
                 <div className="flex h-[260px] items-center justify-center text-center text-sm text-slate-400 md:h-[300px]">
                   Génère un PTI pour voir les résultats ici.
@@ -353,7 +365,15 @@ export default function GenererPage() {
               )}
             </div>
 
-            {resultat && premium && (
+            {resultatPret && (
+              <p className="mt-4 rounded-2xl bg-amber-50 p-4 text-sm leading-6 text-amber-800">
+                ⚠️ Ce PTI est une ébauche éducative. Valide toujours avec les
+                consignes de ton programme, les outils officiels, les politiques
+                du milieu et le jugement clinique.
+              </p>
+            )}
+
+            {resultatPret && premium && (
               <button
                 onClick={telechargerPDF}
                 className="mt-4 w-full rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-6 py-3 font-bold text-white shadow-lg shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-xl sm:w-auto"
@@ -362,7 +382,7 @@ export default function GenererPage() {
               </button>
             )}
 
-            {resultat && !premium && (
+            {resultatPret && !premium && (
               <div className="mt-4 rounded-2xl bg-violet-50 p-4 text-sm text-violet-700">
                 <p className="font-bold">📄 Export PDF Premium</p>
 
