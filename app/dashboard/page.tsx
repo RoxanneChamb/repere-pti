@@ -216,11 +216,13 @@ export default function DashboardPage() {
           <div className="block rounded-[28px] bg-gradient-to-br from-violet-600 via-fuchsia-500 to-pink-500 p-5 text-white shadow-xl md:hidden">
             <div className="flex items-center justify-between gap-3">
               <div className="flex min-w-0 items-center gap-3">
-                <img
-                  src={avatarImage}
-                  alt="Avatar"
-                  className="h-20 w-20 shrink-0 rounded-3xl object-cover shadow-lg"
-                />
+                <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-violet-100/80 p-1 shadow-lg">
+  <img
+    src={avatarImage}
+    alt="Avatar"
+    className="h-full w-full rounded-full object-cover"
+  />
+</div>
 
                 <div className="min-w-0">
                   <p className="text-xs font-bold uppercase tracking-[0.16em] text-white/70">
@@ -308,13 +310,13 @@ export default function DashboardPage() {
                 <div className="pointer-events-none absolute -right-32 top-32 h-96 w-96 rounded-full border border-pink-100/70" />
 
                 <div className="relative mt-4 flex flex-col gap-8 md:flex-row md:items-center">
-                  <div className="rounded-full bg-gradient-to-br from-violet-100 to-pink-100 p-3 shadow-inner">
-                    <img
-                      src={avatarImage}
-                      alt="Avatar"
-                      className="h-44 w-44 rounded-full object-cover shadow-lg"
-                    />
-                  </div>
+                  <div className="flex h-52 w-52 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-violet-100 to-pink-100 p-2 shadow-inner">
+  <img
+    src={avatarImage}
+    alt="Avatar"
+    className="h-full w-full rounded-full object-cover shadow-lg"
+  />
+</div>
 
                   <div className="min-w-0 flex-1">
                     <input
@@ -446,11 +448,13 @@ export default function DashboardPage() {
                         : "bg-slate-50 hover:bg-pink-50"
                     }`}
                   >
-                    <img
-                      src={image}
-                      alt="avatar"
-                      className="h-12 w-12 rounded-full object-cover md:h-14 md:w-14"
-                    />
+                    <div className="h-12 w-12 overflow-hidden rounded-full bg-violet-100 md:h-14 md:w-14">
+  <img
+    src={image}
+    alt="avatar"
+    className="h-full w-full rounded-full object-cover"
+  />
+</div>
                   </button>
                 ))}
               </div>
