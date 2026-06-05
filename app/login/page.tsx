@@ -8,24 +8,54 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [chargement, setChargement] = useState(false);
+  const [message, setMessage] = useState("");
+  const [erreur, setErreur] = useState("");
+
+  const creerProfilSiBesoin = async (userId: string) => {
+    await supabase.from("profiles").upsert({
+      id: userId,
+      pti_count: 0,
+      display_name: "Étudiante Repère PTI",
+      avatar_image: "/avatars/avatar1.png",
+      premium: false,
+    });
+
+    await supabase.from("quiz_stats").upsert({
+      user_id: userId,
+      score: 0,
+      bonnes_reponses: 0,
+      mauvaises_reponses: 0,
+    });
+  };
 
   const signUp = async () => {
-    if (!email || !password) {
-      alert("Entre ton courriel et ton mot de passe.");
+    setErreur("");
+    setMessage("");
+
+    if (!email.trim() || !password.trim()) {
+      setErreur("Entre ton courriel et ton mot de passe.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setErreur("Le mot de passe doit contenir au moins 6 caractères.");
       return;
     }
 
     setChargement(true);
 
-    const { error } = await supabase.auth.signUp({
-      email,
+    const { data, error } = await supabase.auth.signUp({
+      email: email.trim(),
       password,
+      options: {
+        emailRedirectTo: "https://repere-pti.ca/login",
+      },
     });
 
     setChargement(false);
 
     if (error) {
-      alert(error.message);
+      setErreur(error.message);
       return;
     }
 
@@ -34,25 +64,39 @@ export default function LoginPage() {
       window.gtag?.("event", "account_created");
     }
 
-    alert("Compte créé! Vérifie tes courriels si une confirmation est demandée.");
+    if (data.user) {
+      await creerProfilSiBesoin(data.user.id);
+    }
+
+    if (data.session) {
+      window.location.href = "/dashboard";
+      return;
+    }
+
+    setMessage(
+      "Compte créé! Vérifie tes courriels pour confirmer ton compte avant de te connecter."
+    );
   };
 
   const signIn = async () => {
-    if (!email || !password) {
-      alert("Entre ton courriel et ton mot de passe.");
+    setErreur("");
+    setMessage("");
+
+    if (!email.trim() || !password.trim()) {
+      setErreur("Entre ton courriel et ton mot de passe.");
       return;
     }
 
     setChargement(true);
 
     const { error } = await supabase.auth.signInWithPassword({
-      email,
+      email: email.trim(),
       password,
     });
 
     if (error) {
       setChargement(false);
-      alert(error.message);
+      setErreur(error.message);
       return;
     }
 
@@ -61,12 +105,7 @@ export default function LoginPage() {
     } = await supabase.auth.getUser();
 
     if (user) {
-      await supabase.from("quiz_stats").upsert({
-        user_id: user.id,
-        score: 0,
-        bonnes_reponses: 0,
-        mauvaises_reponses: 0,
-      });
+      await creerProfilSiBesoin(user.id);
     }
 
     window.location.href = "/dashboard";
@@ -138,6 +177,18 @@ export default function LoginPage() {
                 </p>
               </div>
 
+              {erreur && (
+                <div className="mb-5 rounded-2xl bg-red-50 p-4 text-sm font-medium text-red-600">
+                  {erreur}
+                </div>
+              )}
+
+              {message && (
+                <div className="mb-5 rounded-2xl bg-green-50 p-4 text-sm font-medium text-green-700">
+                  {message}
+                </div>
+              )}
+
               <label className="text-sm font-bold text-slate-700">
                 Courriel
               </label>
@@ -157,27 +208,34 @@ export default function LoginPage() {
 
               <input
                 className="mt-2 w-full rounded-2xl border border-slate-200 bg-white p-4 text-base outline-none transition focus:border-violet-400 focus:ring-4 focus:ring-violet-100"
-                placeholder="Mot de passe"
+                placeholder="Minimum 6 caractères"
                 type="password"
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    signIn();
+                  }
+                }}
               />
 
               <button
+                type="button"
                 onClick={signIn}
                 disabled={chargement}
                 className="mt-6 w-full rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 p-4 font-bold text-white shadow-lg shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {chargement ? "Connexion..." : "Me connecter"}
+                {chargement ? "Chargement..." : "Me connecter"}
               </button>
 
               <button
+                type="button"
                 onClick={signUp}
                 disabled={chargement}
                 className="mt-3 w-full rounded-2xl border border-slate-200 bg-white p-4 font-bold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Créer mon compte
+                {chargement ? "Chargement..." : "Créer mon compte"}
               </button>
 
               <p className="mt-5 rounded-2xl bg-violet-50 p-4 text-center text-xs leading-5 text-violet-700">
