@@ -32,9 +32,9 @@ export default function ExemplePTIPage() {
       constat:
         "Risque de chute lié à une mobilité réduite, des étourdissements et un antécédent de chute.",
       directives: [
-        "1.1 Objet : prévention des chutes — Maintenir les mesures de prévention des chutes en tout temps — équipe de soins/PAB.",
-        "1.2 Objet : mobilité — Accompagner lors des transferts et déplacements selon le niveau d’aide requis — équipe de soins/PAB.",
-        "1.3 Objet : surveillance — Aviser l’infirmière si chute, quasi-chute, faiblesse nouvelle, étourdissement ou confusion accrue.",
+        "1.1 Prévention des chutes — Maintenir les mesures de prévention des chutes en tout temps — équipe de soins/PAB.",
+        "1.2 Mobilité — Accompagner lors des transferts et déplacements selon le niveau d’aide requis — équipe de soins/PAB.",
+        "1.3 Surveillance — Aviser l’infirmière si chute, quasi-chute, faiblesse nouvelle, étourdissement ou confusion accrue.",
       ],
       justification:
         "La priorité est la sécurité. Les données suggèrent un risque élevé de chute et nécessitent des directives claires pour l’équipe de soins.",
@@ -52,9 +52,9 @@ export default function ExemplePTIPage() {
       constat:
         "Risque de détérioration respiratoire lié à une désaturation et une dyspnée.",
       directives: [
-        "2.1 Objet : respiration — Surveiller SpO₂, dyspnée, fréquence respiratoire et effort respiratoire q 4 h et PRN — infirmière.",
-        "2.2 Objet : signes de détérioration — Aviser si SpO₂ diminue, dyspnée augmente, cyanose, confusion ou fatigue marquée.",
-        "2.3 Objet : positionnement — Favoriser une position facilitant la respiration selon tolérance — équipe de soins.",
+        "2.1 Respiration — Surveiller SpO₂, dyspnée, fréquence respiratoire et effort respiratoire q 4 h et PRN — infirmière.",
+        "2.2 Signes de détérioration — Aviser si SpO₂ diminue, dyspnée augmente, cyanose, confusion ou fatigue marquée.",
+        "2.3 Positionnement — Favoriser une position facilitant la respiration selon tolérance — équipe de soins.",
       ],
       justification:
         "La respiration est une priorité clinique. Une désaturation ou une dyspnée qui s’aggrave peut indiquer une détérioration nécessitant une réévaluation rapide.",
@@ -72,9 +72,9 @@ export default function ExemplePTIPage() {
       constat:
         "Douleur aiguë se manifestant par une douleur intense, une limitation de la mobilité et des signes non verbaux de douleur.",
       directives: [
-        "3.1 Objet : douleur — Évaluer intensité, localisation, caractéristiques et effet sur la mobilité q 4 h et PRN — infirmière.",
-        "3.2 Objet : efficacité des mesures — Réévaluer la douleur après les interventions selon les délais du milieu — infirmière.",
-        "3.3 Objet : détérioration — Aviser si douleur non soulagée, nouvelle douleur, douleur thoracique ou détérioration fonctionnelle.",
+        "3.1 Douleur — Évaluer intensité, localisation, caractéristiques et effet sur la mobilité q 4 h et PRN — infirmière.",
+        "3.2 Efficacité des mesures — Réévaluer la douleur après les interventions selon les délais du milieu — infirmière.",
+        "3.3 Détérioration — Aviser si douleur non soulagée, nouvelle douleur, douleur thoracique ou détérioration fonctionnelle.",
       ],
       justification:
         "La douleur influence la mobilisation, le repos, la respiration et la récupération. Elle doit être évaluée et réévaluée de façon structurée.",
@@ -92,9 +92,9 @@ export default function ExemplePTIPage() {
       constat:
         "Risque de déséquilibre glycémique lié à des apports alimentaires diminués et des glycémies variables.",
       directives: [
-        "4.1 Objet : glycémie — Surveiller les glycémies selon le protocole du milieu — infirmière.",
-        "4.2 Objet : signes cliniques — Observer signes d’hypoglycémie ou d’hyperglycémie et aviser selon les paramètres du milieu.",
-        "4.3 Objet : enseignement — Renforcer l’enseignement sur les signes à rapporter et l’importance de l’alimentation selon la situation.",
+        "4.1 Glycémie — Surveiller les glycémies selon le protocole du milieu — infirmière.",
+        "4.2 Signes cliniques — Observer signes d’hypoglycémie ou d’hyperglycémie et aviser selon les paramètres du milieu.",
+        "4.3 Enseignement — Renforcer l’enseignement sur les signes à rapporter et l’importance de l’alimentation selon la situation.",
       ],
       justification:
         "Les variations glycémiques peuvent entraîner des symptômes importants et nécessitent une surveillance adaptée au contexte clinique.",
@@ -112,9 +112,9 @@ export default function ExemplePTIPage() {
       constat:
         "Risque d’infection ou d’aggravation de la plaie lié à des signes locaux d’inflammation.",
       directives: [
-        "5.1 Objet : plaie — Observer l’apparence de la plaie, rougeur, chaleur, douleur, écoulement et odeur selon le protocole du milieu — infirmière.",
-        "5.2 Objet : pansement — Effectuer ou vérifier le pansement selon le plan de traitement et les consignes du milieu — infirmière.",
-        "5.3 Objet : détérioration — Aviser si augmentation rougeur, douleur, écoulement, fièvre ou détérioration de l’état général.",
+        "5.1 Plaie — Observer l’apparence de la plaie, rougeur, chaleur, douleur, écoulement et odeur selon le protocole du milieu — infirmière.",
+        "5.2 Pansement — Effectuer ou vérifier le pansement selon le plan de traitement et les consignes du milieu — infirmière.",
+        "5.3 Détérioration — Aviser si augmentation rougeur, douleur, écoulement, fièvre ou détérioration de l’état général.",
       ],
       justification:
         "Les signes locaux peuvent indiquer une évolution défavorable. Le suivi clinique doit être précis et documenté pour assurer la continuité des soins.",
