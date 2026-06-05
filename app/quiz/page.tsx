@@ -3,6 +3,15 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import Navbar from "@/components/Navbar";
+import {
+  Brain,
+  CheckCircle,
+  XCircle,
+  Sparkles,
+  Crown,
+  GraduationCap,
+  Target,
+} from "lucide-react";
 
 export default function QuizPage() {
   const [quiz, setQuiz] = useState<any>(null);
@@ -14,6 +23,9 @@ export default function QuizPage() {
   const [bonnes, setBonnes] = useState(0);
   const [mauvaises, setMauvaises] = useState(0);
   const [premium, setPremium] = useState(false);
+
+  const total = bonnes + mauvaises;
+  const precision = total > 0 ? Math.round((bonnes / total) * 100) : 0;
 
   const chargerScore = async () => {
     const {
@@ -159,46 +171,53 @@ export default function QuizPage() {
     <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
       <Navbar />
 
-      <div className="mx-auto max-w-3xl p-8">
-        <h1 className="mt-10 text-5xl font-extrabold">🎓 Quiz clinique</h1>
+      <div className="mx-auto max-w-5xl px-4 py-8 md:px-8 md:py-12">
+        <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-xs font-bold text-violet-700 shadow-sm md:text-sm">
+              <GraduationCap className="h-4 w-4" />
+              Quiz clinique éducatif
+            </div>
 
-        <p className="mt-3 text-sm font-medium text-violet-600">
-          💜 Inspiré de la réalité des stages en soins infirmiers.
-        </p>
+            <h1 className="mt-5 text-4xl font-extrabold tracking-tight md:text-6xl">
+              Quiz clinique
+            </h1>
 
-        <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-600">
-          Pratique ton raisonnement clinique avec des situations réalistes
-          inspirées des milieux de soins. Génère un cas clinique, choisis ta
-          réponse et lis l’explication.
-        </p>
+            <p className="mt-3 text-sm font-medium text-violet-600">
+              💜 Inspiré de la réalité des stages en soins infirmiers.
+            </p>
 
-        <div className="mt-6 rounded-3xl bg-white/85 p-5 shadow-sm">
-          <p className="text-sm font-bold text-violet-600">
-            🧠 Score clinique
-          </p>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 md:text-lg md:leading-8">
+              Pratique ton raisonnement clinique avec des situations réalistes.
+              Génère un cas, choisis ta réponse et lis l’explication pour mieux
+              comprendre la logique clinique.
+            </p>
+          </div>
 
-          <p className="mt-2 text-3xl font-extrabold">{score} points</p>
-
-          <p className="mt-2 text-sm text-slate-500">
-            ✅ {bonnes} bonnes réponses • ❌ {mauvaises} mauvaises réponses
-          </p>
-
-          <div className="mt-5 rounded-2xl bg-violet-50 p-4 text-sm text-violet-700">
+          <div className="rounded-3xl bg-white/85 p-5 shadow-lg md:min-w-[280px]">
             {premium ? (
               <>
-                <p className="font-bold">👑 Premium actif</p>
-                <p className="mt-1">
+                <p className="flex items-center gap-2 text-sm font-bold text-violet-700">
+                  <Crown className="h-4 w-4" />
+                  Premium actif
+                </p>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
                   Quiz illimités et accès aux futures fonctionnalités Premium.
                 </p>
               </>
             ) : (
               <>
-                <p className="font-bold">Version gratuite</p>
-                <p className="mt-1">2 quiz par jour inclus.</p>
+                <p className="text-sm font-bold text-violet-700">
+                  Version gratuite
+                </p>
+
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  2 quiz par jour inclus.
+                </p>
 
                 <a
                   href="/premium"
-                  className="mt-3 inline-flex font-bold text-violet-700 hover:text-pink-500"
+                  className="mt-3 inline-flex text-sm font-bold text-violet-700 hover:text-pink-500"
                 >
                   Débloquer les quiz illimités →
                 </a>
@@ -207,71 +226,166 @@ export default function QuizPage() {
           </div>
         </div>
 
-        <p className="mt-6 text-sm font-medium text-slate-500">
-          Priorisation • Raisonnement clinique • Correction instantanée
-        </p>
+        <div className="mt-8 grid grid-cols-3 gap-3 md:gap-5">
+          <div className="rounded-3xl bg-white/85 p-4 shadow-sm md:p-5">
+            <p className="flex items-center gap-2 text-xs font-bold text-violet-600 md:text-sm">
+              <Brain className="h-4 w-4" />
+              Score
+            </p>
 
-        <button
-          onClick={genererQuiz}
-          disabled={chargement}
-          className="mt-8 rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-6 py-3 font-bold text-white shadow-lg shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          {chargement ? "Génération..." : "Générer un quiz"}
-        </button>
+            <p className="mt-3 text-2xl font-extrabold md:text-4xl">
+              {score}
+            </p>
+
+            <p className="mt-1 text-xs text-slate-400">points</p>
+          </div>
+
+          <div className="rounded-3xl bg-white/85 p-4 shadow-sm md:p-5">
+            <p className="flex items-center gap-2 text-xs font-bold text-green-600 md:text-sm">
+              <CheckCircle className="h-4 w-4" />
+              Bonnes
+            </p>
+
+            <p className="mt-3 text-2xl font-extrabold md:text-4xl">
+              {bonnes}
+            </p>
+
+            <p className="mt-1 text-xs text-slate-400">réponses</p>
+          </div>
+
+          <div className="rounded-3xl bg-white/85 p-4 shadow-sm md:p-5">
+            <p className="flex items-center gap-2 text-xs font-bold text-pink-600 md:text-sm">
+              <Target className="h-4 w-4" />
+              Précision
+            </p>
+
+            <p className="mt-3 text-2xl font-extrabold md:text-4xl">
+              {precision}%
+            </p>
+
+            <p className="mt-1 text-xs text-slate-400">
+              {mauvaises} erreur{mauvaises > 1 ? "s" : ""}
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-6 rounded-3xl bg-white/85 p-5 shadow-lg md:p-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm font-bold text-violet-600">
+                Priorisation • Raisonnement clinique • Correction instantanée
+              </p>
+
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                Génère une nouvelle situation clinique et teste ton jugement.
+              </p>
+            </div>
+
+            <button
+              onClick={genererQuiz}
+              disabled={chargement}
+              className="w-full rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-6 py-3 font-bold text-white shadow-lg shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+            >
+              {chargement ? "Génération..." : "Générer un quiz"}
+            </button>
+          </div>
+        </div>
+
+        {!quiz && (
+          <div className="mt-6 rounded-[32px] border border-white/70 bg-white/70 p-8 text-center shadow-sm">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-100">
+              <Sparkles className="h-7 w-7 text-violet-600" />
+            </div>
+
+            <p className="mt-5 font-bold text-slate-700">
+              Aucun quiz généré pour l’instant.
+            </p>
+
+            <p className="mt-2 text-sm leading-6 text-slate-500">
+              Clique sur “Générer un quiz” pour commencer une mise en situation.
+            </p>
+          </div>
+        )}
 
         {quiz && (
-          <div className="mt-8 rounded-[32px] bg-white/85 p-8 shadow-xl backdrop-blur">
-            <p className="text-sm font-bold text-violet-600">Situation</p>
+          <div className="mt-6 rounded-[32px] bg-white/90 p-5 shadow-xl backdrop-blur md:p-8">
+            <div className="rounded-3xl bg-gradient-to-br from-violet-50 to-pink-50 p-5">
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-violet-600">
+                Situation
+              </p>
 
-            <p className="mt-4 leading-8">{quiz.situation}</p>
+              <p className="mt-4 text-sm leading-7 text-slate-700 md:text-base md:leading-8">
+                {quiz.situation}
+              </p>
+            </div>
 
-            <h2 className="mt-8 text-2xl font-bold">{quiz.question}</h2>
+            <h2 className="mt-7 text-xl font-extrabold leading-8 md:text-2xl">
+              {quiz.question}
+            </h2>
 
             <div className="mt-5 space-y-3">
               {Object.entries(quiz.choix).map(([lettre, texte]: any) => (
                 <button
                   key={lettre}
                   onClick={() => setReponse(lettre)}
-                  className={`w-full rounded-2xl border p-4 text-left transition ${
+                  disabled={corrige}
+                  className={`w-full rounded-2xl border p-4 text-left text-sm leading-6 transition md:text-base ${
                     reponse === lettre
-                      ? "border-violet-500 bg-violet-50"
+                      ? "border-violet-500 bg-violet-50 ring-2 ring-violet-100"
                       : "border-slate-200 bg-white hover:bg-slate-50"
-                  }`}
+                  } disabled:cursor-default`}
                 >
-                  <strong>{lettre}.</strong> {texte}
+                  <span className="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 text-sm font-extrabold text-slate-700">
+                    {lettre}
+                  </span>
+                  {texte}
                 </button>
               ))}
             </div>
 
             <button
               onClick={verifierReponse}
-              className="mt-6 rounded-2xl bg-slate-900 px-6 py-3 font-bold text-white"
+              disabled={corrige}
+              className="mt-6 w-full rounded-2xl bg-slate-900 px-6 py-3 font-bold text-white transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
             >
               Vérifier
             </button>
 
             {corrige && (
               <>
-                <div className="mt-8 rounded-3xl bg-slate-50 p-6">
+                <div
+                  className={`mt-8 rounded-3xl p-5 md:p-6 ${
+                    reponse === quiz.bonneReponse
+                      ? "bg-green-50"
+                      : "bg-red-50"
+                  }`}
+                >
                   {reponse === quiz.bonneReponse ? (
-                    <p className="font-bold text-green-600">
-                      ✅ Bonne réponse ! +10 points
+                    <p className="flex items-center gap-2 font-bold text-green-700">
+                      <CheckCircle className="h-5 w-5" />
+                      Bonne réponse ! +10 points
                     </p>
                   ) : (
-                    <p className="font-bold text-red-600">
-                      ❌ Pas tout à fait. La bonne réponse est{" "}
-                      {quiz.bonneReponse}.
+                    <p className="flex items-center gap-2 font-bold text-red-700">
+                      <XCircle className="h-5 w-5" />
+                      Pas tout à fait. La bonne réponse est {quiz.bonneReponse}.
                     </p>
                   )}
 
-                  <p className="mt-4 leading-7 text-slate-600">
-                    {quiz.explication}
-                  </p>
+                  <div className="mt-4 rounded-2xl bg-white/70 p-4">
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
+                      Explication
+                    </p>
+
+                    <p className="mt-3 text-sm leading-7 text-slate-700 md:text-base">
+                      {quiz.explication}
+                    </p>
+                  </div>
                 </div>
 
                 <button
                   onClick={genererQuiz}
-                  className="mt-4 rounded-2xl border border-violet-200 bg-white px-6 py-3 font-bold text-violet-600 hover:bg-violet-50"
+                  className="mt-4 w-full rounded-2xl border border-violet-200 bg-white px-6 py-3 font-bold text-violet-600 hover:bg-violet-50 sm:w-auto"
                 >
                   Prochaine question →
                 </button>

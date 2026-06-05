@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import Navbar from "@/components/Navbar";
 import {
@@ -14,10 +14,39 @@ import {
   Download,
   ShieldCheck,
   ArrowRight,
+  Settings,
+  XCircle,
 } from "lucide-react";
 
 export default function PremiumPage() {
   const [chargement, setChargement] = useState(false);
+  const [chargementPortail, setChargementPortail] = useState(false);
+  const [premium, setPremium] = useState(false);
+  const [chargementProfil, setChargementProfil] = useState(true);
+
+  useEffect(() => {
+    const verifierPremium = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        setChargementProfil(false);
+        return;
+      }
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("premium")
+        .eq("id", user.id)
+        .single();
+
+      setPremium(profile?.premium === true);
+      setChargementProfil(false);
+    };
+
+    verifierPremium();
+  }, []);
 
   const ouvrirCheckout = async () => {
     try {
@@ -55,6 +84,42 @@ export default function PremiumPage() {
     }
   };
 
+  const ouvrirPortailAbonnement = async () => {
+    try {
+      setChargementPortail(true);
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!session) {
+        alert("Tu dois être connectée.");
+        window.location.href = "/login";
+        return;
+      }
+
+      const response = await fetch("/api/create-portal-session", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.error || "Erreur lors de l'ouverture du portail Stripe.");
+        setChargementPortail(false);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Erreur lors de l'ouverture du portail d'abonnement.");
+      setChargementPortail(false);
+    }
+  };
+
   const avantages = [
     "PTI illimités",
     "Quiz cliniques illimités",
@@ -63,6 +128,22 @@ export default function PremiumPage() {
     "Historique complet",
     "Nouveautés Premium en priorité",
   ];
+
+  if (chargementProfil) {
+    return (
+      <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
+        <Navbar />
+
+        <section className="mx-auto max-w-3xl px-4 py-16 text-center">
+          <div className="rounded-[32px] bg-white/85 p-8 shadow-xl">
+            <p className="font-bold text-violet-700">
+              Chargement de ton statut Premium...
+            </p>
+          </div>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
@@ -73,21 +154,33 @@ export default function PremiumPage() {
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-violet-100 bg-white/80 px-4 py-2 text-xs font-bold text-violet-600 shadow-sm backdrop-blur md:text-sm">
               <Sparkles className="h-4 w-4" />
-              Pour aller plus loin dans tes stages
+              {premium
+                ? "Ton abonnement Premium est actif"
+                : "Pour aller plus loin dans tes stages"}
             </div>
 
             <h1 className="mt-6 text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
-              Débloque tout le potentiel de{" "}
-              <span className="bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 bg-clip-text text-transparent">
-                Repère PTI
-              </span>
+              {premium ? (
+                <>
+                  Ton espace{" "}
+                  <span className="bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 bg-clip-text text-transparent">
+                    Premium
+                  </span>
+                </>
+              ) : (
+                <>
+                  Débloque tout le potentiel de{" "}
+                  <span className="bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 bg-clip-text text-transparent">
+                    Repère PTI
+                  </span>
+                </>
+              )}
             </h1>
 
             <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 md:text-lg md:leading-8">
-              Premium te permet de pratiquer davantage, d’obtenir des analyses
-              plus poussées et de conserver tes PTI en format PDF pour tes
-              révisions, tes stages et ton développement du raisonnement
-              clinique.
+              {premium
+                ? "Tu as accès aux PTI illimités, aux quiz illimités, aux cas complexes et à l’export PDF. Tu peux gérer ou annuler ton abonnement à tout moment depuis le portail sécurisé Stripe."
+                : "Premium te permet de pratiquer davantage, d’obtenir des analyses plus poussées et de conserver tes PTI en format PDF pour tes révisions, tes stages et ton développement du raisonnement clinique."}
             </p>
 
             <div className="mt-8 grid gap-3 sm:grid-cols-3 md:gap-4">
@@ -143,7 +236,7 @@ export default function PremiumPage() {
 
             <p className="mt-6 flex items-center gap-2 text-sm text-slate-500">
               <Lock className="h-4 w-4" />
-              Paiement sécurisé par Stripe. Annulation possible en tout temps.
+              Paiement et gestion d’abonnement sécurisés par Stripe.
             </p>
           </div>
 
@@ -155,11 +248,13 @@ export default function PremiumPage() {
                 </p>
 
                 <h2 className="mt-2 text-3xl font-extrabold md:text-4xl">
-                  Plan mensuel
+                  {premium ? "Premium actif" : "Plan mensuel"}
                 </h2>
 
                 <p className="mt-2 text-sm text-slate-500">
-                  Pour pratiquer plus souvent pendant ta session ou tes stages.
+                  {premium
+                    ? "Ton abonnement est actuellement actif."
+                    : "Pour pratiquer plus souvent pendant ta session ou tes stages."}
                 </p>
               </div>
 
@@ -175,8 +270,9 @@ export default function PremiumPage() {
               </div>
 
               <p className="mt-3 text-sm leading-6 text-slate-500">
-                Abonnement mensuel. Annulation possible en tout temps depuis ton
-                espace de gestion.
+                {premium
+                  ? "Tu peux modifier ton moyen de paiement, consulter tes factures ou annuler ton abonnement dans le portail Stripe."
+                  : "Abonnement mensuel. Annulation possible en tout temps depuis ton espace de gestion."}
               </p>
             </div>
 
@@ -194,14 +290,42 @@ export default function PremiumPage() {
               ))}
             </div>
 
-            <button
-              onClick={ouvrirCheckout}
-              disabled={chargement}
-              className="mt-9 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 px-8 py-4 font-bold text-white shadow-xl shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-2xl disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {chargement ? "Ouverture du paiement..." : "Passer Premium"}
-              {!chargement && <ArrowRight className="h-5 w-5" />}
-            </button>
+            {premium ? (
+              <div className="mt-9 space-y-3">
+                <button
+                  onClick={ouvrirPortailAbonnement}
+                  disabled={chargementPortail}
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 px-8 py-4 font-bold text-white shadow-xl shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-2xl disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  <Settings className="h-5 w-5" />
+                  {chargementPortail
+                    ? "Ouverture du portail..."
+                    : "Gérer mon abonnement"}
+                </button>
+
+                <button
+                  onClick={ouvrirPortailAbonnement}
+                  disabled={chargementPortail}
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl border border-red-200 bg-red-50 px-8 py-4 font-bold text-red-600 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  <XCircle className="h-5 w-5" />
+                  Annuler mon abonnement
+                </button>
+
+                <p className="text-center text-xs leading-5 text-slate-400">
+                  L’annulation se fait dans le portail sécurisé Stripe.
+                </p>
+              </div>
+            ) : (
+              <button
+                onClick={ouvrirCheckout}
+                disabled={chargement}
+                className="mt-9 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 px-8 py-4 font-bold text-white shadow-xl shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-2xl disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {chargement ? "Ouverture du paiement..." : "Passer Premium"}
+                {!chargement && <ArrowRight className="h-5 w-5" />}
+              </button>
+            )}
 
             <div className="mt-5 rounded-2xl bg-slate-50 p-4">
               <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-400">
@@ -230,7 +354,7 @@ export default function PremiumPage() {
                 <div className="rounded-2xl bg-white p-3">
                   <Crown className="h-5 w-5 text-violet-500" />
                   <p className="mt-2 font-bold">Premium</p>
-                  <p className="text-xs text-slate-500">Nouveautés</p>
+                  <p className="text-xs text-slate-500">Actif</p>
                 </div>
               </div>
             </div>
@@ -249,7 +373,8 @@ export default function PremiumPage() {
               Est-ce que je peux annuler ?
             </p>
             <p className="mt-2 text-sm leading-6 text-slate-500">
-              Oui. L’abonnement est mensuel et peut être annulé en tout temps.
+              Oui. L’abonnement est mensuel et peut être annulé en tout temps
+              dans le portail Stripe.
             </p>
           </div>
 
