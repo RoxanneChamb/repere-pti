@@ -72,25 +72,25 @@ export default function PTIPage() {
     {
       constat: "Risque de chute",
       directives: [
-        "1.1 Objet : prévention des chutes — Maintenir les mesures de prévention des chutes en tout temps — équipe de soins/PAB.",
-        "1.2 Objet : mobilité — Surveiller la démarche, les étourdissements et les transferts à chaque mobilisation — infirmière/PAB.",
-        "1.3 Objet : sécurité — Aviser l’infirmière si chute, quasi-chute, faiblesse nouvelle ou confusion accrue.",
+        "1.1 Prévention des chutes — Maintenir les mesures de prévention des chutes en tout temps — équipe de soins/PAB.",
+        "1.2 Mobilité — Surveiller la démarche, les étourdissements et les transferts à chaque mobilisation — infirmière/PAB.",
+        "1.3 Sécurité — Aviser l’infirmière si chute, quasi-chute, faiblesse nouvelle ou confusion accrue.",
       ],
     },
     {
       constat: "Risque de détérioration respiratoire",
       directives: [
-        "2.1 Objet : respiration — Surveiller SpO₂, dyspnée, fréquence respiratoire et effort respiratoire q 4 h et PRN — infirmière.",
-        "2.2 Objet : signes de détérioration — Aviser si SpO₂ diminue, dyspnée augmente ou changement de l’état général.",
-        "2.3 Objet : positionnement — Favoriser une position facilitant la respiration selon tolérance — équipe de soins.",
+        "2.1 Respiration — Surveiller SpO₂, dyspnée, fréquence respiratoire et effort respiratoire q 4 h et PRN — infirmière.",
+        "2.2 Signes de détérioration — Aviser si SpO₂ diminue, dyspnée augmente ou changement de l’état général.",
+        "2.3 Positionnement — Favoriser une position facilitant la respiration selon tolérance — équipe de soins.",
       ],
     },
     {
       constat: "Douleur aiguë",
       directives: [
-        "3.1 Objet : douleur — Évaluer l’intensité, la localisation et l’effet sur les activités q 4 h et PRN — infirmière.",
-        "3.2 Objet : efficacité des mesures — Réévaluer la douleur après les interventions selon le délai approprié.",
-        "3.3 Objet : communication — Aviser si douleur non soulagée, nouvelle douleur ou détérioration fonctionnelle.",
+        "3.1 Douleur — Évaluer l’intensité, la localisation et l’effet sur les activités q 4 h et PRN — infirmière.",
+        "3.2 Efficacité des mesures — Réévaluer la douleur après les interventions selon le délai approprié.",
+        "3.3 Communication — Aviser si douleur non soulagée, nouvelle douleur ou détérioration fonctionnelle.",
       ],
     },
   ];
