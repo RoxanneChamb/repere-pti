@@ -163,37 +163,24 @@ Sépare si possible :
 # PTI suggéré
 
 ## 1. Constat prioritaire : [titre court du constat]
-Données qui appuient le constat :
-- ...
-
-Risque ou besoin associé :
-- ...
-
-Priorité :
-- Élevée / Modérée / Faible
-
 Directives liées au constat 1 :
 
 1.1 Objet : [objet précis de la directive]
 - Directive : [phrase courte et concrète]
-- Type : [surveillance clinique / soin ou traitement déjà prévu / sécurité / enseignement / communication]
 - Cible : [client / famille / équipe de soins / PAB / infirmière / autre, si pertinent]
 - Fréquence ou durée : [si pertinent]
-- À rapporter / aviser : [élément précis, si pertinent]
 
 1.2 Objet : [objet précis de la directive]
 - Directive : [phrase courte et concrète]
-- Type : [surveillance clinique / soin ou traitement déjà prévu / sécurité / enseignement / communication]
 - Cible : [client / famille / équipe de soins / PAB / infirmière / autre, si pertinent]
 - Fréquence ou durée : [si pertinent]
-- À rapporter / aviser : [élément précis, si pertinent]
+
 
 1.3 Objet : [objet précis de la directive]
 - Directive : [phrase courte et concrète]
-- Type : [surveillance clinique / soin ou traitement déjà prévu / sécurité / enseignement / communication]
 - Cible : [client / famille / équipe de soins / PAB / infirmière / autre, si pertinent]
 - Fréquence ou durée : [si pertinent]
-- À rapporter / aviser : [élément précis, si pertinent]
+
 
 ## 2. Constat prioritaire : [titre court du constat]
 Données qui appuient le constat :
@@ -209,24 +196,19 @@ Directives liées au constat 2 :
 
 2.1 Objet : [objet précis de la directive]
 - Directive : [phrase courte et concrète]
-- Type : [surveillance clinique / soin ou traitement déjà prévu / sécurité / enseignement / communication]
 - Cible : [client / famille / équipe de soins / PAB / infirmière / autre, si pertinent]
 - Fréquence ou durée : [si pertinent]
-- À rapporter / aviser : [élément précis, si pertinent]
 
 2.2 Objet : [objet précis de la directive]
 - Directive : [phrase courte et concrète]
-- Type : [surveillance clinique / soin ou traitement déjà prévu / sécurité / enseignement / communication]
 - Cible : [client / famille / équipe de soins / PAB / infirmière / autre, si pertinent]
 - Fréquence ou durée : [si pertinent]
-- À rapporter / aviser : [élément précis, si pertinent]
+
 
 2.3 Objet : [objet précis de la directive]
 - Directive : [phrase courte et concrète]
-- Type : [surveillance clinique / soin ou traitement déjà prévu / sécurité / enseignement / communication]
 - Cible : [client / famille / équipe de soins / PAB / infirmière / autre, si pertinent]
 - Fréquence ou durée : [si pertinent]
-- À rapporter / aviser : [élément précis, si pertinent]
 
 ## 3. Constat prioritaire : [titre court du constat]
 
@@ -234,10 +216,9 @@ Directives liées au constat 3 :
 
 3.1 Objet : [objet précis de la directive]
 - Directive : [phrase courte et concrète]
-- Type : [surveillance clinique / soin ou traitement déjà prévu / sécurité / enseignement / communication]
 - Cible : [client / famille / équipe de soins / PAB / infirmière / autre, si pertinent]
 - Fréquence ou durée : [si pertinent]
-- À rapporter / aviser : [élément précis, si pertinent]
+
 
 3.2 Objet : [objet précis de la directive]
 - Directive : [phrase courte et concrète]
