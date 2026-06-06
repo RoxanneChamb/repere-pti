@@ -12,21 +12,29 @@ export default function LoginPage() {
   const [erreur, setErreur] = useState("");
 
   const creerProfilSiBesoin = async (userId: string) => {
-    await supabase.from("profiles").upsert({
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("id")
+    .eq("id", userId)
+    .maybeSingle();
+
+  if (!profile) {
+    await supabase.from("profiles").insert({
       id: userId,
       pti_count: 0,
       display_name: "Étudiante Repère PTI",
       avatar_image: "/avatars/avatar1.png",
       premium: false,
     });
+  }
 
-    await supabase.from("quiz_stats").upsert({
-      user_id: userId,
-      score: 0,
-      bonnes_reponses: 0,
-      mauvaises_reponses: 0,
-    });
-  };
+  await supabase.from("quiz_stats").upsert({
+    user_id: userId,
+    score: 0,
+    bonnes_reponses: 0,
+    mauvaises_reponses: 0,
+  });
+};
 
   const signUp = async () => {
     setErreur("");
