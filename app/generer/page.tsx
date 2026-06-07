@@ -5,6 +5,18 @@ import { supabase } from "@/lib/supabaseClient";
 import Navbar from "@/components/Navbar";
 import PTIResultat from "@/components/PTIResultat";
 import jsPDF from "jspdf";
+import {
+  ClipboardList,
+  Sparkles,
+  Crown,
+  ShieldCheck,
+  FileText,
+  Download,
+  Lock,
+  ArrowRight,
+  Stethoscope,
+  CheckCircle,
+} from "lucide-react";
 
 type SectionsPDF = {
   resume: boolean;
@@ -50,7 +62,7 @@ export default function GenererPage() {
         .from("profiles")
         .select("premium")
         .eq("id", user.id)
-        .single();
+        .maybeSingle();
 
       setPremium(profile?.premium === true);
     };
@@ -124,7 +136,7 @@ export default function GenererPage() {
           .from("profiles")
           .select("pti_count")
           .eq("id", userId)
-          .single();
+          .maybeSingle();
 
         if (!profile) {
           await supabase.from("profiles").insert({
@@ -197,7 +209,6 @@ export default function GenererPage() {
 
     const lignes = resultat.split("\n");
     const lignesFiltrees: string[] = [];
-
     let garderSection = true;
 
     for (const ligne of lignes) {
@@ -277,7 +288,7 @@ export default function GenererPage() {
     doc.text(`Date : ${date}`, 20, 38);
     doc.text("Outil éducatif - Ne remplace pas le jugement clinique.", 20, 44);
 
-    doc.setDrawColor(139, 92, 246);
+    doc.setDrawColor(91, 33, 182);
     doc.line(20, 50, 190, 50);
 
     let y = 60;
@@ -366,244 +377,289 @@ export default function GenererPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
+    <main className="min-h-screen overflow-hidden bg-[#fbf8fd] text-slate-900">
       <Navbar />
 
-      <section className="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-14">
-        <div className="mb-6 flex flex-col justify-between gap-5 lg:mb-10 lg:flex-row lg:gap-6">
-          <div>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-100 to-pink-100 px-4 py-2 text-xs font-bold text-violet-700 md:text-sm">
-              ✨ Assistant clinique IA
+      <section className="relative mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-14">
+        <div className="pointer-events-none absolute -right-40 top-0 h-[380px] w-[380px] rounded-full bg-violet-200/50 blur-3xl" />
+        <div className="pointer-events-none absolute -left-40 bottom-20 h-[340px] w-[340px] rounded-full bg-pink-100/70 blur-3xl" />
+
+        <div className="relative z-10">
+          <div className="mb-6 grid gap-5 lg:mb-8 lg:grid-cols-[1.2fr_0.8fr]">
+            <div className="rounded-[36px] border border-white/80 bg-white/70 p-6 shadow-sm backdrop-blur md:p-9">
+              <div className="inline-flex items-center gap-2 rounded-full border border-violet-100 bg-white/80 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-violet-700 shadow-sm">
+                <Sparkles className="h-4 w-4" />
+                Assistant clinique IA
+              </div>
+
+              <h1 className="mt-6 text-4xl font-black tracking-tight text-slate-950 sm:text-5xl md:text-6xl">
+                Générer un{" "}
+                <span className="bg-gradient-to-r from-violet-700 via-purple-500 to-pink-400 bg-clip-text text-transparent">
+                  PTI
+                </span>
+              </h1>
+
+              <div className="mt-4 h-px w-48 bg-gradient-to-r from-violet-300 via-pink-200 to-transparent" />
+
+              <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 md:text-lg md:leading-8">
+                Décris une situation clinique anonymisée et obtiens une ébauche
+                structurée pour soutenir ton apprentissage, tes stages et ton
+                raisonnement clinique.
+              </p>
+
+              <p className="mt-5 rounded-2xl bg-violet-50 p-4 text-sm font-medium leading-6 text-violet-800">
+                🔒 Aucune information permettant d’identifier un patient ne doit
+                être inscrite.
+              </p>
             </div>
 
-            <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-6xl">
-              Transforme une situation clinique en PTI
-            </h1>
+            <div className="rounded-[36px] border border-white/80 bg-white/75 p-6 shadow-sm backdrop-blur md:p-8">
+              <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-violet-700">
+                Statut
+              </p>
 
-            <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 md:text-lg md:leading-8">
-              Décris une situation clinique de façon anonyme et obtiens un PTI
-              structuré pour soutenir ton apprentissage, tes stages et le
-              développement de ton raisonnement clinique.
-            </p>
+              <h2 className="mt-3 text-2xl font-black text-slate-950">
+                {premium ? "Premium actif" : "Version gratuite"}
+              </h2>
 
-            <p className="mt-4 max-w-2xl rounded-2xl bg-white/70 p-3 text-sm font-medium leading-6 text-violet-600 shadow-sm md:bg-transparent md:p-0 md:shadow-none">
-              🔒 Aucune information permettant d’identifier un patient ne doit
-              être inscrite.
-            </p>
-          </div>
+              <p className="mt-3 text-sm leading-6 text-slate-600">
+                {premium
+                  ? "PTI illimités, cas complexes et export PDF personnalisé débloqués."
+                  : "La version gratuite permet de générer 5 PTI par jour."}
+              </p>
 
-          <div className="rounded-3xl border border-white/50 bg-white/85 p-5 shadow-lg backdrop-blur md:rounded-[32px] md:p-8 md:shadow-xl">
-            <p className="font-bold">Outil éducatif</p>
+              <div className="mt-5 rounded-[28px] bg-gradient-to-br from-violet-100 via-white to-pink-50 p-5">
+                <p className="flex items-start gap-2 text-sm font-extrabold text-violet-800">
+                  <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0" />
+                  Outil éducatif
+                </p>
 
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              Ne remplace pas le jugement clinique, les politiques locales ou la
-              validation par une personne qualifiée.
-            </p>
-
-            <div className="mt-5 rounded-2xl bg-violet-50 p-4 text-sm text-violet-700">
-              {premium ? (
-                <>
-                  <p className="font-bold">👑 Premium actif</p>
-                  <p className="mt-1">
-                    PTI illimités, cas complexes et export PDF débloqués.
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p className="font-bold">Version gratuite</p>
-                  <p className="mt-1">5 PTI par jour.</p>
-
-                  <a
-                    href="/premium"
-                    className="mt-3 inline-flex font-bold text-violet-700 hover:text-pink-500"
-                  >
-                    Passer Premium →
-                  </a>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <div className="grid gap-5 lg:grid-cols-2 lg:gap-6">
-          <div className="rounded-3xl border border-violet-100 bg-gradient-to-br from-violet-50 to-pink-50 p-5 shadow-lg md:p-6">
-            <p className="text-xl font-bold md:text-2xl">Situation clinique</p>
-
-            <p className="mt-2 text-sm leading-6 text-slate-500">
-              Décris les signes, symptômes, antécédents et le contexte, sans
-              nom, date de naissance ou information identifiable.
-            </p>
-
-            <textarea
-              className="mt-5 min-h-[220px] w-full rounded-3xl border-2 border-violet-200 bg-white p-4 text-sm shadow-sm outline-none transition focus:border-violet-500 focus:ring-4 focus:ring-violet-100 md:mt-6 md:min-h-[260px] md:p-6 md:text-base"
-              placeholder="Ex. Patient de 72 ans, insuffisance cardiaque, SpO₂ 89 %, dyspnée, prise de poids de 2 kg en 2 jours..."
-              value={situation}
-              onChange={(e) => setSituation(e.target.value)}
-            />
-
-            <div className="mt-5 rounded-3xl border border-violet-100 bg-white/85 p-4 shadow-sm md:p-5">
-              <label className="flex cursor-pointer flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <p className="font-extrabold text-slate-800">
-                      Cas complexe
-                    </p>
-
-                    <span className="rounded-full bg-gradient-to-r from-violet-600 to-pink-500 px-3 py-1 text-xs font-bold text-white">
-                      👑 Premium
-                    </span>
-                  </div>
-
-                  <p className="mt-2 text-sm leading-6 text-slate-500">
-                    Génère une analyse plus poussée avec priorités,
-                    complications possibles, surveillance avancée et signes de
-                    détérioration.
-                  </p>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setModeComplexe(!modeComplexe)}
-                  className={`relative h-8 w-14 shrink-0 rounded-full transition ${
-                    modeComplexe
-                      ? "bg-gradient-to-r from-violet-600 to-pink-500"
-                      : "bg-slate-300"
-                  }`}
-                >
-                  <span
-                    className={`absolute top-1 h-6 w-6 rounded-full bg-white shadow transition ${
-                      modeComplexe ? "left-7" : "left-1"
-                    }`}
-                  />
-                </button>
-              </label>
-            </div>
-
-            <button
-              onClick={genererPTI}
-              disabled={chargement}
-              className="mt-6 w-full rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 px-8 py-4 font-bold text-white shadow-xl shadow-pink-200 transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-            >
-              {chargement
-                ? "Génération..."
-                : modeComplexe
-                  ? "Générer le PTI complexe"
-                  : "Générer le PTI"}
-            </button>
-
-            <div className="mt-5 flex flex-wrap gap-3 text-sm text-slate-500 md:gap-4">
-              <span>⚡ Génération rapide</span>
-              <span>🩺 Pensé pour les stages</span>
-              <span>✨ IA éducative</span>
-              {modeComplexe && <span>👑 Mode complexe activé</span>}
-            </div>
-
-            <p className="mt-5 text-sm leading-6 text-slate-500">
-              🔒 Les situations doivent être anonymisées avant d’être inscrites.
-            </p>
-          </div>
-
-          <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-7">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="text-xl font-bold md:text-2xl">PTI suggéré</p>
-
-                <p className="mt-2 text-sm text-slate-500">
-                  Ton plan apparaîtra ici après génération.
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  Ne remplace pas le jugement clinique, les politiques locales
+                  ou la validation par une personne qualifiée.
                 </p>
               </div>
 
-              {modeComplexe && (
-                <span className="w-fit rounded-full bg-violet-100 px-4 py-2 text-xs font-bold text-violet-700">
-                  👑 Cas complexe
-                </span>
+              {!premium && (
+                <a
+                  href="/premium"
+                  className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-violet-800 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-violet-100 transition hover:-translate-y-0.5 hover:bg-violet-900"
+                >
+                  Passer Premium
+                  <ArrowRight className="h-4 w-4" />
+                </a>
               )}
             </div>
+          </div>
 
-            <div className="mt-5 min-h-[320px] rounded-3xl bg-gradient-to-br from-slate-50 to-violet-50 p-4 md:mt-6 md:min-h-[360px] md:rounded-[32px] md:p-6">
-              {resultat ? (
-                resultatPret ? (
-                  <PTIResultat contenu={resultat} />
-                ) : (
-                  <div className="flex h-[260px] items-center justify-center text-center text-sm font-medium text-violet-600 md:h-[300px]">
-                    {resultat}
-                  </div>
-                )
-              ) : (
-                <div className="flex h-[260px] items-center justify-center text-center text-sm text-slate-400 md:h-[300px]">
-                  Génère un PTI pour voir les résultats ici.
+          <div className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
+            <div className="rounded-[36px] border border-white/80 bg-white/75 p-5 shadow-sm backdrop-blur md:p-7">
+              <div className="flex items-start gap-3">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-violet-100">
+                  <Stethoscope className="h-6 w-6 text-violet-800" />
                 </div>
-              )}
-            </div>
 
-            {resultatPret && (
-              <p className="mt-4 rounded-2xl bg-amber-50 p-4 text-sm leading-6 text-amber-800">
-                ⚠️ Ce PTI est une ébauche éducative. Valide toujours avec les
-                consignes de ton programme, les outils officiels, les politiques
-                du milieu et le jugement clinique.
-              </p>
-            )}
+                <div>
+                  <h2 className="text-2xl font-black text-slate-950">
+                    Situation clinique
+                  </h2>
 
-            {resultatPret && (
-              <div className="mt-4 rounded-3xl border border-violet-100 bg-white/90 p-5 shadow-sm">
-                <p className="font-bold text-violet-700">
-                  📄 Personnaliser mon PDF {premium ? "" : "— Premium"}
-                </p>
+                  <p className="mt-2 text-sm leading-6 text-slate-500">
+                    Décris les signes, symptômes, antécédents et le contexte,
+                    sans nom, date de naissance ou information identifiable.
+                  </p>
+                </div>
+              </div>
 
-                <p className="mt-1 text-sm leading-6 text-slate-500">
-                  Coche les sections que tu veux inclure dans ton PDF.
-                </p>
+              <textarea
+                className="mt-6 min-h-[240px] w-full rounded-[28px] border border-violet-100 bg-white p-5 text-sm leading-7 shadow-sm outline-none transition placeholder:text-slate-300 focus:border-violet-300 focus:ring-4 focus:ring-violet-100 md:min-h-[310px] md:text-base"
+                placeholder="Ex. Patient de 72 ans, insuffisance cardiaque, SpO₂ 89 %, dyspnée, prise de poids de 2 kg en 2 jours..."
+                value={situation}
+                onChange={(e) => setSituation(e.target.value)}
+              />
 
-                <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                  {optionsPDF.map((option) => (
-                    <label
-                      key={option.key}
-                      className="flex cursor-pointer gap-3 rounded-2xl bg-violet-50 p-3 text-sm text-slate-700 transition hover:bg-violet-100"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={sectionsPDF[option.key]}
-                        onChange={() => changerSectionPDF(option.key)}
-                        className="mt-1 h-4 w-4 shrink-0 accent-violet-600"
-                      />
+              <div className="mt-5 rounded-[28px] border border-white/80 bg-white/70 p-4 shadow-sm">
+                <label className="flex cursor-pointer flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="font-black text-slate-900">
+                        Cas complexe
+                      </p>
 
-                      <span>
-                        <span className="block font-bold">
-                          {option.label}
-                        </span>
-                        <span className="mt-0.5 block text-xs leading-5 text-slate-500">
-                          {option.description}
-                        </span>
+                      <span className="inline-flex items-center gap-1 rounded-full bg-violet-800 px-3 py-1 text-xs font-extrabold text-white">
+                        <Crown className="h-3.5 w-3.5" />
+                        Premium
                       </span>
-                    </label>
-                  ))}
+                    </div>
+
+                    <p className="mt-2 text-sm leading-6 text-slate-500">
+                      Analyse plus poussée : priorités, complications possibles,
+                      surveillance avancée et signes de détérioration.
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setModeComplexe(!modeComplexe)}
+                    className={`relative h-8 w-14 shrink-0 rounded-full transition ${
+                      modeComplexe ? "bg-violet-800" : "bg-slate-300"
+                    }`}
+                  >
+                    <span
+                      className={`absolute top-1 h-6 w-6 rounded-full bg-white shadow transition ${
+                        modeComplexe ? "left-7" : "left-1"
+                      }`}
+                    />
+                  </button>
+                </label>
+              </div>
+
+              <button
+                onClick={genererPTI}
+                disabled={chargement}
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-violet-800 px-8 py-4 font-extrabold text-white shadow-lg shadow-violet-100 transition hover:-translate-y-0.5 hover:bg-violet-900 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+              >
+                {chargement
+                  ? "Génération..."
+                  : modeComplexe
+                    ? "Générer le PTI complexe"
+                    : "Générer le PTI"}
+                {!chargement && <ArrowRight className="h-4 w-4" />}
+              </button>
+
+              <div className="mt-5 grid gap-2 text-sm text-slate-500 sm:grid-cols-3">
+                <span className="inline-flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-violet-700" />
+                  Rapide
+                </span>
+
+                <span className="inline-flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-violet-700" />
+                  Pensé stages
+                </span>
+
+                <span className="inline-flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-violet-700" />
+                  Éducatif
+                </span>
+              </div>
+            </div>
+
+            <div className="rounded-[36px] border border-white/80 bg-white/85 p-5 shadow-xl shadow-violet-100 backdrop-blur md:p-7">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-start gap-3">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-violet-100">
+                    <ClipboardList className="h-6 w-6 text-violet-800" />
+                  </div>
+
+                  <div>
+                    <h2 className="text-2xl font-black text-slate-950">
+                      PTI suggéré
+                    </h2>
+
+                    <p className="mt-2 text-sm text-slate-500">
+                      Ton plan apparaîtra ici après génération.
+                    </p>
+                  </div>
                 </div>
 
-                {premium ? (
-                  <button
-                    onClick={telechargerPDF}
-                    className="mt-5 w-full rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-6 py-3 font-bold text-white shadow-lg shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-xl sm:w-auto"
-                  >
-                    📄 Télécharger le PDF personnalisé
-                  </button>
+                {modeComplexe && (
+                  <span className="w-fit rounded-full bg-violet-100 px-4 py-2 text-xs font-extrabold text-violet-800">
+                    👑 Cas complexe
+                  </span>
+                )}
+              </div>
+
+              <div className="mt-6 min-h-[360px] rounded-[32px] bg-gradient-to-br from-violet-50 via-white to-pink-50 p-4 md:min-h-[430px] md:p-6">
+                {resultat ? (
+                  resultatPret ? (
+                    <PTIResultat contenu={resultat} />
+                  ) : (
+                    <div className="flex h-[300px] items-center justify-center text-center text-sm font-bold text-violet-700 md:h-[360px]">
+                      {resultat}
+                    </div>
+                  )
                 ) : (
-                  <div className="mt-5 rounded-2xl bg-violet-50 p-4 text-sm text-violet-700">
-                    <p className="font-bold">Export PDF Premium</p>
-
-                    <p className="mt-1">
-                      Passe Premium pour télécharger un PDF personnalisé.
-                    </p>
-
-                    <a
-                      href="/premium"
-                      className="mt-3 inline-flex font-bold text-violet-700 hover:text-pink-500"
-                    >
-                      Débloquer l’export PDF →
-                    </a>
+                  <div className="flex h-[300px] items-center justify-center text-center text-sm text-slate-400 md:h-[360px]">
+                    Génère un PTI pour voir les résultats ici.
                   </div>
                 )}
               </div>
-            )}
+
+              {resultatPret && (
+                <p className="mt-4 rounded-2xl bg-amber-50 p-4 text-sm leading-6 text-amber-800">
+                  ⚠️ Ce PTI est une ébauche éducative. Valide toujours avec les
+                  consignes de ton programme, les outils officiels, les
+                  politiques du milieu et le jugement clinique.
+                </p>
+              )}
+
+              {resultatPret && (
+                <div className="mt-4 rounded-[32px] border border-white/80 bg-white/75 p-5 shadow-sm">
+                  <p className="flex items-center gap-2 font-black text-violet-800">
+                    <FileText className="h-5 w-5" />
+                    Personnaliser mon PDF {premium ? "" : "— Premium"}
+                  </p>
+
+                  <p className="mt-2 text-sm leading-6 text-slate-500">
+                    Coche les sections que tu veux inclure dans ton PDF.
+                  </p>
+
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                    {optionsPDF.map((option) => (
+                      <label
+                        key={option.key}
+                        className="flex cursor-pointer gap-3 rounded-2xl bg-violet-50 p-3 text-sm text-slate-700 transition hover:bg-violet-100"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={sectionsPDF[option.key]}
+                          onChange={() => changerSectionPDF(option.key)}
+                          className="mt-1 h-4 w-4 shrink-0 accent-violet-800"
+                        />
+
+                        <span>
+                          <span className="block font-extrabold">
+                            {option.label}
+                          </span>
+                          <span className="mt-0.5 block text-xs leading-5 text-slate-500">
+                            {option.description}
+                          </span>
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+
+                  {premium ? (
+                    <button
+                      onClick={telechargerPDF}
+                      className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-violet-800 px-6 py-3 font-extrabold text-white shadow-lg shadow-violet-100 transition hover:-translate-y-0.5 hover:bg-violet-900 sm:w-auto"
+                    >
+                      <Download className="h-4 w-4" />
+                      Télécharger le PDF personnalisé
+                    </button>
+                  ) : (
+                    <div className="mt-5 rounded-2xl bg-violet-50 p-4 text-sm text-violet-800">
+                      <p className="flex items-center gap-2 font-extrabold">
+                        <Lock className="h-4 w-4" />
+                        Export PDF Premium
+                      </p>
+
+                      <p className="mt-1">
+                        Passe Premium pour télécharger un PDF personnalisé.
+                      </p>
+
+                      <a
+                        href="/premium"
+                        className="mt-3 inline-flex font-extrabold text-violet-800 hover:text-violet-950"
+                      >
+                        Débloquer l’export PDF →
+                      </a>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>
