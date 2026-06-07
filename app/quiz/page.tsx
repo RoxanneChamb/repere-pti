@@ -11,6 +11,7 @@ import {
   Crown,
   GraduationCap,
   Target,
+  Lock,
 } from "lucide-react";
 
 export default function QuizPage() {
@@ -23,6 +24,22 @@ export default function QuizPage() {
   const [bonnes, setBonnes] = useState(0);
   const [mauvaises, setMauvaises] = useState(0);
   const [premium, setPremium] = useState(false);
+  const [specialite, setSpecialite] = useState("Général");
+
+  const specialites = [
+    "Général",
+    "Urgence",
+    "Pédiatrie",
+    "Périnatalité",
+    "Santé mentale",
+    "Gériatrie / CHSLD",
+    "Chirurgie",
+    "Médecine",
+    "Cardiologie",
+    "Respiratoire",
+    "Diabète / endocrinologie",
+    "Pharmacologie",
+  ];
 
   const total = bonnes + mauvaises;
   const precision = total > 0 ? Math.round((bonnes / total) * 100) : 0;
@@ -38,7 +55,7 @@ export default function QuizPage() {
       .from("profiles")
       .select("premium")
       .eq("id", user.id)
-      .single();
+      .maybeSingle();
 
     setPremium(profile?.premium === true);
 
@@ -46,7 +63,7 @@ export default function QuizPage() {
       .from("quiz_stats")
       .select("*")
       .eq("user_id", user.id)
-      .single();
+      .maybeSingle();
 
     if (data) {
       setScore(data.score || 0);
@@ -78,8 +95,12 @@ export default function QuizPage() {
     const response = await fetch("/api/generer-quiz", {
       method: "POST",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${session.access_token}`,
       },
+      body: JSON.stringify({
+        specialite,
+      }),
     });
 
     const data = await response.json();
@@ -104,7 +125,7 @@ export default function QuizPage() {
       .from("quiz_stats")
       .select("*")
       .eq("user_id", user.id)
-      .single();
+      .maybeSingle();
 
     if (!stats) {
       await supabase.from("quiz_stats").insert({
@@ -136,7 +157,7 @@ export default function QuizPage() {
 
     await supabase.from("quiz_history").insert({
       user_id: user.id,
-      categorie: quiz?.categorie || "Quiz clinique",
+      categorie: quiz?.categorie || specialite || "Quiz clinique",
       score: bonne ? 1 : 0,
       total: 1,
     });
@@ -160,6 +181,7 @@ export default function QuizPage() {
         // @ts-ignore
         window.gtag?.("event", "quiz_completed", {
           result: bonneReponse ? "correct" : "incorrect",
+          specialite: quiz?.categorie || specialite,
         });
       }
 
@@ -202,7 +224,7 @@ export default function QuizPage() {
                   Premium actif
                 </p>
                 <p className="mt-2 text-sm leading-6 text-slate-600">
-                  Quiz illimités et accès aux futures fonctionnalités Premium.
+                  Quiz illimités et quiz par spécialité débloqués.
                 </p>
               </>
             ) : (
@@ -270,6 +292,51 @@ export default function QuizPage() {
         </div>
 
         <div className="mt-6 rounded-3xl bg-white/85 p-5 shadow-lg md:p-6">
+          <p className="text-sm font-bold text-violet-700">
+            Spécialité du quiz {premium ? "👑" : "— Premium"}
+          </p>
+
+          <p className="mt-2 text-sm leading-6 text-slate-500">
+            Choisis une spécialité pour pratiquer un thème précis. La version
+            gratuite utilise le mode général.
+          </p>
+
+          <select
+            value={specialite}
+            onChange={(e) => setSpecialite(e.target.value)}
+            disabled={!premium}
+            className="mt-4 w-full rounded-2xl border border-violet-100 bg-white p-4 text-sm font-bold text-slate-700 outline-none transition focus:border-violet-400 focus:ring-4 focus:ring-violet-100 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
+          >
+            {specialites.map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+
+          {!premium && (
+            <div className="mt-4 rounded-2xl bg-violet-50 p-4 text-sm text-violet-700">
+              <p className="flex items-center gap-2 font-bold">
+                <Lock className="h-4 w-4" />
+                Quiz par spécialité réservés Premium
+              </p>
+
+              <p className="mt-1 leading-6">
+                La version gratuite génère des quiz généraux. Premium débloque
+                les spécialités et les quiz illimités.
+              </p>
+
+              <a
+                href="/premium"
+                className="mt-3 inline-flex font-bold text-violet-700 hover:text-pink-500"
+              >
+                Débloquer les quiz par spécialité →
+              </a>
+            </div>
+          )}
+        </div>
+
+        <div className="mt-6 rounded-3xl bg-white/85 p-5 shadow-lg md:p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-sm font-bold text-violet-600">
@@ -278,6 +345,10 @@ export default function QuizPage() {
 
               <p className="mt-2 text-sm leading-6 text-slate-500">
                 Génère une nouvelle situation clinique et teste ton jugement.
+              </p>
+
+              <p className="mt-2 text-sm font-bold text-violet-700">
+                Thème actuel : {specialite}
               </p>
             </div>
 
@@ -309,6 +380,18 @@ export default function QuizPage() {
 
         {quiz && (
           <div className="mt-6 rounded-[32px] bg-white/90 p-5 shadow-xl backdrop-blur md:p-8">
+            <div className="mb-5 flex flex-wrap items-center gap-2">
+              <span className="rounded-full bg-violet-100 px-4 py-2 text-xs font-bold text-violet-700">
+                {quiz.categorie || specialite}
+              </span>
+
+              {premium && (
+                <span className="rounded-full bg-pink-100 px-4 py-2 text-xs font-bold text-pink-700">
+                  👑 Premium
+                </span>
+              )}
+            </div>
+
             <div className="rounded-3xl bg-gradient-to-br from-violet-50 to-pink-50 p-5">
               <p className="text-xs font-bold uppercase tracking-[0.16em] text-violet-600">
                 Situation

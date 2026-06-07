@@ -1,14 +1,11 @@
 import OpenAI from "openai";
 import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
 export async function POST(request: Request) {
   try {
     const apiKey = process.env.OPENAI_API_KEY;
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!apiKey) {
       return Response.json(
@@ -16,6 +13,15 @@ export async function POST(request: Request) {
         { status: 500 }
       );
     }
+
+    if (!supabaseUrl || !supabaseServiceRoleKey) {
+      return Response.json(
+        { error: "Configuration Supabase introuvable." },
+        { status: 500 }
+      );
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
 
     const authHeader = request.headers.get("authorization");
     const token = authHeader?.replace("Bearer ", "");
@@ -38,13 +44,26 @@ export async function POST(request: Request) {
       );
     }
 
+    const body = await request.json().catch(() => ({}));
+    const specialite = body?.specialite || "Général";
+
     const { data: profile } = await supabase
       .from("profiles")
       .select("premium")
       .eq("id", user.id)
-      .single();
+      .maybeSingle();
 
     const isPremium = profile?.premium === true;
+
+    if (specialite !== "Général" && !isPremium) {
+      return Response.json(
+        {
+          error:
+            "Les quiz par spécialité sont réservés aux utilisateurs Premium.",
+        },
+        { status: 403 }
+      );
+    }
 
     const debutJournee = new Date();
     debutJournee.setHours(0, 0, 0, 0);
@@ -59,21 +78,34 @@ export async function POST(request: Request) {
       return Response.json(
         {
           error:
-            "Limite gratuite atteinte : 2 quiz par jour. Passe Premium pour pratiquer sans limite.",
+            "Limite gratuite atteinte : 2 quiz par jour. Passe Premium pour les quiz illimités et les quiz par spécialité.",
         },
         { status: 403 }
       );
     }
 
+    const themesGeneraux =
+      "sepsis, AVC, diabète, MPOC, insuffisance cardiaque, médicaments, priorisation, douleur, risque de chute";
+
+    const themeChoisi =
+      specialite === "Général"
+        ? themesGeneraux
+        : `spécialité : ${specialite}`;
+
     const client = new OpenAI({ apiKey });
 
     const response = await client.responses.create({
       model: "gpt-4.1-mini",
+      max_output_tokens: 900,
       input: `
-Crée un quiz clinique pour une étudiante en soins infirmiers.
+Crée un quiz clinique pour une étudiante en soins infirmiers au Québec.
 
-Retourne UNIQUEMENT un JSON valide avec ce format :
+Spécialité ou thème demandé :
+${themeChoisi}
+
+Retourne UNIQUEMENT un JSON valide avec ce format exact :
 {
+  "categorie": "${specialite}",
   "situation": "...",
   "question": "...",
   "choix": {
@@ -86,21 +118,18 @@ Retourne UNIQUEMENT un JSON valide avec ce format :
   "explication": "..."
 }
 
-IMPORTANT :
-- La bonne réponse doit varier entre A, B, C et D.
-- Ne mets pas toujours la bonne réponse en A.
-- Les mauvaises réponses doivent être plausibles.
-- Le quiz doit tester la priorisation ou le raisonnement clinique.
-- Les questions doivent être adaptées à une étudiante en soins infirmiers.
-- Ne retourne aucun texte hors du JSON.
-
-Thèmes possibles : sepsis, AVC, diabète, MPOC, insuffisance cardiaque, médicaments, priorisation.
-Niveau : étudiant en soins infirmiers.
-Langue : français.
+Règles :
+- Le quiz doit être réaliste et adapté à une étudiante en soins infirmiers.
+- La question doit tester le raisonnement clinique, la priorisation, la surveillance ou la sécurité.
+- Une seule bonne réponse.
+- L'explication doit être claire, pédagogique et concise.
+- Ne pas donner d’ordonnance médicale.
+- Ne pas remplacer le jugement clinique.
+- Langue : français québécois professionnel.
 `,
     });
 
-    const texte = response.output_text;
+    const texte = response.output_text.trim();
     const quiz = JSON.parse(texte);
 
     return Response.json({ quiz });
