@@ -11,6 +11,7 @@ import { supabase } from "@/lib/supabaseClient";
 
 export default function Home() {
   const [connecte, setConnecte] = useState(false);
+  const [nombreUtilisateurs, setNombreUtilisateurs] = useState(0);
 
   useEffect(() => {
     const verifierConnexion = async () => {
@@ -21,8 +22,30 @@ export default function Home() {
       setConnecte(!!user);
     };
 
+    const chargerStats = async () => {
+      try {
+        const response = await fetch("/api/stats");
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        if (data.utilisateurs !== undefined) {
+          setNombreUtilisateurs(data.utilisateurs);
+        }
+      } catch (error) {
+        console.error("Erreur chargement stats :", error);
+      }
+    };
+
     verifierConnexion();
+    chargerStats();
   }, []);
+
+  const nombreAffiche =
+    nombreUtilisateurs >= 10
+      ? Math.floor(nombreUtilisateurs / 10) * 10
+      : nombreUtilisateurs;
 
   return (
     <main className="min-h-screen overflow-hidden bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
@@ -55,6 +78,17 @@ export default function Home() {
         <p className="mt-4 text-sm font-medium text-slate-500">
           Créé par une infirmière • Propulsé par l’IA
         </p>
+
+        {nombreUtilisateurs > 0 && (
+          <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-white/80 px-5 py-3 text-sm font-bold text-violet-700 shadow-sm ring-1 ring-violet-100">
+            ✨{" "}
+            {nombreUtilisateurs >= 10
+              ? `Plus de ${nombreAffiche} étudiantes ont utilisé Repère PTI`
+              : `${nombreUtilisateurs} étudiante${
+                  nombreUtilisateurs > 1 ? "s" : ""
+                } ont utilisé Repère PTI`}
+          </div>
+        )}
 
         <div className="mt-8 grid w-full max-w-sm gap-3 sm:mt-9 sm:max-w-none sm:grid-cols-4">
           <a
@@ -123,11 +157,14 @@ export default function Home() {
         </p>
 
         <a
-  href="/installer"
-  className="mt-4 inline-flex w-full max-w-sm justify-center rounded-2xl bg-white/85 px-6 py-3 text-sm font-bold text-violet-600 shadow-sm ring-1 ring-violet-100 transition hover:-translate-y-0.5 hover:bg-white hover:text-pink-500 sm:w-auto"
->
-  📱 Installer Repère PTI sur mon téléphone
-</a>
+          href="/installer"
+          className="mt-4 inline-flex items-center gap-2 rounded-full bg-violet-100/70 px-5 py-3 text-sm font-bold text-violet-700 transition hover:bg-violet-200/70 hover:text-pink-600"
+        >
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/60">
+            📱
+          </span>
+          Installer Repère PTI sur mon téléphone
+        </a>
 
         <div className="mt-12 w-full max-w-2xl border-t border-slate-200 pt-6 sm:mt-16 sm:pt-8">
           <p className="mb-4 text-xs leading-5 text-slate-400">
@@ -155,9 +192,8 @@ export default function Home() {
             </a>
 
             <a href="/installer" className="transition hover:text-violet-600">
-  Installer l’app
-</a> 
-
+              Installer l’app
+            </a>
           </div>
         </div>
       </section>
