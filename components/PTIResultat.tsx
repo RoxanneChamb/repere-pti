@@ -12,10 +12,18 @@ export default function PTIResultat({ contenu }: Props) {
 
     if (texte.startsWith("# ")) {
       return (
-        <div key={index} className="mt-8 first:mt-0">
-         <h2 className="rounded-3xl bg-gradient-to-r from-violet-600 to-pink-500 px-4 py-3 text-lg font-extrabold text-white shadow-lg shadow-pink-100 md:text-xl">
-            {texte.replace("# ", "")}
-          </h2>
+        <div key={index} className="mt-9 first:mt-0">
+          <div className="rounded-[28px] border border-violet-100 bg-white/85 p-5 shadow-sm">
+            <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-violet-700">
+              Section
+            </p>
+
+            <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-950 md:text-3xl">
+              {texte.replace("# ", "")}
+            </h2>
+
+            <div className="mt-3 h-px w-40 bg-gradient-to-r from-violet-300 via-pink-200 to-transparent" />
+          </div>
         </div>
       );
     }
@@ -24,24 +32,11 @@ export default function PTIResultat({ contenu }: Props) {
       return (
         <div
           key={index}
-          className="mt-7 rounded-3xl border border-violet-100 bg-gradient-to-br from-violet-50 to-pink-50 p-5 shadow-sm"
+          className="mt-7 rounded-[28px] border border-white/80 bg-gradient-to-br from-violet-100 via-white to-pink-50 p-5 shadow-sm"
         >
-          <h3 className="text-base font-extrabold text-violet-700 md:text-lg">
+          <h3 className="text-lg font-black leading-7 text-violet-900 md:text-xl">
             {texte.replace("## ", "")}
           </h3>
-        </div>
-      );
-    }
-
-    if (/^\d+\.\s/.test(texte)) {
-      return (
-        <div
-          key={index}
-          className="mt-5 rounded-3xl border border-violet-100 bg-white p-5 shadow-sm"
-        >
-          <p className="text-base font-extrabold text-slate-900 md:text-lg">
-            {texte}
-          </p>
         </div>
       );
     }
@@ -50,17 +45,36 @@ export default function PTIResultat({ contenu }: Props) {
       return (
         <div
           key={index}
-          className="mt-4 rounded-2xl border border-pink-100 bg-pink-50/80 p-4 shadow-sm"
+          className="mt-4 rounded-2xl border border-violet-100 bg-violet-50 p-4 shadow-sm"
         >
-          <p className="font-bold text-pink-700">{texte}</p>
+          <p className="text-sm font-extrabold leading-7 text-violet-900 md:text-base">
+            {texte}
+          </p>
+        </div>
+      );
+    }
+
+    if (/^\d+\.\s/.test(texte)) {
+      return (
+        <div
+          key={index}
+          className="mt-5 rounded-[28px] border border-white/80 bg-white/85 p-5 shadow-sm"
+        >
+          <p className="text-base font-black leading-7 text-slate-950 md:text-lg">
+            {texte}
+          </p>
         </div>
       );
     }
 
     if (texte.startsWith("- ")) {
       return (
-        <div key={index} className="ml-1 mt-2 flex gap-3">
-          <div className="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-violet-400" />
+        <div
+          key={index}
+          className="mt-2 flex gap-3 rounded-2xl bg-white/55 px-4 py-3"
+        >
+          <div className="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-violet-700" />
+
           <p className="text-sm leading-7 text-slate-700 md:text-base">
             {texte.replace("- ", "")}
           </p>
@@ -75,10 +89,10 @@ export default function PTIResultat({ contenu }: Props) {
       return (
         <div
           key={index}
-          className="mt-3 rounded-2xl border border-slate-100 bg-white/80 p-4"
+          className="mt-3 rounded-2xl border border-white/80 bg-white/75 p-4 shadow-sm"
         >
           <p className="text-sm leading-7 text-slate-700 md:text-base">
-            <span className="font-extrabold text-slate-900">{label} :</span>{" "}
+            <span className="font-black text-violet-900">{label} :</span>{" "}
             {valeur}
           </p>
         </div>
@@ -88,7 +102,7 @@ export default function PTIResultat({ contenu }: Props) {
     return (
       <p
         key={index}
-        className="mt-3 text-sm leading-7 text-slate-700 md:text-base"
+        className="mt-3 rounded-2xl bg-white/45 px-4 py-3 text-sm leading-7 text-slate-700 md:text-base"
       >
         {texte}
       </p>
