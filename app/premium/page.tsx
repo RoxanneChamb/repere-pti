@@ -133,12 +133,12 @@ export default function PremiumPage() {
 
   if (chargementProfil) {
     return (
-      <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
+      <main className="min-h-screen overflow-hidden bg-[#fbf8fd] text-slate-900">
         <Navbar />
 
         <section className="mx-auto max-w-3xl px-4 py-16 text-center">
-          <div className="rounded-[32px] bg-white/85 p-8 shadow-xl">
-            <p className="font-bold text-violet-700">
+          <div className="rounded-[36px] border border-white/80 bg-white/75 p-8 shadow-sm backdrop-blur">
+            <p className="font-extrabold text-violet-800">
               Chargement de ton statut Premium...
             </p>
           </div>
@@ -148,140 +148,156 @@ export default function PremiumPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
+    <main className="min-h-screen overflow-hidden bg-[#fbf8fd] text-slate-900">
       <Navbar />
 
-      <section className="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-16">
-        <div className="grid items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
+      <section className="relative mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-14">
+        <div className="pointer-events-none absolute -right-40 top-0 h-[380px] w-[380px] rounded-full bg-violet-200/50 blur-3xl" />
+        <div className="pointer-events-none absolute -left-40 bottom-20 h-[340px] w-[340px] rounded-full bg-pink-100/70 blur-3xl" />
+
+        <div className="relative z-10 grid items-start gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-violet-100 bg-white/80 px-4 py-2 text-xs font-bold text-violet-600 shadow-sm backdrop-blur md:text-sm">
-              <Sparkles className="h-4 w-4" />
-              {premium
-                ? "Ton abonnement Premium est actif"
-                : "Pour aller plus loin dans tes stages"}
+            <div className="rounded-[36px] border border-white/80 bg-white/70 p-6 shadow-sm backdrop-blur md:p-9">
+              <div className="inline-flex items-center gap-2 rounded-full border border-violet-100 bg-white/80 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-violet-700 shadow-sm">
+                <Sparkles className="h-4 w-4" />
+                {premium
+                  ? "Abonnement actif"
+                  : "Pour aller plus loin dans tes stages"}
+              </div>
+
+              <h1 className="mt-6 text-4xl font-black tracking-tight text-slate-950 sm:text-5xl md:text-6xl">
+                {premium ? (
+                  <>
+                    Ton espace{" "}
+                    <span className="bg-gradient-to-r from-violet-700 via-purple-500 to-pink-400 bg-clip-text text-transparent">
+                      Premium
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    Débloque{" "}
+                    <span className="bg-gradient-to-r from-violet-700 via-purple-500 to-pink-400 bg-clip-text text-transparent">
+                      Premium
+                    </span>
+                  </>
+                )}
+              </h1>
+
+              <div className="mt-4 h-px w-48 bg-gradient-to-r from-violet-300 via-pink-200 to-transparent" />
+
+              <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 md:text-lg md:leading-8">
+                {premium
+                  ? "Tu as accès aux PTI illimités, aux quiz illimités, aux quiz par spécialité, aux cas complexes et à l’export PDF. Tu peux gérer ou annuler ton abonnement à tout moment depuis le portail sécurisé Stripe."
+                  : "Premium te permet de pratiquer davantage, de choisir des quiz par spécialité, d’obtenir des analyses plus poussées et de conserver tes PTI en format PDF."}
+              </p>
+
+              <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-[28px] border border-white/80 bg-white/75 p-5 shadow-sm backdrop-blur">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-100">
+                    <Infinity className="h-6 w-6 text-violet-800" />
+                  </div>
+
+                  <p className="mt-4 font-extrabold text-slate-950">
+                    Sans limites
+                  </p>
+
+                  <p className="mt-2 text-sm leading-6 text-slate-500">
+                    Génère plus de PTI et de quiz pour pratiquer à ton rythme.
+                  </p>
+                </div>
+
+                <div className="rounded-[28px] border border-white/80 bg-white/75 p-5 shadow-sm backdrop-blur">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-100">
+                    <Target className="h-6 w-6 text-violet-800" />
+                  </div>
+
+                  <p className="mt-4 font-extrabold text-slate-950">
+                    Quiz par spécialité
+                  </p>
+
+                  <p className="mt-2 text-sm leading-6 text-slate-500">
+                    Urgence, périnatalité, santé mentale, cardio, respiratoire
+                    et plus.
+                  </p>
+                </div>
+
+                <div className="rounded-[28px] border border-white/80 bg-white/75 p-5 shadow-sm backdrop-blur">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-100">
+                    <Brain className="h-6 w-6 text-violet-800" />
+                  </div>
+
+                  <p className="mt-4 font-extrabold text-slate-950">
+                    Cas complexes
+                  </p>
+
+                  <p className="mt-2 text-sm leading-6 text-slate-500">
+                    Priorités, risques, surveillance avancée et détérioration.
+                  </p>
+                </div>
+
+                <div className="rounded-[28px] border border-white/80 bg-white/75 p-5 shadow-sm backdrop-blur">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-100">
+                    <Download className="h-6 w-6 text-violet-800" />
+                  </div>
+
+                  <p className="mt-4 font-extrabold text-slate-950">
+                    Export PDF
+                  </p>
+
+                  <p className="mt-2 text-sm leading-6 text-slate-500">
+                    Télécharge tes PTI pour les conserver et les relire.
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <h1 className="mt-6 text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
-              {premium ? (
-                <>
-                  Ton espace{" "}
-                  <span className="bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 bg-clip-text text-transparent">
-                    Premium
-                  </span>
-                </>
-              ) : (
-                <>
-                  Débloque tout le potentiel de{" "}
-                  <span className="bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 bg-clip-text text-transparent">
-                    Repère PTI
-                  </span>
-                </>
-              )}
-            </h1>
-
-            <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 md:text-lg md:leading-8">
-              {premium
-                ? "Tu as accès aux PTI illimités, aux quiz illimités, aux quiz par spécialité, aux cas complexes et à l’export PDF. Tu peux gérer ou annuler ton abonnement à tout moment depuis le portail sécurisé Stripe."
-                : "Premium te permet de pratiquer davantage, d’obtenir des analyses plus poussées, de choisir des quiz par spécialité et de conserver tes PTI en format PDF pour tes révisions, tes stages et ton développement du raisonnement clinique."}
-            </p>
-
-            <div className="mt-8 grid gap-3 sm:grid-cols-2 md:grid-cols-4 md:gap-4">
-              <div className="rounded-3xl bg-white/85 p-5 shadow-sm">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-100">
-                  <Infinity className="h-6 w-6 text-violet-600" />
-                </div>
-
-                <p className="mt-4 font-bold">Sans limites</p>
-
-                <p className="mt-1 text-sm leading-6 text-slate-500">
-                  Génère plus de PTI et de quiz pour pratiquer à ton rythme.
-                </p>
-              </div>
-
-              <div className="rounded-3xl bg-white/85 p-5 shadow-sm">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-pink-100">
-                  <Brain className="h-6 w-6 text-pink-600" />
-                </div>
-
-                <p className="mt-4 font-bold">Cas complexes</p>
-
-                <p className="mt-1 text-sm leading-6 text-slate-500">
-                  Priorités, risques, surveillance avancée et détérioration.
-                </p>
-              </div>
-
-              <div className="rounded-3xl bg-white/85 p-5 shadow-sm">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-100">
-                  <Target className="h-6 w-6 text-violet-600" />
-                </div>
-
-                <p className="mt-4 font-bold">Quiz par spécialité</p>
-
-                <p className="mt-1 text-sm leading-6 text-slate-500">
-                  Urgence, périnatalité, santé mentale, cardio, respiratoire et plus.
-                </p>
-              </div>
-
-              <div className="rounded-3xl bg-white/85 p-5 shadow-sm">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-fuchsia-100">
-                  <Download className="h-6 w-6 text-fuchsia-600" />
-                </div>
-
-                <p className="mt-4 font-bold">Export PDF</p>
-
-                <p className="mt-1 text-sm leading-6 text-slate-500">
-                  Télécharge tes PTI pour les conserver et les relire.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-8 rounded-3xl border border-violet-100 bg-white/75 p-5 shadow-sm">
-              <p className="flex items-center gap-2 text-sm font-bold text-violet-700">
-                <ShieldCheck className="h-5 w-5" />
-                Pratique des thèmes précis : urgence, périnatalité, santé mentale,
-                cardio, respiratoire et plus.
+            <div className="mt-6 rounded-[32px] border border-white/80 bg-white/70 p-5 shadow-sm backdrop-blur">
+              <p className="flex items-start gap-2 text-sm font-extrabold text-violet-800">
+                <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0" />
+                Repère PTI aide à structurer ton raisonnement clinique.
               </p>
 
               <p className="mt-2 text-sm leading-6 text-slate-600">
-                Repère PTI aide à structurer ton raisonnement clinique, mais ne
-                remplace jamais ton jugement, les politiques locales ou
-                l’encadrement de ton milieu de stage.
+                L’outil demeure éducatif et ne remplace jamais ton jugement, les
+                politiques locales ou l’encadrement de ton milieu de stage.
+              </p>
+
+              <p className="mt-4 flex items-center gap-2 text-sm text-slate-500">
+                <Lock className="h-4 w-4" />
+                Paiement et gestion d’abonnement sécurisés par Stripe.
               </p>
             </div>
-
-            <p className="mt-6 flex items-center gap-2 text-sm text-slate-500">
-              <Lock className="h-4 w-4" />
-              Paiement et gestion d’abonnement sécurisés par Stripe.
-            </p>
           </div>
 
-          <div className="rounded-[32px] border border-white/70 bg-white/90 p-5 shadow-2xl shadow-pink-100 backdrop-blur md:rounded-[36px] md:p-8">
+          <div className="rounded-[36px] border border-white/80 bg-white/85 p-5 shadow-2xl shadow-violet-100 backdrop-blur md:p-8">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-sm font-bold text-violet-600">
+                <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-violet-700">
                   Repère PTI Premium
                 </p>
 
-                <h2 className="mt-2 text-3xl font-extrabold md:text-4xl">
+                <h2 className="mt-3 text-3xl font-black text-slate-950 md:text-4xl">
                   {premium ? "Premium actif" : "Plan mensuel"}
                 </h2>
 
-                <p className="mt-2 text-sm text-slate-500">
+                <p className="mt-2 text-sm leading-6 text-slate-500">
                   {premium
                     ? "Ton abonnement est actuellement actif."
                     : "Pour pratiquer plus souvent pendant ta session ou tes stages."}
                 </p>
               </div>
 
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 to-pink-500 text-white shadow-lg">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-violet-800 text-white shadow-lg shadow-violet-100">
                 <Crown className="h-7 w-7" />
               </div>
             </div>
 
-            <div className="mt-8 rounded-3xl bg-gradient-to-br from-violet-50 via-pink-50 to-white p-5">
+            <div className="mt-8 rounded-[30px] bg-gradient-to-br from-violet-100 via-white to-pink-50 p-5">
               <div className="flex items-end gap-2">
-                <p className="text-5xl font-extrabold md:text-6xl">2,99 $</p>
-                <p className="pb-2 font-medium text-slate-500">/ mois</p>
+                <p className="text-5xl font-black text-slate-950 md:text-6xl">
+                  2,99 $
+                </p>
+                <p className="pb-2 font-bold text-slate-500">/ mois</p>
               </div>
 
               <p className="mt-3 text-sm leading-6 text-slate-500">
@@ -291,11 +307,14 @@ export default function PremiumPage() {
               </p>
             </div>
 
-            <div className="mt-8 space-y-4">
+            <div className="mt-8 space-y-3">
               {avantages.map((avantage) => (
-                <div key={avantage} className="flex items-start gap-3">
+                <div
+                  key={avantage}
+                  className="flex items-start gap-3 rounded-2xl bg-white/70 p-3"
+                >
                   <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-violet-100">
-                    <Check className="h-4 w-4 text-violet-600" />
+                    <Check className="h-4 w-4 text-violet-800" />
                   </div>
 
                   <p className="font-medium leading-7 text-slate-700">
@@ -310,7 +329,7 @@ export default function PremiumPage() {
                 <button
                   onClick={ouvrirPortailAbonnement}
                   disabled={chargementPortail}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 px-8 py-4 font-bold text-white shadow-xl shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-2xl disabled:cursor-not-allowed disabled:opacity-60"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-violet-800 px-8 py-4 font-extrabold text-white shadow-lg shadow-violet-100 transition hover:-translate-y-0.5 hover:bg-violet-900 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   <Settings className="h-5 w-5" />
                   {chargementPortail
@@ -321,7 +340,7 @@ export default function PremiumPage() {
                 <button
                   onClick={ouvrirPortailAbonnement}
                   disabled={chargementPortail}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl border border-red-200 bg-red-50 px-8 py-4 font-bold text-red-600 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl border border-red-100 bg-red-50 px-8 py-4 font-extrabold text-red-600 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   <XCircle className="h-5 w-5" />
                   Annuler mon abonnement
@@ -335,40 +354,40 @@ export default function PremiumPage() {
               <button
                 onClick={ouvrirCheckout}
                 disabled={chargement}
-                className="mt-9 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 px-8 py-4 font-bold text-white shadow-xl shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-2xl disabled:cursor-not-allowed disabled:opacity-60"
+                className="mt-9 flex w-full items-center justify-center gap-2 rounded-2xl bg-violet-800 px-8 py-4 font-extrabold text-white shadow-lg shadow-violet-100 transition hover:-translate-y-0.5 hover:bg-violet-900 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {chargement ? "Ouverture du paiement..." : "Passer Premium"}
                 {!chargement && <ArrowRight className="h-5 w-5" />}
               </button>
             )}
 
-            <div className="mt-5 rounded-2xl bg-slate-50 p-4">
-              <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-400">
+            <div className="mt-5 rounded-[28px] bg-[#fbf8fd] p-4">
+              <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-slate-400">
                 Inclus avec Premium
               </p>
 
               <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
                 <div className="rounded-2xl bg-white p-3">
-                  <FileText className="h-5 w-5 text-violet-500" />
-                  <p className="mt-2 font-bold">PTI</p>
+                  <FileText className="h-5 w-5 text-violet-800" />
+                  <p className="mt-2 font-extrabold">PTI</p>
                   <p className="text-xs text-slate-500">Illimités</p>
                 </div>
 
                 <div className="rounded-2xl bg-white p-3">
-                  <Brain className="h-5 w-5 text-pink-500" />
-                  <p className="mt-2 font-bold">Quiz</p>
+                  <Brain className="h-5 w-5 text-violet-800" />
+                  <p className="mt-2 font-extrabold">Quiz</p>
                   <p className="text-xs text-slate-500">Illimités</p>
                 </div>
 
                 <div className="rounded-2xl bg-white p-3">
-                  <Target className="h-5 w-5 text-violet-500" />
-                  <p className="mt-2 font-bold">Spécialités</p>
+                  <Target className="h-5 w-5 text-violet-800" />
+                  <p className="mt-2 font-extrabold">Spécialités</p>
                   <p className="text-xs text-slate-500">Quiz ciblés</p>
                 </div>
 
                 <div className="rounded-2xl bg-white p-3">
-                  <Download className="h-5 w-5 text-fuchsia-500" />
-                  <p className="mt-2 font-bold">PDF</p>
+                  <Download className="h-5 w-5 text-violet-800" />
+                  <p className="mt-2 font-extrabold">PDF</p>
                   <p className="text-xs text-slate-500">Export</p>
                 </div>
               </div>
@@ -382,9 +401,9 @@ export default function PremiumPage() {
           </div>
         </div>
 
-        <div className="mt-12 grid gap-4 md:grid-cols-3">
-          <div className="rounded-3xl bg-white/80 p-5 shadow-sm">
-            <p className="font-bold text-slate-800">
+        <div className="relative z-10 mt-10 grid gap-4 md:grid-cols-3">
+          <div className="rounded-[28px] border border-white/80 bg-white/70 p-5 shadow-sm backdrop-blur">
+            <p className="font-extrabold text-slate-900">
               Est-ce que je peux annuler ?
             </p>
             <p className="mt-2 text-sm leading-6 text-slate-500">
@@ -393,8 +412,8 @@ export default function PremiumPage() {
             </p>
           </div>
 
-          <div className="rounded-3xl bg-white/80 p-5 shadow-sm">
-            <p className="font-bold text-slate-800">
+          <div className="rounded-[28px] border border-white/80 bg-white/70 p-5 shadow-sm backdrop-blur">
+            <p className="font-extrabold text-slate-900">
               Est-ce réservé aux étudiantes ?
             </p>
             <p className="mt-2 text-sm leading-6 text-slate-500">
@@ -403,8 +422,8 @@ export default function PremiumPage() {
             </p>
           </div>
 
-          <div className="rounded-3xl bg-white/80 p-5 shadow-sm">
-            <p className="font-bold text-slate-800">
+          <div className="rounded-[28px] border border-white/80 bg-white/70 p-5 shadow-sm backdrop-blur">
+            <p className="font-extrabold text-slate-900">
               Est-ce un avis clinique ?
             </p>
             <p className="mt-2 text-sm leading-6 text-slate-500">

@@ -12,6 +12,8 @@ import {
   GraduationCap,
   Target,
   Lock,
+  ArrowRight,
+  CircleHelp,
 } from "lucide-react";
 
 export default function QuizPage() {
@@ -190,293 +192,304 @@ export default function QuizPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
+    <main className="min-h-screen overflow-hidden bg-[#fbf8fd] text-slate-900">
       <Navbar />
 
-      <div className="mx-auto max-w-5xl px-4 py-8 md:px-8 md:py-12">
-        <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-xs font-bold text-violet-700 shadow-sm md:text-sm">
+      <section className="relative mx-auto max-w-6xl px-4 py-8 md:px-8 md:py-14">
+        <div className="pointer-events-none absolute -right-40 top-0 h-[360px] w-[360px] rounded-full bg-violet-200/50 blur-3xl" />
+        <div className="pointer-events-none absolute -left-40 bottom-20 h-[320px] w-[320px] rounded-full bg-pink-100/70 blur-3xl" />
+
+        <div className="relative z-10">
+          <div className="rounded-[36px] border border-white/80 bg-white/70 p-6 shadow-sm backdrop-blur md:p-9">
+            <div className="inline-flex items-center gap-2 rounded-full border border-violet-100 bg-white/80 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-violet-700 shadow-sm">
               <GraduationCap className="h-4 w-4" />
               Quiz clinique éducatif
             </div>
 
-            <h1 className="mt-5 text-4xl font-extrabold tracking-tight md:text-6xl">
-              Quiz clinique
-            </h1>
+            <div className="mt-6 grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+              <div>
+                <h1 className="text-4xl font-black tracking-tight text-slate-950 sm:text-5xl md:text-6xl">
+                  Pratique ton{" "}
+                  <span className="bg-gradient-to-r from-violet-700 via-purple-500 to-pink-400 bg-clip-text text-transparent">
+                    raisonnement clinique
+                  </span>
+                </h1>
 
-            <p className="mt-3 text-sm font-medium text-violet-600">
-              💜 Inspiré de la réalité des stages en soins infirmiers.
-            </p>
+                <div className="mt-4 h-px w-48 bg-gradient-to-r from-violet-300 via-pink-200 to-transparent" />
 
-            <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 md:text-lg md:leading-8">
-              Pratique ton raisonnement clinique avec des situations réalistes.
-              Génère un cas, choisis ta réponse et lis l’explication pour mieux
-              comprendre la logique clinique.
-            </p>
-          </div>
-
-          <div className="rounded-3xl bg-white/85 p-5 shadow-lg md:min-w-[280px]">
-            {premium ? (
-              <>
-                <p className="flex items-center gap-2 text-sm font-bold text-violet-700">
-                  <Crown className="h-4 w-4" />
-                  Premium actif
+                <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 md:text-lg md:leading-8">
+                  Génère une mise en situation réaliste, choisis ta réponse et
+                  lis une explication claire pour mieux comprendre la logique
+                  clinique.
                 </p>
-                <p className="mt-2 text-sm leading-6 text-slate-600">
-                  Quiz illimités et quiz par spécialité débloqués.
-                </p>
-              </>
-            ) : (
-              <>
-                <p className="text-sm font-bold text-violet-700">
-                  Version gratuite
-                </p>
+              </div>
 
-                <p className="mt-2 text-sm leading-6 text-slate-600">
-                  2 quiz par jour inclus.
-                </p>
+              <div className="rounded-[28px] border border-violet-100 bg-white/75 p-5 shadow-sm">
+                {premium ? (
+                  <>
+                    <p className="flex items-center gap-2 text-sm font-extrabold text-violet-800">
+                      <Crown className="h-4 w-4" />
+                      Premium actif
+                    </p>
 
-                <a
-                  href="/premium"
-                  className="mt-3 inline-flex text-sm font-bold text-violet-700 hover:text-pink-500"
-                >
-                  Débloquer les quiz illimités →
-                </a>
-              </>
-            )}
-          </div>
-        </div>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                      Quiz illimités et quiz par spécialité débloqués.
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-sm font-extrabold text-violet-800">
+                      Version gratuite
+                    </p>
 
-        <div className="mt-8 grid grid-cols-3 gap-3 md:gap-5">
-          <div className="rounded-3xl bg-white/85 p-4 shadow-sm md:p-5">
-            <p className="flex items-center gap-2 text-xs font-bold text-violet-600 md:text-sm">
-              <Brain className="h-4 w-4" />
-              Score
-            </p>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                      2 quiz par jour inclus.
+                    </p>
 
-            <p className="mt-3 text-2xl font-extrabold md:text-4xl">
-              {score}
-            </p>
-
-            <p className="mt-1 text-xs text-slate-400">points</p>
-          </div>
-
-          <div className="rounded-3xl bg-white/85 p-4 shadow-sm md:p-5">
-            <p className="flex items-center gap-2 text-xs font-bold text-green-600 md:text-sm">
-              <CheckCircle className="h-4 w-4" />
-              Bonnes
-            </p>
-
-            <p className="mt-3 text-2xl font-extrabold md:text-4xl">
-              {bonnes}
-            </p>
-
-            <p className="mt-1 text-xs text-slate-400">réponses</p>
-          </div>
-
-          <div className="rounded-3xl bg-white/85 p-4 shadow-sm md:p-5">
-            <p className="flex items-center gap-2 text-xs font-bold text-pink-600 md:text-sm">
-              <Target className="h-4 w-4" />
-              Précision
-            </p>
-
-            <p className="mt-3 text-2xl font-extrabold md:text-4xl">
-              {precision}%
-            </p>
-
-            <p className="mt-1 text-xs text-slate-400">
-              {mauvaises} erreur{mauvaises > 1 ? "s" : ""}
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-6 rounded-3xl bg-white/85 p-5 shadow-lg md:p-6">
-          <p className="text-sm font-bold text-violet-700">
-            Spécialité du quiz {premium ? "👑" : "— Premium"}
-          </p>
-
-          <p className="mt-2 text-sm leading-6 text-slate-500">
-            Choisis une spécialité pour pratiquer un thème précis. La version
-            gratuite utilise le mode général.
-          </p>
-
-          <select
-            value={specialite}
-            onChange={(e) => setSpecialite(e.target.value)}
-            disabled={!premium}
-            className="mt-4 w-full rounded-2xl border border-violet-100 bg-white p-4 text-sm font-bold text-slate-700 outline-none transition focus:border-violet-400 focus:ring-4 focus:ring-violet-100 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
-          >
-            {specialites.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-
-          {!premium && (
-            <div className="mt-4 rounded-2xl bg-violet-50 p-4 text-sm text-violet-700">
-              <p className="flex items-center gap-2 font-bold">
-                <Lock className="h-4 w-4" />
-                Quiz par spécialité réservés Premium
-              </p>
-
-              <p className="mt-1 leading-6">
-                La version gratuite génère des quiz généraux. Premium débloque
-                les spécialités et les quiz illimités.
-              </p>
-
-              <a
-                href="/premium"
-                className="mt-3 inline-flex font-bold text-violet-700 hover:text-pink-500"
-              >
-                Débloquer les quiz par spécialité →
-              </a>
+                    <a
+                      href="/premium"
+                      className="mt-3 inline-flex text-sm font-extrabold text-violet-800 hover:text-violet-950"
+                    >
+                      Débloquer Premium →
+                    </a>
+                  </>
+                )}
+              </div>
             </div>
-          )}
-        </div>
+          </div>
 
-        <div className="mt-6 rounded-3xl bg-white/85 p-5 shadow-lg md:p-6">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm font-bold text-violet-600">
-                Priorisation • Raisonnement clinique • Correction instantanée
+          <div className="mt-6 grid grid-cols-3 gap-3 md:gap-5">
+            <div className="rounded-[28px] border border-white/80 bg-white/75 p-4 shadow-sm backdrop-blur md:p-5">
+              <p className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.12em] text-violet-700 md:text-sm">
+                <Brain className="h-4 w-4" />
+                Score
+              </p>
+
+              <p className="mt-3 text-3xl font-black text-slate-950 md:text-4xl">
+                {score}
+              </p>
+
+              <p className="mt-1 text-xs text-slate-400">points</p>
+            </div>
+
+            <div className="rounded-[28px] border border-white/80 bg-white/75 p-4 shadow-sm backdrop-blur md:p-5">
+              <p className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.12em] text-violet-700 md:text-sm">
+                <CheckCircle className="h-4 w-4" />
+                Bonnes
+              </p>
+
+              <p className="mt-3 text-3xl font-black text-slate-950 md:text-4xl">
+                {bonnes}
+              </p>
+
+              <p className="mt-1 text-xs text-slate-400">réponses</p>
+            </div>
+
+            <div className="rounded-[28px] border border-white/80 bg-white/75 p-4 shadow-sm backdrop-blur md:p-5">
+              <p className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.12em] text-violet-700 md:text-sm">
+                <Target className="h-4 w-4" />
+                Précision
+              </p>
+
+              <p className="mt-3 text-3xl font-black text-slate-950 md:text-4xl">
+                {precision}%
+              </p>
+
+              <p className="mt-1 text-xs text-slate-400">
+                {mauvaises} erreur{mauvaises > 1 ? "s" : ""}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="rounded-[32px] border border-white/80 bg-white/75 p-5 shadow-sm backdrop-blur md:p-6">
+              <p className="text-sm font-extrabold uppercase tracking-[0.14em] text-violet-700">
+                Spécialité
               </p>
 
               <p className="mt-2 text-sm leading-6 text-slate-500">
-                Génère une nouvelle situation clinique et teste ton jugement.
+                Choisis une spécialité pour pratiquer un thème précis.
               </p>
 
-              <p className="mt-2 text-sm font-bold text-violet-700">
-                Thème actuel : {specialite}
-              </p>
-            </div>
+              <select
+                value={specialite}
+                onChange={(e) => setSpecialite(e.target.value)}
+                disabled={!premium}
+                className="mt-4 w-full rounded-2xl border border-violet-100 bg-white p-4 text-sm font-bold text-slate-700 outline-none transition focus:border-violet-400 focus:ring-4 focus:ring-violet-100 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
+              >
+                {specialites.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
 
-            <button
-              onClick={genererQuiz}
-              disabled={chargement}
-              className="w-full rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-6 py-3 font-bold text-white shadow-lg shadow-pink-200 transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-            >
-              {chargement ? "Génération..." : "Générer un quiz"}
-            </button>
-          </div>
-        </div>
+              {!premium && (
+                <div className="mt-4 rounded-2xl bg-violet-50 p-4 text-sm text-violet-800">
+                  <p className="flex items-center gap-2 font-extrabold">
+                    <Lock className="h-4 w-4" />
+                    Réservé Premium
+                  </p>
 
-        {!quiz && (
-          <div className="mt-6 rounded-[32px] border border-white/70 bg-white/70 p-8 text-center shadow-sm">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-100">
-              <Sparkles className="h-7 w-7 text-violet-600" />
-            </div>
-
-            <p className="mt-5 font-bold text-slate-700">
-              Aucun quiz généré pour l’instant.
-            </p>
-
-            <p className="mt-2 text-sm leading-6 text-slate-500">
-              Clique sur “Générer un quiz” pour commencer une mise en situation.
-            </p>
-          </div>
-        )}
-
-        {quiz && (
-          <div className="mt-6 rounded-[32px] bg-white/90 p-5 shadow-xl backdrop-blur md:p-8">
-            <div className="mb-5 flex flex-wrap items-center gap-2">
-              <span className="rounded-full bg-violet-100 px-4 py-2 text-xs font-bold text-violet-700">
-                {quiz.categorie || specialite}
-              </span>
-
-              {premium && (
-                <span className="rounded-full bg-pink-100 px-4 py-2 text-xs font-bold text-pink-700">
-                  👑 Premium
-                </span>
+                  <p className="mt-1 leading-6">
+                    La version gratuite utilise le mode général. Premium
+                    débloque les quiz par spécialité.
+                  </p>
+                </div>
               )}
             </div>
 
-            <div className="rounded-3xl bg-gradient-to-br from-violet-50 to-pink-50 p-5">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-violet-600">
-                Situation
+            <div className="rounded-[32px] border border-white/80 bg-white/75 p-5 shadow-sm backdrop-blur md:p-6">
+              <p className="text-sm font-extrabold uppercase tracking-[0.14em] text-violet-700">
+                Génération
               </p>
 
-              <p className="mt-4 text-sm leading-7 text-slate-700 md:text-base md:leading-8">
-                {quiz.situation}
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                Thème actuel :{" "}
+                <span className="font-extrabold text-violet-800">
+                  {specialite}
+                </span>
+              </p>
+
+              <button
+                onClick={genererQuiz}
+                disabled={chargement}
+                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-violet-800 px-6 py-4 font-extrabold text-white shadow-lg shadow-violet-100 transition hover:-translate-y-0.5 hover:bg-violet-900 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+              >
+                {chargement ? "Génération..." : "Générer un quiz"}
+                {!chargement && <ArrowRight className="h-4 w-4" />}
+              </button>
+
+              <p className="mt-4 text-xs leading-5 text-slate-400">
+                Priorisation • Raisonnement clinique • Correction instantanée
               </p>
             </div>
+          </div>
 
-            <h2 className="mt-7 text-xl font-extrabold leading-8 md:text-2xl">
-              {quiz.question}
-            </h2>
+          {!quiz && (
+            <div className="mt-6 rounded-[36px] border border-white/80 bg-white/70 p-8 text-center shadow-sm backdrop-blur">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-100">
+                <Sparkles className="h-7 w-7 text-violet-700" />
+              </div>
 
-            <div className="mt-5 space-y-3">
-              {Object.entries(quiz.choix).map(([lettre, texte]: any) => (
-                <button
-                  key={lettre}
-                  onClick={() => setReponse(lettre)}
-                  disabled={corrige}
-                  className={`w-full rounded-2xl border p-4 text-left text-sm leading-6 transition md:text-base ${
-                    reponse === lettre
-                      ? "border-violet-500 bg-violet-50 ring-2 ring-violet-100"
-                      : "border-slate-200 bg-white hover:bg-slate-50"
-                  } disabled:cursor-default`}
-                >
-                  <span className="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 text-sm font-extrabold text-slate-700">
-                    {lettre}
+              <p className="mt-5 text-lg font-extrabold text-slate-800">
+                Aucun quiz généré pour l’instant.
+              </p>
+
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                Clique sur “Générer un quiz” pour commencer une mise en
+                situation.
+              </p>
+            </div>
+          )}
+
+          {quiz && (
+            <div className="mt-6 rounded-[36px] border border-white/80 bg-white/85 p-5 shadow-xl shadow-violet-100 backdrop-blur md:p-8">
+              <div className="mb-5 flex flex-wrap items-center gap-2">
+                <span className="rounded-full bg-violet-100 px-4 py-2 text-xs font-extrabold text-violet-800">
+                  {quiz.categorie || specialite}
+                </span>
+
+                {premium && (
+                  <span className="rounded-full bg-pink-100 px-4 py-2 text-xs font-extrabold text-pink-700">
+                    👑 Premium
                   </span>
-                  {texte}
-                </button>
-              ))}
-            </div>
+                )}
+              </div>
 
-            <button
-              onClick={verifierReponse}
-              disabled={corrige}
-              className="mt-6 w-full rounded-2xl bg-slate-900 px-6 py-3 font-bold text-white transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-            >
-              Vérifier
-            </button>
+              <div className="rounded-[28px] bg-gradient-to-br from-violet-100 via-white to-pink-50 p-5">
+                <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-violet-700">
+                  Situation
+                </p>
 
-            {corrige && (
-              <>
-                <div
-                  className={`mt-8 rounded-3xl p-5 md:p-6 ${
-                    reponse === quiz.bonneReponse
-                      ? "bg-green-50"
-                      : "bg-red-50"
-                  }`}
-                >
-                  {reponse === quiz.bonneReponse ? (
-                    <p className="flex items-center gap-2 font-bold text-green-700">
-                      <CheckCircle className="h-5 w-5" />
-                      Bonne réponse ! +10 points
-                    </p>
-                  ) : (
-                    <p className="flex items-center gap-2 font-bold text-red-700">
-                      <XCircle className="h-5 w-5" />
-                      Pas tout à fait. La bonne réponse est {quiz.bonneReponse}.
-                    </p>
-                  )}
+                <p className="mt-4 text-sm leading-7 text-slate-700 md:text-base md:leading-8">
+                  {quiz.situation}
+                </p>
+              </div>
 
-                  <div className="mt-4 rounded-2xl bg-white/70 p-4">
-                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
-                      Explication
-                    </p>
-
-                    <p className="mt-3 text-sm leading-7 text-slate-700 md:text-base">
-                      {quiz.explication}
-                    </p>
-                  </div>
+              <div className="mt-7 flex items-start gap-3">
+                <div className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-violet-100">
+                  <CircleHelp className="h-5 w-5 text-violet-800" />
                 </div>
 
-                <button
-                  onClick={genererQuiz}
-                  className="mt-4 w-full rounded-2xl border border-violet-200 bg-white px-6 py-3 font-bold text-violet-600 hover:bg-violet-50 sm:w-auto"
-                >
-                  Prochaine question →
-                </button>
-              </>
-            )}
-          </div>
-        )}
-      </div>
+                <h2 className="text-xl font-black leading-8 text-slate-950 md:text-2xl">
+                  {quiz.question}
+                </h2>
+              </div>
+
+              <div className="mt-5 space-y-3">
+                {Object.entries(quiz.choix).map(([lettre, texte]: any) => (
+                  <button
+                    key={lettre}
+                    onClick={() => setReponse(lettre)}
+                    disabled={corrige}
+                    className={`w-full rounded-2xl border p-4 text-left text-sm leading-6 transition md:text-base ${
+                      reponse === lettre
+                        ? "border-violet-400 bg-violet-50 ring-2 ring-violet-100"
+                        : "border-violet-100 bg-white hover:bg-violet-50"
+                    } disabled:cursor-default`}
+                  >
+                    <span className="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-violet-100 text-sm font-black text-violet-800">
+                      {lettre}
+                    </span>
+                    {texte}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                onClick={verifierReponse}
+                disabled={corrige}
+                className="mt-6 w-full rounded-2xl bg-slate-950 px-6 py-3 font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-violet-900 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+              >
+                Vérifier
+              </button>
+
+              {corrige && (
+                <>
+                  <div
+                    className={`mt-8 rounded-[28px] p-5 md:p-6 ${
+                      reponse === quiz.bonneReponse
+                        ? "bg-green-50"
+                        : "bg-red-50"
+                    }`}
+                  >
+                    {reponse === quiz.bonneReponse ? (
+                      <p className="flex items-center gap-2 font-extrabold text-green-700">
+                        <CheckCircle className="h-5 w-5" />
+                        Bonne réponse ! +10 points
+                      </p>
+                    ) : (
+                      <p className="flex items-center gap-2 font-extrabold text-red-700">
+                        <XCircle className="h-5 w-5" />
+                        Pas tout à fait. La bonne réponse est{" "}
+                        {quiz.bonneReponse}.
+                      </p>
+                    )}
+
+                    <div className="mt-4 rounded-2xl bg-white/75 p-4">
+                      <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-slate-400">
+                        Explication
+                      </p>
+
+                      <p className="mt-3 text-sm leading-7 text-slate-700 md:text-base">
+                        {quiz.explication}
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={genererQuiz}
+                    className="mt-4 w-full rounded-2xl border border-violet-100 bg-white px-6 py-3 font-extrabold text-violet-800 transition hover:bg-violet-50 sm:w-auto"
+                  >
+                    Prochaine question →
+                  </button>
+                </>
+              )}
+            </div>
+          )}
+        </div>
+      </section>
     </main>
   );
 }
