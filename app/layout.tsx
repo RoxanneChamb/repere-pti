@@ -9,12 +9,15 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://repere-pti.ca"),
+
   title: {
     default: "Repère PTI",
     template: "%s | Repère PTI",
   },
+
   description:
-    "Outil éducatif pour aider les étudiantes en soins infirmiers à structurer des PTI et développer leur raisonnement clinique.",
+    "Générateur éducatif de PTI pour étudiantes en soins infirmiers. Structure tes constats, directives et interventions pour pratiquer ton raisonnement clinique.",
 
   manifest: "/manifest.json",
 
@@ -31,13 +34,29 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "Repère PTI",
+    title: "Repère PTI | Générateur éducatif de PTI",
     description:
       "Outil éducatif pour structurer des PTI et pratiquer le raisonnement clinique en soins infirmiers.",
     url: "https://repere-pti.ca",
     siteName: "Repère PTI",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Repère PTI - Générateur éducatif de PTI pour étudiantes en soins infirmiers",
+      },
+    ],
     locale: "fr_CA",
     type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Repère PTI | Générateur éducatif de PTI",
+    description:
+      "Outil éducatif pour structurer des PTI et pratiquer le raisonnement clinique en soins infirmiers.",
+    images: ["/og-image.png"],
   },
 };
 
