@@ -9,10 +9,20 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "Repère PTI",
-  description: "Soutien intelligent au raisonnement clinique",
+  title: {
+    default: "Repère PTI",
+    template: "%s | Repère PTI",
+  },
+  description:
+    "Outil éducatif pour aider les étudiantes en soins infirmiers à structurer des PTI et développer leur raisonnement clinique.",
 
   manifest: "/manifest.json",
+
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/icon-512.png",
+  },
 
   appleWebApp: {
     capable: true,
@@ -20,8 +30,14 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
   },
 
-  icons: {
-    apple: "/icon-512.png",
+  openGraph: {
+    title: "Repère PTI",
+    description:
+      "Outil éducatif pour structurer des PTI et pratiquer le raisonnement clinique en soins infirmiers.",
+    url: "https://repere-pti.ca",
+    siteName: "Repère PTI",
+    locale: "fr_CA",
+    type: "website",
   },
 };
 
