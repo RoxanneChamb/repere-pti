@@ -11,7 +11,6 @@ import { supabase } from "@/lib/supabaseClient";
 
 export default function Home() {
   const [connecte, setConnecte] = useState(false);
-  const [nombreUtilisateurs, setNombreUtilisateurs] = useState(0);
 
   useEffect(() => {
     const verifierConnexion = async () => {
@@ -22,30 +21,8 @@ export default function Home() {
       setConnecte(!!user);
     };
 
-    const chargerStats = async () => {
-      try {
-        const response = await fetch("/api/stats");
-
-        if (!response.ok) return;
-
-        const data = await response.json();
-
-        if (data.utilisateurs !== undefined) {
-          setNombreUtilisateurs(data.utilisateurs);
-        }
-      } catch (error) {
-        console.error("Erreur chargement stats :", error);
-      }
-    };
-
     verifierConnexion();
-    chargerStats();
   }, []);
-
-  const nombreAffiche =
-    nombreUtilisateurs >= 10
-      ? Math.floor(nombreUtilisateurs / 10) * 10
-      : nombreUtilisateurs;
 
   return (
     <main className="min-h-screen overflow-hidden bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
@@ -79,16 +56,9 @@ export default function Home() {
           Créé par une infirmière • Propulsé par l’IA
         </p>
 
-        {nombreUtilisateurs > 0 && (
-          <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-white/80 px-5 py-3 text-sm font-bold text-violet-700 shadow-sm ring-1 ring-violet-100">
-            ✨{" "}
-            {nombreUtilisateurs >= 10
-              ? `Plus de ${nombreAffiche} étudiantes ont utilisé Repère PTI`
-              : `${nombreUtilisateurs} étudiante${
-                  nombreUtilisateurs > 1 ? "s" : ""
-                } ont utilisé Repère PTI`}
-          </div>
-        )}
+        <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-white/80 px-5 py-3 text-sm font-bold text-violet-700 shadow-sm ring-1 ring-violet-100">
+          ✨ Plus de 600 étudiantes ont découvert Repère PTI
+        </div>
 
         <div className="mt-8 grid w-full max-w-sm gap-3 sm:mt-9 sm:max-w-none sm:grid-cols-4">
           <a
