@@ -16,6 +16,7 @@ import {
   ArrowRight,
   Settings,
   XCircle,
+  Target,
 } from "lucide-react";
 
 export default function PremiumPage() {
@@ -39,7 +40,7 @@ export default function PremiumPage() {
         .from("profiles")
         .select("premium")
         .eq("id", user.id)
-        .single();
+        .maybeSingle();
 
       setPremium(profile?.premium === true);
       setChargementProfil(false);
@@ -123,6 +124,7 @@ export default function PremiumPage() {
   const avantages = [
     "PTI illimités",
     "Quiz cliniques illimités",
+    "Quiz par spécialité",
     "Export PDF professionnel",
     "Cas complexes Premium",
     "Historique complet",
@@ -179,11 +181,11 @@ export default function PremiumPage() {
 
             <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 md:text-lg md:leading-8">
               {premium
-                ? "Tu as accès aux PTI illimités, aux quiz illimités, aux cas complexes et à l’export PDF. Tu peux gérer ou annuler ton abonnement à tout moment depuis le portail sécurisé Stripe."
-                : "Premium te permet de pratiquer davantage, d’obtenir des analyses plus poussées et de conserver tes PTI en format PDF pour tes révisions, tes stages et ton développement du raisonnement clinique."}
+                ? "Tu as accès aux PTI illimités, aux quiz illimités, aux quiz par spécialité, aux cas complexes et à l’export PDF. Tu peux gérer ou annuler ton abonnement à tout moment depuis le portail sécurisé Stripe."
+                : "Premium te permet de pratiquer davantage, d’obtenir des analyses plus poussées, de choisir des quiz par spécialité et de conserver tes PTI en format PDF pour tes révisions, tes stages et ton développement du raisonnement clinique."}
             </p>
 
-            <div className="mt-8 grid gap-3 sm:grid-cols-3 md:gap-4">
+            <div className="mt-8 grid gap-3 sm:grid-cols-2 md:grid-cols-4 md:gap-4">
               <div className="rounded-3xl bg-white/85 p-5 shadow-sm">
                 <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-100">
                   <Infinity className="h-6 w-6 text-violet-600" />
@@ -209,6 +211,18 @@ export default function PremiumPage() {
               </div>
 
               <div className="rounded-3xl bg-white/85 p-5 shadow-sm">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-100">
+                  <Target className="h-6 w-6 text-violet-600" />
+                </div>
+
+                <p className="mt-4 font-bold">Quiz par spécialité</p>
+
+                <p className="mt-1 text-sm leading-6 text-slate-500">
+                  Urgence, périnatalité, santé mentale, cardio, respiratoire et plus.
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white/85 p-5 shadow-sm">
                 <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-fuchsia-100">
                   <Download className="h-6 w-6 text-fuchsia-600" />
                 </div>
@@ -224,7 +238,8 @@ export default function PremiumPage() {
             <div className="mt-8 rounded-3xl border border-violet-100 bg-white/75 p-5 shadow-sm">
               <p className="flex items-center gap-2 text-sm font-bold text-violet-700">
                 <ShieldCheck className="h-5 w-5" />
-                Pensé pour un usage éducatif
+                Pratique des thèmes précis : urgence, périnatalité, santé mentale,
+                cardio, respiratoire et plus.
               </p>
 
               <p className="mt-2 text-sm leading-6 text-slate-600">
@@ -346,15 +361,15 @@ export default function PremiumPage() {
                 </div>
 
                 <div className="rounded-2xl bg-white p-3">
-                  <Download className="h-5 w-5 text-fuchsia-500" />
-                  <p className="mt-2 font-bold">PDF</p>
-                  <p className="text-xs text-slate-500">Export</p>
+                  <Target className="h-5 w-5 text-violet-500" />
+                  <p className="mt-2 font-bold">Spécialités</p>
+                  <p className="text-xs text-slate-500">Quiz ciblés</p>
                 </div>
 
                 <div className="rounded-2xl bg-white p-3">
-                  <Crown className="h-5 w-5 text-violet-500" />
-                  <p className="mt-2 font-bold">Premium</p>
-                  <p className="text-xs text-slate-500">Actif</p>
+                  <Download className="h-5 w-5 text-fuchsia-500" />
+                  <p className="mt-2 font-bold">PDF</p>
+                  <p className="text-xs text-slate-500">Export</p>
                 </div>
               </div>
             </div>
