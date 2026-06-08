@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import {
-  Stethoscope,
   Sparkles,
   ClipboardList,
   Brain,
@@ -36,9 +35,13 @@ export default function Home() {
 
         <header className="relative z-10 flex items-center justify-between">
           <a href="/" className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-[20px] bg-gradient-to-br from-violet-500 to-pink-400 shadow-lg shadow-violet-100">
-              <Stethoscope className="h-6 w-6 text-white" />
-            </div>
+            <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-[20px] shadow-lg shadow-violet-100 ring-1 ring-violet-100/70">
+  <img
+    src="/icon-192.png"
+    alt="Repère PTI"
+    className="h-full w-full object-cover"
+  />
+</div>
 
             <div className="text-left">
               <p className="text-base font-black tracking-tight text-slate-950">
