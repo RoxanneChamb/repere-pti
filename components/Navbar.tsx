@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import {
-  Stethoscope,
   Menu,
   X,
   Home,
@@ -77,11 +76,15 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-violet-100/60 bg-[#fbf8fd]/85 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-violet-100/60 bg-[#fbf8fd]/90 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-8">
         <a href="/" className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-[20px] bg-violet-800 shadow-lg shadow-violet-100">
-            <Stethoscope className="h-6 w-6 text-white" />
+          <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-[18px] shadow-lg shadow-violet-100 ring-1 ring-violet-100/70">
+            <img
+              src="/icon-32.png"
+              alt="Repère PTI"
+              className="h-full w-full object-cover"
+            />
           </div>
 
           <div className="text-left">
