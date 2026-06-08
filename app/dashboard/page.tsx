@@ -3,6 +3,20 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import Navbar from "@/components/Navbar";
+import {
+  BarChart3,
+  Brain,
+  CheckCircle,
+  Crown,
+  FileText,
+  GraduationCap,
+  LogOut,
+  Pencil,
+  ShieldCheck,
+  Sparkles,
+  Star,
+  Trash2,
+} from "lucide-react";
 
 export default function DashboardPage() {
   const [email, setEmail] = useState("");
@@ -197,10 +211,10 @@ export default function DashboardPage() {
 
   if (isLoggedIn === null) {
     return (
-      <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
+      <main className="min-h-screen overflow-hidden bg-[#fbf8fd] text-slate-900">
         <Navbar />
-        <div className="mx-auto mt-20 max-w-xl rounded-3xl bg-white/85 p-8 text-center shadow-xl">
-          <p className="font-bold text-violet-600">Chargement...</p>
+        <div className="mx-auto mt-20 max-w-xl rounded-[36px] border border-white/80 bg-white/75 p-8 text-center shadow-sm backdrop-blur">
+          <p className="font-extrabold text-violet-800">Chargement...</p>
         </div>
       </main>
     );
@@ -208,10 +222,12 @@ export default function DashboardPage() {
 
   if (!isLoggedIn) {
     return (
-      <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white text-slate-900">
+      <main className="min-h-screen overflow-hidden bg-[#fbf8fd] text-slate-900">
         <Navbar />
-        <div className="mx-auto mt-20 max-w-xl rounded-3xl bg-white/85 p-8 text-center shadow-xl">
-          <h1 className="text-3xl font-extrabold">Connexion requise</h1>
+        <div className="mx-auto mt-20 max-w-xl rounded-[36px] border border-white/80 bg-white/75 p-8 text-center shadow-sm backdrop-blur">
+          <h1 className="text-3xl font-black text-slate-950">
+            Connexion requise
+          </h1>
 
           <p className="mt-4 text-slate-600">
             Tu dois être connectée pour accéder à ton tableau de bord.
@@ -219,7 +235,7 @@ export default function DashboardPage() {
 
           <a
             href="/login"
-            className="mt-6 inline-flex rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-6 py-3 font-bold text-white"
+            className="mt-6 inline-flex rounded-2xl bg-violet-800 px-6 py-3 font-extrabold text-white shadow-lg shadow-violet-100 transition hover:-translate-y-0.5 hover:bg-violet-900"
           >
             Me connecter
           </a>
@@ -229,342 +245,374 @@ export default function DashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-white px-4 py-6 text-slate-900 md:p-8">
+    <main className="min-h-screen overflow-hidden bg-[#fbf8fd] text-slate-900">
       <Navbar />
 
-      <div className="mx-auto max-w-7xl">
-        <a href="/" className="text-sm font-semibold text-violet-600">
-          ← Retour à l'accueil
-        </a>
+      <section className="relative mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-14">
+        <div className="pointer-events-none absolute -right-40 top-0 h-[380px] w-[380px] rounded-full bg-violet-200/50 blur-3xl" />
+        <div className="pointer-events-none absolute -left-40 bottom-20 h-[340px] w-[340px] rounded-full bg-pink-100/70 blur-3xl" />
 
-        <div className="mt-6 flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
-          <div>
-            <h1 className="text-3xl font-extrabold tracking-tight md:text-5xl">
-              Tableau de bord
-            </h1>
-
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600 md:text-base">
-              Suis ta progression clinique, ton score, tes badges et ton statut
-              Repère PTI.
-            </p>
-          </div>
-
-          <div
-            className={`w-fit rounded-2xl px-4 py-3 shadow-lg ${
-              premium
-                ? "bg-violet-700 text-white"
-                : "bg-white/85 text-slate-700"
-            }`}
+        <div className="relative z-10">
+          <a
+            href="/"
+            className="inline-flex text-sm font-bold text-violet-700 transition hover:text-violet-900"
           >
-            <p className="text-sm font-extrabold">
-              {premium ? "👑 Premium actif" : "✨ Version gratuite"}
-            </p>
-          </div>
-        </div>
+            ← Retour à l'accueil
+          </a>
 
-        <div className="mt-6 grid gap-5 lg:grid-cols-[1.4fr_0.8fr]">
-          <section className="overflow-hidden rounded-[34px] border border-white bg-white/90 shadow-xl">
-            <div className="grid md:grid-cols-[190px_1fr]">
-              <div className="flex flex-col justify-between bg-gradient-to-br from-violet-100 via-pink-50 to-white p-7">
-                <div>
-                  <p className="text-xl font-extrabold leading-5">
-                    Repère
-                    <br />
-                    PTI
-                  </p>
-
-                  <p className="mt-4 text-sm font-bold text-violet-600">
-                    Carte étudiante
-                  </p>
-                </div>
-
-                <div>
-                  <p className="text-sm font-bold uppercase text-slate-600">
-                    Soins infirmiers
-                  </p>
-
-                  <div className="mt-5 h-10 w-32 rounded bg-[repeating-linear-gradient(90deg,#111_0px,#111_2px,transparent_2px,transparent_5px)] opacity-80" />
-                </div>
+          <div className="mt-6 grid gap-6 lg:grid-cols-[1.25fr_0.75fr]">
+            <section className="rounded-[36px] border border-white/80 bg-white/75 p-6 shadow-sm backdrop-blur md:p-9">
+              <div className="inline-flex items-center gap-2 rounded-full border border-violet-100 bg-white/80 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-violet-700 shadow-sm">
+                <Sparkles className="h-4 w-4" />
+                Tableau de bord
               </div>
 
-              <div className="relative bg-gradient-to-br from-white via-violet-50 to-pink-50 p-6 md:p-8">
-                <div className="flex flex-col gap-6 md:flex-row md:items-center">
-                  <div className="flex h-36 w-36 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-violet-100 to-pink-100 p-2 shadow-inner md:h-52 md:w-52">
-                    <img
-                      src={avatarImage}
-                      alt="Avatar"
-                      className="h-full w-full rounded-full object-cover shadow-lg"
-                    />
-                  </div>
+              <h1 className="mt-6 text-4xl font-black tracking-tight text-slate-950 sm:text-5xl md:text-6xl">
+                Ton espace{" "}
+                <span className="bg-gradient-to-r from-violet-700 via-purple-500 to-pink-400 bg-clip-text text-transparent">
+                  clinique
+                </span>
+              </h1>
 
-                  <div className="min-w-0 flex-1">
-                    <label className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
-                      Nom affiché
-                    </label>
+              <div className="mt-4 h-px w-48 bg-gradient-to-r from-violet-300 via-pink-200 to-transparent" />
 
-                    <input
-                      value={displayName}
-                      onChange={(e) => setDisplayName(e.target.value)}
-                      onBlur={sauvegarderNom}
-                      className="mt-2 w-full rounded-2xl border border-violet-100 bg-white/80 px-4 py-3 text-2xl font-extrabold tracking-tight outline-none focus:border-violet-400 focus:ring-4 focus:ring-violet-100 md:text-4xl"
-                    />
+              <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 md:text-lg md:leading-8">
+                Suis ta progression, personnalise ton profil, consulte tes
+                statistiques et accède rapidement aux outils Repère PTI.
+              </p>
+            </section>
 
-                    <button
-                      onClick={sauvegarderNom}
-                      className="mt-3 rounded-2xl bg-violet-100 px-4 py-2 text-sm font-bold text-violet-700 hover:bg-violet-200"
-                    >
-                      Sauvegarder le nom
-                    </button>
+            <section className="rounded-[36px] border border-white/80 bg-white/75 p-6 shadow-sm backdrop-blur md:p-8">
+              <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-violet-700">
+                Statut
+              </p>
 
-                    {messageSauvegarde && (
-                      <p className="mt-2 text-sm font-bold text-green-600">
-                        {messageSauvegarde}
-                      </p>
-                    )}
+              <h2 className="mt-3 flex items-center gap-2 text-2xl font-black text-slate-950">
+                {premium ? (
+                  <>
+                    <Crown className="h-6 w-6 text-violet-800" />
+                    Premium actif
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="h-6 w-6 text-violet-800" />
+                    Version gratuite
+                  </>
+                )}
+              </h2>
 
-                    <p className="mt-3 truncate text-sm font-medium text-slate-500 md:text-lg">
-                      {email}
+              <p className="mt-3 text-sm leading-6 text-slate-600">
+                {premium
+                  ? "Tu as accès aux PTI illimités, quiz illimités, cas complexes et export PDF."
+                  : "Tu peux générer des PTI, pratiquer avec les quiz et explorer les ressources."}
+              </p>
+
+              <a
+                href="/premium"
+                className="mt-5 inline-flex w-full justify-center rounded-2xl bg-violet-800 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-violet-100 transition hover:-translate-y-0.5 hover:bg-violet-900 sm:w-auto"
+              >
+                {premium ? "Gérer mon abonnement" : "Explorer Premium"}
+              </a>
+            </section>
+          </div>
+
+          <div className="mt-6 grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
+            <section className="overflow-hidden rounded-[36px] border border-white/80 bg-white/85 shadow-xl shadow-violet-100 backdrop-blur">
+              <div className="grid md:grid-cols-[210px_1fr]">
+                <div className="flex flex-col justify-between bg-gradient-to-br from-violet-100 via-white to-pink-50 p-7">
+                  <div>
+                    <p className="text-2xl font-black leading-6 text-slate-950">
+                      Repère
+                      <br />
+                      PTI
                     </p>
 
-                    <div className="mt-5 flex flex-wrap gap-3">
-                      <span className="rounded-full bg-violet-100 px-5 py-2 text-sm font-extrabold text-violet-700">
-                        {niveau}
-                      </span>
+                    <p className="mt-4 text-xs font-extrabold uppercase tracking-[0.16em] text-violet-700">
+                      Carte étudiante
+                    </p>
+                  </div>
 
-                      <span className="rounded-full bg-pink-100 px-5 py-2 text-sm font-extrabold text-pink-700">
-                        {premium ? "👑 Premium" : "✨ Gratuit"}
-                      </span>
+                  <div className="mt-10">
+                    <p className="text-sm font-extrabold uppercase text-slate-600">
+                      Soins infirmiers
+                    </p>
+
+                    <div className="mt-5 h-10 w-32 rounded bg-[repeating-linear-gradient(90deg,#4c1d95_0px,#4c1d95_2px,transparent_2px,transparent_5px)] opacity-80" />
+                  </div>
+                </div>
+
+                <div className="bg-white/70 p-6 md:p-8">
+                  <div className="flex flex-col gap-6 md:flex-row md:items-center">
+                    <div className="mx-auto flex h-36 w-36 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-violet-100 to-pink-100 p-2 shadow-inner md:mx-0 md:h-48 md:w-48">
+                      <img
+                        src={avatarImage}
+                        alt="Avatar"
+                        className="h-full w-full rounded-full object-cover shadow-lg"
+                      />
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <label className="text-xs font-extrabold uppercase tracking-[0.16em] text-slate-400">
+                        Nom affiché
+                      </label>
+
+                      <input
+                        value={displayName}
+                        onChange={(e) => setDisplayName(e.target.value)}
+                        onBlur={sauvegarderNom}
+                        className="mt-2 w-full rounded-2xl border border-violet-100 bg-white/80 px-4 py-3 text-2xl font-black tracking-tight text-slate-950 outline-none focus:border-violet-300 focus:ring-4 focus:ring-violet-100 md:text-4xl"
+                      />
+
+                      <button
+                        onClick={sauvegarderNom}
+                        className="mt-3 inline-flex items-center gap-2 rounded-2xl bg-violet-100 px-4 py-2 text-sm font-extrabold text-violet-800 transition hover:bg-violet-200"
+                      >
+                        <Pencil className="h-4 w-4" />
+                        Sauvegarder le nom
+                      </button>
+
+                      {messageSauvegarde && (
+                        <p className="mt-2 text-sm font-extrabold text-green-600">
+                          {messageSauvegarde}
+                        </p>
+                      )}
+
+                      <p className="mt-3 truncate text-sm font-medium text-slate-500">
+                        {email}
+                      </p>
+
+                      <div className="mt-5 flex flex-wrap gap-3">
+                        <span className="rounded-full bg-violet-100 px-5 py-2 text-sm font-extrabold text-violet-800">
+                          {niveau}
+                        </span>
+
+                        <span className="rounded-full bg-pink-100 px-5 py-2 text-sm font-extrabold text-pink-700">
+                          {premium ? "👑 Premium" : "✨ Gratuit"}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-8 grid gap-5 border-t border-violet-100 pt-6 sm:grid-cols-3">
+                    <div>
+                      <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-slate-400">
+                        ID étudiante
+                      </p>
+
+                      <p className="mt-2 text-lg font-black text-violet-800">
+                        {userId
+                          ? `RPTI-${userId.slice(0, 4).toUpperCase()}-${userId
+                              .slice(4, 8)
+                              .toUpperCase()}`
+                          : "RPTI"}
+                      </p>
+                    </div>
+
+                    <div>
+                      <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-slate-400">
+                        Niveau
+                      </p>
+
+                      <p className="mt-2 text-lg font-black text-slate-700">
+                        {niveau}
+                      </p>
+                    </div>
+
+                    <div>
+                      <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-slate-400">
+                        Statut
+                      </p>
+
+                      <p className="mt-2 text-lg font-black text-slate-700">
+                        {premium ? "Premium" : "Gratuit"}
+                      </p>
                     </div>
                   </div>
                 </div>
+              </div>
+            </section>
 
-                <div className="mt-8 grid gap-5 border-t border-violet-100 pt-6 sm:grid-cols-3">
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
-                      ID étudiante
-                    </p>
+            <aside className="space-y-5">
+              <div className="rounded-[32px] border border-white/80 bg-white/75 p-5 shadow-sm backdrop-blur md:p-6">
+                <p className="text-lg font-black text-slate-950">
+                  Personnalise ton avatar
+                </p>
 
-                    <p className="mt-2 text-lg font-extrabold text-violet-700">
-                      {userId
-                        ? `RPTI-${userId.slice(0, 4).toUpperCase()}-${userId
-                            .slice(4, 8)
-                            .toUpperCase()}`
-                        : "RPTI"}
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
-                      Niveau
-                    </p>
-
-                    <p className="mt-2 text-lg font-extrabold text-slate-700">
-                      {niveau}
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
-                      Statut
-                    </p>
-
-                    <p className="mt-2 text-lg font-extrabold text-slate-700">
-                      {premium ? "Premium" : "Gratuit"}
-                    </p>
-                  </div>
+                <div className="mt-4 grid grid-cols-5 gap-2 sm:flex sm:flex-wrap">
+                  {avatars.map((image) => (
+                    <button
+                      key={image}
+                      onClick={() => changerAvatar(image)}
+                      className={`rounded-full p-1 transition ${
+                        avatarImage === image
+                          ? "bg-violet-100 ring-2 ring-violet-500"
+                          : "bg-white hover:bg-violet-50"
+                      }`}
+                    >
+                      <img
+                        src={image}
+                        alt="avatar"
+                        className="h-12 w-12 rounded-full object-cover md:h-14 md:w-14"
+                      />
+                    </button>
+                  ))}
                 </div>
               </div>
+
+              <div className="rounded-[32px] border border-white/80 bg-white/75 p-5 shadow-sm backdrop-blur md:p-6">
+                <p className="flex items-start gap-2 text-sm font-extrabold text-violet-800">
+                  <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0" />
+                  Rappel éducatif
+                </p>
+
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  Repère PTI soutient ton apprentissage, mais ne remplace jamais
+                  le jugement clinique ou les consignes de ton milieu.
+                </p>
+              </div>
+            </aside>
+          </div>
+
+          <section className="mt-6 rounded-[36px] border border-white/80 bg-white/75 p-5 shadow-sm backdrop-blur md:p-8">
+            <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-violet-700">
+              Bulletin clinique
+            </p>
+
+            <div className="mt-4 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+              <div>
+                <h2 className="text-2xl font-black text-slate-950 md:text-3xl">
+                  {niveau}
+                </h2>
+
+                <p className="mt-2 text-sm text-slate-600 md:text-base">
+                  {ptiCount} PTI générés au total
+                </p>
+              </div>
+
+              <p className="text-sm font-medium text-slate-500">
+                {ptiCount < 60
+                  ? `Encore ${prochainPalier - ptiCount} PTI avant le niveau ${prochainNiveau}.`
+                  : "Niveau maximal atteint 👑"}
+              </p>
             </div>
 
-            <div className="h-5 bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500" />
+            <div className="mt-6 h-3 overflow-hidden rounded-full bg-violet-100">
+              <div
+                className="h-full rounded-full bg-violet-800"
+                style={{ width: `${progression}%` }}
+              />
+            </div>
           </section>
 
-          <aside className="space-y-5">
-            <div className="rounded-3xl bg-white/90 p-5 shadow-lg md:p-6">
-              <p className="text-lg font-extrabold text-violet-700">
-                Personnalise ton avatar
+          <div className="mt-5 grid grid-cols-2 gap-3 xl:grid-cols-4">
+            <div className="rounded-[28px] border border-white/80 bg-white/75 p-4 shadow-sm backdrop-blur md:p-6">
+              <FileText className="h-5 w-5 text-violet-800" />
+              <p className="mt-3 text-xs font-extrabold uppercase tracking-[0.12em] text-violet-700">
+                PTI générés
               </p>
-
-              <div className="mt-4 grid grid-cols-5 gap-2 sm:flex sm:flex-wrap">
-                {avatars.map((image) => (
-                  <button
-                    key={image}
-                    onClick={() => changerAvatar(image)}
-                    className={`rounded-full p-1 transition ${
-                      avatarImage === image
-                        ? "bg-violet-100 ring-2 ring-violet-400"
-                        : "bg-slate-50 hover:bg-pink-50"
-                    }`}
-                  >
-                    <img
-                      src={image}
-                      alt="avatar"
-                      className="h-12 w-12 rounded-full object-cover md:h-14 md:w-14"
-                    />
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {premium ? (
-              <div className="rounded-3xl border border-amber-100 bg-white/90 p-5 shadow-lg md:p-6">
-                <p className="text-2xl font-extrabold text-violet-700">
-                  👑 Premium actif
-                </p>
-
-                <p className="mt-3 text-sm leading-6 text-slate-600">
-                  Tu as accès aux PTI illimités, quiz illimités, cas complexes
-                  et export PDF.
-                </p>
-
-                <a
-                  href="/premium"
-                  className="mt-5 inline-flex w-full justify-center rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-5 py-3 text-sm font-bold text-white sm:w-auto"
-                >
-                  Gérer mon abonnement
-                </a>
-              </div>
-            ) : (
-              <div className="rounded-3xl bg-gradient-to-br from-violet-100 via-pink-50 to-white p-5 shadow-lg md:p-6">
-                <p className="text-2xl font-extrabold text-violet-700">
-                  Découvre Premium ✨
-                </p>
-
-                <p className="mt-3 text-sm leading-6 text-slate-600">
-                  PTI illimités, cas complexes, quiz illimités et export PDF.
-                </p>
-
-                <a
-                  href="/premium"
-                  className="mt-5 inline-flex w-full justify-center rounded-2xl bg-gradient-to-r from-violet-700 to-pink-500 px-6 py-3 text-sm font-bold text-white sm:w-auto"
-                >
-                  Explorer Premium
-                </a>
-              </div>
-            )}
-          </aside>
-        </div>
-
-        <section className="mt-6 rounded-3xl bg-white/85 p-5 shadow-lg md:p-8">
-          <p className="text-sm font-bold text-violet-600">
-            Bulletin clinique
-          </p>
-
-          <div className="mt-4 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-            <div>
-              <h2 className="text-2xl font-extrabold md:text-3xl">
-                {niveau}
-              </h2>
-
-              <p className="mt-2 text-sm text-slate-600 md:text-base">
-                {ptiCount} PTI générés au total
+              <p className="mt-3 text-3xl font-black text-slate-950 md:text-4xl">
+                {ptiCount}
               </p>
             </div>
 
-            <p className="text-sm font-medium text-slate-500">
-              {ptiCount < 60
-                ? `Encore ${prochainPalier - ptiCount} PTI avant le niveau ${prochainNiveau} ✨`
-                : "Niveau maximal atteint 👑"}
-            </p>
+            <div className="rounded-[28px] border border-white/80 bg-white/75 p-4 shadow-sm backdrop-blur md:p-6">
+              <CheckCircle className="h-5 w-5 text-violet-800" />
+              <p className="mt-3 text-xs font-extrabold uppercase tracking-[0.12em] text-violet-700">
+                PTI enregistrés
+              </p>
+              <p className="mt-3 text-3xl font-black text-slate-950 md:text-4xl">
+                {savedPti}
+              </p>
+            </div>
+
+            <div className="rounded-[28px] border border-white/80 bg-white/75 p-4 shadow-sm backdrop-blur md:p-6">
+              <Star className="h-5 w-5 text-violet-800" />
+              <p className="mt-3 text-xs font-extrabold uppercase tracking-[0.12em] text-violet-700">
+                Score clinique
+              </p>
+              <p className="mt-3 text-3xl font-black text-slate-950 md:text-4xl">
+                {score}
+              </p>
+            </div>
+
+            <div className="rounded-[28px] border border-white/80 bg-white/75 p-4 shadow-sm backdrop-blur md:p-6">
+              <BarChart3 className="h-5 w-5 text-violet-800" />
+              <p className="mt-3 text-xs font-extrabold uppercase tracking-[0.12em] text-violet-700">
+                Précision quiz
+              </p>
+              <p className="mt-3 text-3xl font-black text-slate-950 md:text-4xl">
+                {precision}%
+              </p>
+            </div>
           </div>
 
-          <div className="mt-6 h-3 overflow-hidden rounded-full bg-violet-100">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500"
-              style={{ width: `${progression}%` }}
-            />
-          </div>
-        </section>
+          <section className="mt-5 rounded-[36px] border border-white/80 bg-white/75 p-5 shadow-sm backdrop-blur md:p-8">
+            <h2 className="flex items-center gap-2 text-xl font-black text-slate-950 md:text-2xl">
+              <Brain className="h-6 w-6 text-violet-800" />
+              Statistiques quiz
+            </h2>
 
-        <div className="mt-5 grid grid-cols-2 gap-3 xl:grid-cols-4">
-          <div className="rounded-3xl bg-white/85 p-4 shadow-sm md:p-6">
-            <p className="text-xs font-bold text-violet-600 md:text-sm">
-              📄 PTI générés
-            </p>
-            <p className="mt-3 text-3xl font-extrabold md:text-4xl">
-              {ptiCount}
-            </p>
-          </div>
-
-          <div className="rounded-3xl bg-white/85 p-4 shadow-sm md:p-6">
-            <p className="text-xs font-bold text-violet-600 md:text-sm">
-              💾 PTI enregistrés
-            </p>
-            <p className="mt-3 text-3xl font-extrabold md:text-4xl">
-              {savedPti}
-            </p>
-          </div>
-
-          <div className="rounded-3xl bg-white/85 p-4 shadow-sm md:p-6">
-            <p className="text-xs font-bold text-violet-600 md:text-sm">
-              ⭐ Score clinique
-            </p>
-            <p className="mt-3 text-3xl font-extrabold md:text-4xl">
-              {score}
-            </p>
-          </div>
-
-          <div className="rounded-3xl bg-white/85 p-4 shadow-sm md:p-6">
-            <p className="text-xs font-bold text-violet-600 md:text-sm">
-              🎯 Précision quiz
-            </p>
-            <p className="mt-3 text-3xl font-extrabold md:text-4xl">
-              {precision}%
-            </p>
-          </div>
-        </div>
-
-        <section className="mt-5 rounded-3xl bg-white/85 p-5 shadow-lg md:p-8">
-          <h2 className="text-xl font-extrabold md:text-2xl">
-            🧠 Statistiques quiz
-          </h2>
-
-          <p className="mt-4 text-sm text-slate-600 md:text-base">
-            ✅ {bonnes} bonnes réponses • ❌ {mauvaises} mauvaises réponses
-          </p>
-
-          <div className="mt-6 grid gap-3 sm:flex sm:flex-wrap">
-            <a
-              href="/generer"
-              className="w-full rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-6 py-3 text-center text-sm font-bold text-white sm:w-auto"
-            >
-              Générer un PTI
-            </a>
-
-            <a
-              href="/quiz"
-              className="w-full rounded-2xl bg-white px-6 py-3 text-center text-sm font-bold text-slate-700 ring-1 ring-slate-200 sm:w-auto"
-            >
-              Faire un quiz
-            </a>
-
-            <a
-              href="/ressources"
-              className="w-full rounded-2xl bg-white px-6 py-3 text-center text-sm font-bold text-slate-700 ring-1 ring-slate-200 sm:w-auto"
-            >
-              Voir les ressources
-            </a>
-          </div>
-
-          <div className="mt-8 border-t border-slate-200 pt-6">
-            <p className="text-sm font-bold text-red-600">
-              Suppression du compte
+            <p className="mt-4 text-sm text-slate-600 md:text-base">
+              ✅ {bonnes} bonnes réponses • ❌ {mauvaises} mauvaises réponses
             </p>
 
-            <p className="mt-2 text-sm text-slate-500">
-              La suppression est permanente et effacera vos PTI, statistiques et
-              données enregistrées.
-            </p>
+            <div className="mt-6 grid gap-3 sm:flex sm:flex-wrap">
+              <a
+                href="/generer"
+                className="w-full rounded-2xl bg-violet-800 px-6 py-3 text-center text-sm font-extrabold text-white shadow-lg shadow-violet-100 transition hover:-translate-y-0.5 hover:bg-violet-900 sm:w-auto"
+              >
+                Générer un PTI
+              </a>
 
+              <a
+                href="/quiz"
+                className="w-full rounded-2xl border border-violet-100 bg-white px-6 py-3 text-center text-sm font-extrabold text-violet-800 transition hover:-translate-y-0.5 hover:bg-violet-50 sm:w-auto"
+              >
+                Faire un quiz
+              </a>
+
+              <a
+                href="/ressources"
+                className="w-full rounded-2xl border border-violet-100 bg-white px-6 py-3 text-center text-sm font-extrabold text-violet-800 transition hover:-translate-y-0.5 hover:bg-violet-50 sm:w-auto"
+              >
+                Voir les ressources
+              </a>
+            </div>
+
+            <div className="mt-8 border-t border-violet-100 pt-6">
+              <p className="flex items-center gap-2 text-sm font-extrabold text-red-600">
+                <Trash2 className="h-4 w-4" />
+                Suppression du compte
+              </p>
+
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                La suppression est permanente et effacera vos PTI, statistiques
+                et données enregistrées.
+              </p>
+
+              <button
+                onClick={supprimerCompte}
+                className="mt-4 w-full rounded-2xl border border-red-100 bg-red-50 px-5 py-3 font-extrabold text-red-600 transition hover:bg-red-100 sm:w-auto"
+              >
+                Supprimer mon compte
+              </button>
+            </div>
+          </section>
+
+          <div className="mt-6 flex justify-center">
             <button
-              onClick={supprimerCompte}
-              className="mt-4 w-full rounded-2xl border border-red-200 bg-red-50 px-5 py-3 font-bold text-red-600 hover:bg-red-100 sm:w-auto"
+              onClick={async () => {
+                await supabase.auth.signOut();
+                window.location.href = "/login";
+              }}
+              className="inline-flex items-center gap-2 rounded-full border border-violet-100 bg-white/80 px-5 py-3 text-sm font-extrabold text-violet-800 shadow-sm transition hover:-translate-y-0.5 hover:bg-white"
             >
-              Supprimer mon compte
+              <LogOut className="h-4 w-4" />
+              Me déconnecter
             </button>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </main>
   );
 }

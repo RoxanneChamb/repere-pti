@@ -46,7 +46,7 @@ export default function Navbar() {
     },
     {
       href: "/generer",
-      label: "Générer un PTI",
+      label: "Générer",
       icon: ClipboardList,
     },
     {
@@ -56,7 +56,7 @@ export default function Navbar() {
     },
     {
       href: "/quiz",
-      label: "Quiz clinique",
+      label: "Quiz",
       icon: Brain,
     },
     {
@@ -71,50 +71,63 @@ export default function Navbar() {
     },
     {
       href: "/installer",
-      label: "Installer l’app",
+      label: "Installer",
       icon: Smartphone,
     },
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/70 bg-white/85 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-violet-100/60 bg-[#fbf8fd]/85 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-8">
         <a href="/" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600 to-pink-500 shadow-md shadow-pink-100">
-            <Stethoscope className="h-5 w-5 text-white" />
+          <div className="flex h-11 w-11 items-center justify-center rounded-[20px] bg-violet-800 shadow-lg shadow-violet-100">
+            <Stethoscope className="h-6 w-6 text-white" />
           </div>
 
-          <div>
-            <p className="text-sm font-extrabold leading-4 text-slate-900">
+          <div className="text-left">
+            <p className="text-base font-black leading-4 tracking-tight text-slate-950">
               Repère PTI
             </p>
-            <p className="text-xs text-slate-400">Outil éducatif</p>
+            <p className="text-xs font-medium text-slate-400">
+              Outil éducatif
+            </p>
           </div>
         </a>
 
-        <div className="hidden items-center gap-5 text-sm font-semibold text-slate-600 md:flex">
-          <a href="/generer" className="hover:text-violet-600">
+        <div className="hidden items-center gap-1 rounded-full border border-white/80 bg-white/70 px-2 py-2 shadow-sm backdrop-blur md:flex">
+          <a
+            href="/generer"
+            className="rounded-full px-4 py-2 text-sm font-extrabold text-slate-600 transition hover:bg-violet-50 hover:text-violet-800"
+          >
             Générer
           </a>
 
-          <a href="/mes-pti" className="hover:text-violet-600">
+          <a
+            href="/mes-pti"
+            className="rounded-full px-4 py-2 text-sm font-extrabold text-slate-600 transition hover:bg-violet-50 hover:text-violet-800"
+          >
             Mes PTI
           </a>
 
-          <a href="/quiz" className="hover:text-violet-600">
+          <a
+            href="/quiz"
+            className="rounded-full px-4 py-2 text-sm font-extrabold text-slate-600 transition hover:bg-violet-50 hover:text-violet-800"
+          >
             Quiz
           </a>
 
-          <a href="/ressources" className="hover:text-violet-600">
+          <a
+            href="/ressources"
+            className="rounded-full px-4 py-2 text-sm font-extrabold text-slate-600 transition hover:bg-violet-50 hover:text-violet-800"
+          >
             Ressources
           </a>
 
-          <a href="/premium" className="hover:text-violet-600">
+          <a
+            href="/premium"
+            className="rounded-full px-4 py-2 text-sm font-extrabold text-violet-800 transition hover:bg-violet-50"
+          >
             Premium
-          </a>
-
-          <a href="/installer" className="hover:text-violet-600">
-            Installer
           </a>
         </div>
 
@@ -123,14 +136,14 @@ export default function Navbar() {
             <>
               <a
                 href="/dashboard"
-                className="rounded-2xl bg-violet-50 px-4 py-2 text-sm font-bold text-violet-700 hover:bg-violet-100"
+                className="rounded-full bg-violet-100 px-5 py-2.5 text-sm font-extrabold text-violet-800 transition hover:-translate-y-0.5 hover:bg-violet-200"
               >
                 Tableau de bord
               </a>
 
               <button
                 onClick={deconnexion}
-                className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50"
+                className="rounded-full border border-violet-100 bg-white/80 px-5 py-2.5 text-sm font-extrabold text-slate-600 shadow-sm transition hover:-translate-y-0.5 hover:bg-white hover:text-violet-800"
               >
                 Déconnexion
               </button>
@@ -138,7 +151,7 @@ export default function Navbar() {
           ) : (
             <a
               href="/login"
-              className="rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-4 py-2 text-sm font-bold text-white shadow-md shadow-pink-100"
+              className="rounded-full bg-violet-800 px-5 py-2.5 text-sm font-extrabold text-white shadow-lg shadow-violet-100 transition hover:-translate-y-0.5 hover:bg-violet-900"
             >
               Connexion
             </a>
@@ -148,21 +161,21 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setMenuOuvert(!menuOuvert)}
-          className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-slate-700 shadow-sm ring-1 ring-slate-200 md:hidden"
-          aria-label="Ouvrir le menu"
+          className="flex h-11 w-11 items-center justify-center rounded-2xl border border-violet-100 bg-white/80 text-violet-800 shadow-sm transition hover:bg-violet-50 md:hidden"
+          aria-label={menuOuvert ? "Fermer le menu" : "Ouvrir le menu"}
         >
           {menuOuvert ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </nav>
 
       {menuOuvert && (
-        <div className="border-t border-slate-100 bg-white/95 px-4 pb-5 pt-3 shadow-xl md:hidden">
-          <div className="space-y-2">
+        <div className="border-t border-violet-100/70 bg-[#fbf8fd]/95 px-4 pb-5 pt-3 shadow-xl backdrop-blur-xl md:hidden">
+          <div className="mx-auto max-w-7xl space-y-2">
             {connecte && (
               <a
                 href="/dashboard"
                 onClick={() => setMenuOuvert(false)}
-                className="flex items-center gap-3 rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-4 py-3 text-sm font-bold text-white"
+                className="flex items-center gap-3 rounded-2xl bg-violet-800 px-4 py-3 text-sm font-extrabold text-white shadow-lg shadow-violet-100"
               >
                 <LayoutDashboard className="h-5 w-5" />
                 Tableau de bord
@@ -177,9 +190,9 @@ export default function Navbar() {
                   key={lien.href}
                   href={lien.href}
                   onClick={() => setMenuOuvert(false)}
-                  className="flex items-center gap-3 rounded-2xl bg-violet-50/70 px-4 py-3 text-sm font-bold text-slate-700 hover:bg-violet-100"
+                  className="flex items-center gap-3 rounded-2xl border border-white/80 bg-white/75 px-4 py-3 text-sm font-extrabold text-slate-700 shadow-sm transition hover:bg-violet-50 hover:text-violet-800"
                 >
-                  <Icon className="h-5 w-5 text-violet-600" />
+                  <Icon className="h-5 w-5 text-violet-800" />
                   {lien.label}
                 </a>
               );
@@ -189,7 +202,7 @@ export default function Navbar() {
               {connecte ? (
                 <button
                   onClick={deconnexion}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-bold text-red-600 hover:bg-red-100"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-extrabold text-red-600 transition hover:bg-red-100"
                 >
                   <LogOut className="h-5 w-5" />
                   Déconnexion
@@ -198,7 +211,7 @@ export default function Navbar() {
                 <a
                   href="/login"
                   onClick={() => setMenuOuvert(false)}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 to-pink-500 px-4 py-3 text-sm font-bold text-white shadow-md shadow-pink-100"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-violet-800 px-4 py-3 text-sm font-extrabold text-white shadow-lg shadow-violet-100 transition hover:bg-violet-900"
                 >
                   <LogIn className="h-5 w-5" />
                   Connexion / Créer un compte
