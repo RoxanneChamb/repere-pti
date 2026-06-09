@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Nunito } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -10,6 +10,8 @@ const nunito = Nunito({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://repere-pti.ca"),
+
+  applicationName: "Repère PTI",
 
   title: {
     default: "Repère PTI",
@@ -25,6 +27,7 @@ export const metadata: Metadata = {
     icon: [
       {
         url: "/favicon.ico",
+        sizes: "any",
       },
       {
         url: "/icon-32.png",
@@ -42,8 +45,18 @@ export const metadata: Metadata = {
         type: "image/png",
       },
     ],
-    shortcut: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
+    shortcut: [
+      {
+        url: "/favicon.ico",
+      },
+    ],
+    apple: [
+      {
+        url: "/apple-touch-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
   },
 
   appleWebApp: {
@@ -77,6 +90,10 @@ export const metadata: Metadata = {
       "Outil éducatif pour structurer des PTI et pratiquer le raisonnement clinique en soins infirmiers.",
     images: ["/og-image.png"],
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#fbf8fd",
 };
 
 export default function RootLayout({

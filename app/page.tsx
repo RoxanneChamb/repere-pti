@@ -101,7 +101,7 @@ export default function Home() {
             </p>
 
             <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-white bg-white/80 px-5 py-3 text-sm font-bold text-violet-700 shadow-sm">
-              ✨ Plus de 600 étudiantes ont découvert Repère PTI
+              ✨ Plus de 700 étudiantes ont découvert Repère PTI
             </div>
 
             <div className="mt-8 flex w-full flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
