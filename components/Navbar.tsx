@@ -79,11 +79,11 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-violet-100/60 bg-[#fbf8fd]/90 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-8">
         <a href="/" className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-[18px] shadow-lg shadow-violet-100 ring-1 ring-violet-100/70">
+          <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-[18px] bg-transparent">
             <img
               src="/icon-32.png"
               alt="Repère PTI"
-              className="h-full w-full object-cover"
+              className="h-[125%] w-[125%] max-w-none object-cover"
             />
           </div>
 
@@ -97,7 +97,7 @@ export default function Navbar() {
           </div>
         </a>
 
-        <div className="hidden items-center gap-1 rounded-full border border-white/80 bg-white/70 px-2 py-2 shadow-sm backdrop-blur md:flex">
+        <div className="hidden items-center gap-1 rounded-full border border-violet-100/70 bg-white/55 px-2 py-2 shadow-sm backdrop-blur md:flex">
           <a
             href="/generer"
             className="rounded-full px-4 py-2 text-sm font-extrabold text-slate-600 transition hover:bg-violet-50 hover:text-violet-800"
@@ -146,7 +146,7 @@ export default function Navbar() {
 
               <button
                 onClick={deconnexion}
-                className="rounded-full border border-violet-100 bg-white/80 px-5 py-2.5 text-sm font-extrabold text-slate-600 shadow-sm transition hover:-translate-y-0.5 hover:bg-white hover:text-violet-800"
+                className="rounded-full border border-violet-100 bg-white/65 px-5 py-2.5 text-sm font-extrabold text-slate-600 shadow-sm transition hover:-translate-y-0.5 hover:bg-violet-50 hover:text-violet-800"
               >
                 Déconnexion
               </button>
@@ -164,10 +164,14 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setMenuOuvert(!menuOuvert)}
-          className="flex h-11 w-11 items-center justify-center rounded-2xl border border-violet-100 bg-white/80 text-violet-800 shadow-sm transition hover:bg-violet-50 md:hidden"
+          className="flex h-11 w-11 items-center justify-center rounded-2xl border border-violet-100 bg-violet-50/80 text-violet-800 shadow-sm transition hover:bg-violet-100 md:hidden"
           aria-label={menuOuvert ? "Fermer le menu" : "Ouvrir le menu"}
         >
-          {menuOuvert ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {menuOuvert ? (
+            <X className="h-6 w-6" />
+          ) : (
+            <Menu className="h-6 w-6" />
+          )}
         </button>
       </nav>
 
@@ -193,7 +197,7 @@ export default function Navbar() {
                   key={lien.href}
                   href={lien.href}
                   onClick={() => setMenuOuvert(false)}
-                  className="flex items-center gap-3 rounded-2xl border border-white/80 bg-white/75 px-4 py-3 text-sm font-extrabold text-slate-700 shadow-sm transition hover:bg-violet-50 hover:text-violet-800"
+                  className="flex items-center gap-3 rounded-2xl border border-violet-100/70 bg-white/60 px-4 py-3 text-sm font-extrabold text-slate-700 shadow-sm transition hover:bg-violet-50 hover:text-violet-800"
                 >
                   <Icon className="h-5 w-5 text-violet-800" />
                   {lien.label}

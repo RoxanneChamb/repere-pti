@@ -6,7 +6,6 @@ import {
   PlusSquare,
   CheckCircle,
   Sparkles,
-  Stethoscope,
 } from "lucide-react";
 
 export default function InstallerPage() {
@@ -41,8 +40,12 @@ export default function InstallerPage() {
               </p>
             </div>
 
-            <div className="mx-auto flex h-28 w-28 shrink-0 items-center justify-center rounded-[34px] bg-gradient-to-br from-violet-600 via-fuchsia-500 to-pink-500 shadow-xl shadow-pink-200 md:h-36 md:w-36">
-              <Stethoscope className="h-14 w-14 text-white md:h-16 md:w-16" />
+            <div className="mx-auto flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-[28px] bg-white shadow-xl shadow-pink-200 md:h-36 md:w-36 md:rounded-[34px]">
+              <img
+                src="/icon-512.png"
+                alt="Icône Repère PTI"
+                className="h-full w-full object-contain"
+              />
             </div>
           </div>
         </div>
@@ -126,7 +129,9 @@ export default function InstallerPage() {
               </div>
 
               <div className="rounded-3xl bg-pink-50 p-4">
-                <p className="font-bold">3. Choisis “Ajouter à l’écran d’accueil”</p>
+                <p className="font-bold">
+                  3. Choisis “Ajouter à l’écran d’accueil”
+                </p>
                 <p className="mt-1 text-sm leading-6 text-slate-600">
                   Confirme l’ajout. Repère PTI apparaîtra ensuite comme une app.
                 </p>
