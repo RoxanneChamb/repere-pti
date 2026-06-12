@@ -83,7 +83,7 @@ export default function Navbar() {
             <img
               src="/icon-192.png"
               alt="Repère PTI"
-              className="h-[125%] w-[125%] max-w-none object-cover"
+              className="h-full w-full object-cover"
             />
           </div>
 
