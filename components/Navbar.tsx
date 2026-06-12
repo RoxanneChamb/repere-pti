@@ -79,7 +79,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-violet-100/60 bg-[#fbf8fd]/90 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-8">
         <a href="/" className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center overflow-hidden square with very rounded corners-[18px] bg-transparent">
+          <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-[20px] bg-transparent">
             <img
               src="/icon-32.png"
               alt="Repère PTI"
