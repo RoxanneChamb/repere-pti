@@ -81,7 +81,7 @@ export default function Navbar() {
         <a href="/" className="flex items-center gap-3">
           <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-[20px] bg-transparent">
             <img
-              src="/icon-32.png"
+              src="/icon-192.png"
               alt="Repère PTI"
               className="h-[125%] w-[125%] max-w-none object-cover"
             />
