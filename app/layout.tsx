@@ -104,8 +104,20 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={nunito.className}>
+        {/* Google AdSense */}
+        {process.env.NEXT_PUBLIC_ADSENSE_CLIENT && (
+          <Script
+            id="google-adsense"
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT}`}
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        )}
+
         {children}
 
+        {/* Google Analytics */}
         {process.env.NEXT_PUBLIC_GA_ID && (
           <>
             <Script
