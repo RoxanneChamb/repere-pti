@@ -105,10 +105,8 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={nunito.className}>
-  <Navbar />
-  {children}
-</body>
-      <body className={nunito.className}>
+        <Navbar />
+
         {/* Google AdSense */}
         {process.env.NEXT_PUBLIC_ADSENSE_CLIENT && (
           <Script
