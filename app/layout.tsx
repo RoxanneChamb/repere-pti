@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Nunito } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -103,6 +104,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
+      <body className={nunito.className}>
+  <Navbar />
+  {children}
+</body>
       <body className={nunito.className}>
         {/* Google AdSense */}
         {process.env.NEXT_PUBLIC_ADSENSE_CLIENT && (

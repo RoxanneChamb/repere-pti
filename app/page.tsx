@@ -9,8 +9,10 @@ import {
   Smartphone,
   ArrowRight,
   CheckCircle,
+  WandSparkles,
 } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
+import Link from "next/link";
 
 export default function Home() {
   const [connecte, setConnecte] = useState(false);
@@ -33,48 +35,6 @@ export default function Home() {
         <div className="pointer-events-none absolute -right-40 top-0 h-[420px] w-[420px] rounded-full bg-violet-200/50 blur-3xl" />
         <div className="pointer-events-none absolute -left-40 bottom-20 h-[360px] w-[360px] rounded-full bg-pink-100/70 blur-3xl" />
 
-        <header className="relative z-10 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-[20px] shadow-lg shadow-violet-100 ring-1 ring-violet-100/70">
-  <img
-    src="/icon-192.png"
-    alt="Repère PTI"
-    className="h-full w-full object-cover"
-  />
-</div>
-
-            <div className="text-left">
-              <p className="text-base font-black tracking-tight text-slate-950">
-                Repère PTI
-              </p>
-              <p className="text-xs font-medium text-slate-400">
-                Outil éducatif
-              </p>
-            </div>
-          </a>
-
-          <nav className="hidden items-center gap-6 text-sm font-bold text-slate-500 md:flex">
-            <a href="/ressources" className="transition hover:text-violet-700">
-              Ressources
-            </a>
-
-            <a href="/quiz" className="transition hover:text-violet-700">
-              Quiz
-            </a>
-
-            <a href="/premium" className="transition hover:text-violet-700">
-              Premium
-            </a>
-          </nav>
-
-          <a
-            href={connecte ? "/dashboard" : "/login"}
-            className="rounded-full border border-violet-100 bg-white/80 px-5 py-2.5 text-xs font-extrabold text-violet-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-white hover:shadow-md sm:text-sm"
-          >
-            {connecte ? "Tableau de bord" : "Connexion"}
-          </a>
-        </header>
-
         <div className="relative z-10 grid flex-1 items-center gap-10 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:py-20">
           <div className="text-center lg:text-left">
             <div className="inline-flex items-center gap-2 rounded-full border border-violet-100 bg-white/80 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-violet-700 shadow-sm">
@@ -92,12 +52,13 @@ export default function Home() {
             <div className="mx-auto mt-4 h-px w-48 bg-gradient-to-r from-transparent via-violet-300 to-transparent lg:mx-0" />
 
             <p className="mt-5 text-sm font-extrabold uppercase tracking-[0.24em] text-violet-800">
-              Générateur éducatif de PTI
+              Générateur et correcteur éducatif de PTI
             </p>
 
             <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg lg:mx-0">
-              Structure tes constats, directives et justifications pour
-              pratiquer ton raisonnement clinique avec plus de clarté.
+              Structure tes constats, directives et justifications, puis fais
+              corriger ton PTI pour pratiquer ton raisonnement clinique avec
+              plus de clarté.
             </p>
 
             <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-white bg-white/80 px-5 py-3 text-sm font-bold text-violet-700 shadow-sm">
@@ -105,27 +66,28 @@ export default function Home() {
             </div>
 
             <div className="mt-8 flex w-full flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
-              <a
+              <Link
                 href="/generer"
                 className="inline-flex items-center justify-center gap-2 rounded-2xl bg-violet-800 px-7 py-4 text-sm font-extrabold text-white shadow-xl shadow-violet-200 transition hover:-translate-y-0.5 hover:bg-violet-900 hover:shadow-2xl"
               >
                 Générer un PTI
                 <ArrowRight className="h-4 w-4" />
-              </a>
+              </Link>
 
-              <a
-                href="/ressources/exemple-pti"
-                className="inline-flex items-center justify-center rounded-2xl border border-violet-100 bg-white/85 px-7 py-4 text-sm font-extrabold text-violet-800 shadow-sm transition hover:-translate-y-0.5 hover:bg-white hover:shadow-md"
+              <Link
+                href="/corriger"
+                className="inline-flex items-center justify-center gap-2 rounded-2xl border border-violet-100 bg-white/85 px-7 py-4 text-sm font-extrabold text-violet-800 shadow-sm transition hover:-translate-y-0.5 hover:bg-white hover:shadow-md"
               >
-                Voir des exemples
-              </a>
+                Corriger mon PTI
+                <WandSparkles className="h-4 w-4" />
+              </Link>
 
-              <a
+              <Link
                 href="/quiz"
                 className="inline-flex items-center justify-center rounded-2xl border border-violet-100 bg-white/85 px-7 py-4 text-sm font-extrabold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-white hover:shadow-md"
               >
                 Quiz clinique
-              </a>
+              </Link>
             </div>
 
             <div className="mt-9 grid gap-3 sm:grid-cols-3">
@@ -152,10 +114,10 @@ export default function Home() {
               <div className="rounded-[28px] border border-white/80 bg-white/70 p-5 shadow-sm backdrop-blur">
                 <GraduationCap className="mx-auto h-6 w-6 text-violet-700 lg:mx-0" />
                 <p className="mt-3 font-extrabold text-slate-900">
-                  Progresse
+                  Corrige
                 </p>
                 <p className="mt-2 text-sm leading-6 text-slate-500">
-                  Pensé pour les stages.
+                  Rétroaction éducative sur ton PTI.
                 </p>
               </div>
             </div>
@@ -227,13 +189,13 @@ export default function Home() {
             information permettant d'identifier un patient.
           </p>
 
-          <a
+          <Link
             href="/installer"
             className="mt-4 inline-flex items-center gap-2 rounded-full bg-violet-100 px-5 py-3 text-sm font-extrabold text-violet-800 transition hover:bg-violet-200"
           >
             <Smartphone className="h-4 w-4" />
             Installer sur mon téléphone
-          </a>
+          </Link>
         </section>
 
         <footer className="relative z-10 border-t border-violet-100 py-6 text-center">
@@ -243,27 +205,30 @@ export default function Home() {
           </p>
 
           <div className="mt-4 flex flex-col items-center justify-center gap-3 text-sm text-slate-500 sm:flex-row sm:gap-6">
-            <a
+            <Link
               href="/politique-confidentialite"
               className="transition hover:text-violet-700"
             >
               Politique de confidentialité
-            </a>
+            </Link>
 
-            <a
+            <Link
               href="/conditions-utilisation"
               className="transition hover:text-violet-700"
             >
               Conditions d'utilisation
-            </a>
+            </Link>
 
-            <a href="/contact" className="transition hover:text-violet-700">
+            <Link href="/contact" className="transition hover:text-violet-700">
               Contact
-            </a>
+            </Link>
 
-            <a href="/installer" className="transition hover:text-violet-700">
+            <Link
+              href="/installer"
+              className="transition hover:text-violet-700"
+            >
               Installer l’app
-            </a>
+            </Link>
           </div>
         </footer>
       </section>
