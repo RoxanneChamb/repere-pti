@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import Navbar from "@/components/Navbar";
 import {
   BarChart3,
   Brain,
@@ -212,7 +211,6 @@ export default function DashboardPage() {
   if (isLoggedIn === null) {
     return (
       <main className="min-h-screen overflow-hidden bg-[#fbf8fd] text-slate-900">
-        <Navbar />
         <div className="mx-auto mt-20 max-w-xl rounded-[36px] border border-white/80 bg-white/75 p-8 text-center shadow-sm backdrop-blur">
           <p className="font-extrabold text-violet-800">Chargement...</p>
         </div>
@@ -223,7 +221,6 @@ export default function DashboardPage() {
   if (!isLoggedIn) {
     return (
       <main className="min-h-screen overflow-hidden bg-[#fbf8fd] text-slate-900">
-        <Navbar />
         <div className="mx-auto mt-20 max-w-xl rounded-[36px] border border-white/80 bg-white/75 p-8 text-center shadow-sm backdrop-blur">
           <h1 className="text-3xl font-black text-slate-950">
             Connexion requise
@@ -246,8 +243,6 @@ export default function DashboardPage() {
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#fbf8fd] text-slate-900">
-      <Navbar />
-
       <section className="relative mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-14">
         <div className="pointer-events-none absolute -right-40 top-0 h-[380px] w-[380px] rounded-full bg-violet-200/50 blur-3xl" />
         <div className="pointer-events-none absolute -left-40 bottom-20 h-[340px] w-[340px] rounded-full bg-pink-100/70 blur-3xl" />
