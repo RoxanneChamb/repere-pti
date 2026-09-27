@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import Navbar from "@/components/Navbar";
 import {
   Check,
   Sparkles,
@@ -134,7 +133,6 @@ export default function PremiumPage() {
   if (chargementProfil) {
     return (
       <main className="min-h-screen overflow-hidden bg-[#fbf8fd] text-slate-900">
-        <Navbar />
 
         <section className="mx-auto max-w-3xl px-4 py-16 text-center">
           <div className="rounded-[36px] border border-white/80 bg-white/75 p-8 shadow-sm backdrop-blur">
@@ -149,8 +147,6 @@ export default function PremiumPage() {
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#fbf8fd] text-slate-900">
-      <Navbar />
-
       <section className="relative mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-14">
         <div className="pointer-events-none absolute -right-40 top-0 h-[380px] w-[380px] rounded-full bg-violet-200/50 blur-3xl" />
         <div className="pointer-events-none absolute -left-40 bottom-20 h-[340px] w-[340px] rounded-full bg-pink-100/70 blur-3xl" />

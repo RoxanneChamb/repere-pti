@@ -104,9 +104,6 @@ export default function Navbar() {
             <p className="text-base font-black tracking-tight text-slate-950">
               Repère PTI
             </p>
-            <p className="text-xs font-medium text-slate-400">
-              Outil éducatif
-            </p>
           </div>
         </Link>
 

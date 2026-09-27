@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import Navbar from "@/components/Navbar";
 import {
   ClipboardList,
   Star,
@@ -130,8 +129,6 @@ export default function MesPTIPage() {
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#fbf8fd] text-slate-900">
-      <Navbar />
-
       <section className="relative mx-auto max-w-6xl px-4 py-8 md:px-8 md:py-14">
         <div className="pointer-events-none absolute -right-40 top-0 h-[360px] w-[360px] rounded-full bg-violet-200/50 blur-3xl" />
         <div className="pointer-events-none absolute -left-40 bottom-20 h-[320px] w-[320px] rounded-full bg-pink-100/70 blur-3xl" />
