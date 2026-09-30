@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Nunito } from "next/font/google";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 
@@ -139,6 +140,9 @@ export default function RootLayout({
             </Script>
           </>
         )}
+
+        {/* Vercel Web Analytics */}
+        <Analytics />
       </body>
     </html>
   );
